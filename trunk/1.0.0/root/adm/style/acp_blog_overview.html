@@ -1,0 +1,40 @@
+<!-- INCLUDE overall_header.html -->
+
+<a name="maincontent"></a>
+
+<h1>{L_ACP_BLOG_OVERVIEW_FULL}</h1>
+<p>{L_ACP_BLOG_OVERVIEW_EXPLAIN}</p>
+
+<!-- IF S_ERROR -->
+	<div class="errorbox">
+		<h3>{L_WARNING}</h3>
+		<p>{ERROR_MSG}</p>
+	</div>
+<!-- ENDIF -->
+	
+<!-- IF S_VERSION_CHECK -->
+
+	<!-- IF S_UP_TO_DATE -->
+		<div class="successbox">
+			<p>{VERMSG} - <a href="{U_VERSIONCHECK_FORCE}">{L_VERSIONCHECK_FORCE_UPDATE}</a></p>
+		</div>
+	<!-- ELSE -->
+		<div class="errorbox">
+			<p>{VERMSG} - <a href="{U_DLUPDATE}">{UPDATE_TO}</a></p>
+		</div>
+	<!-- ENDIF -->
+
+	<fieldset>
+		<legend></legend>
+	<dl>
+		<dt><label>{L_YOUR_BLOG_VERSION}</label></dt>
+		<dd><strong>{CVER}</strong></dd>
+	</dl>
+	<dl>
+		<dt><label>{L_LATEST_BLOG_VERSION}</label></dt>
+		<dd><strong>{LVER}</strong></dd>
+	</dl>
+	</fieldset>
+
+<!-- ENDIF -->
+<!-- INCLUDE overall_footer.html -->

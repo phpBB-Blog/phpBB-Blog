@@ -1,0 +1,30 @@
+<!-- INCLUDE overall_header.html -->
+<h1>{L_BLOG}</h1>
+<div class="post bg2">
+	<div class="inner"><span class="corners-top"><span></span></span>
+    <a href="{U_BLOG_INDEX}">&laquo;{L_RETURN}</a>
+    	<h3 style="text-align:center;">{L_EDIT_COMMENT}</h3>
+				<span style="width:30%; padding-left:5px; white-space:nowrap;">
+					<div class="post bg1" align="center"><div class="inner">
+						<form action="{U_ACTION}" method="post">
+						<table align="center">
+							<tr>
+								<td colspan="2">
+									<textarea class="inputbox" name="message" cols="76" rows="15">{MESSAGE}</textarea>
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<input type="hidden" name="blog_id" value="{CMNT_BLOG_ID}" />
+									<input type="submit" name="submit" class="button1" id="button1" value="{L_SUBMIT}" /> 
+									<input type="reset" name="reset" class="button1" id="button1" value="{L_RESET}" />
+								</td>
+							</tr>
+						</table>
+						</form>
+					</div></div>
+				</span>
+    <span class="corners-bottom"><span></span></span></div>
+</div>
+
+<!-- INCLUDE overall_footer.html -->

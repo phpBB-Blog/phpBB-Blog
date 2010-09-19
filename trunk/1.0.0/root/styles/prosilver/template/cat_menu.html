@@ -1,0 +1,23 @@
+<div class="mini-panel">
+	<div class="inner"><span class="corners-top"><span></span></span>
+        <h3>{L_BLOG_CAT}</h3>
+        <ul class="menu">
+            <!-- BEGIN catrow -->
+            <li><a href="javascript:dE('catbloglist{catrow.CAT_ID}',0)">+</a> <a href="{catrow.U_CAT}" title="{catrow.CAT_TITLE}">{catrow.CAT_TITLE}</a><br />
+
+                <div style="display:none;" id="catbloglist{catrow.CAT_ID}"><ul style="list-style-type:none; list-style-position:inside;">
+                    <!-- IF catrow.S_SHOW_BLOGS -->
+                        <!-- BEGIN blogrow -->
+                            <a href="{catrow.blogrow.U_CAT_BLOG}">
+                                {catrow.blogrow.BLOG_TITLE}
+                            </a><br />
+                        <!-- END blogrow -->
+                    <!-- ELSE -->
+                        {L_NO_BLOGS}
+                    <!-- ENDIF -->
+                </ul></div>
+            </li>
+            <!-- END catrow -->
+        </ul>
+    <span class="corners-bottom"><span></span></span></div>
+</div>

@@ -1,0 +1,107 @@
+<div class="post bg1" style="color:#000;">
+    <div class="inner"><span class="corners-top"><span></span></span>
+		<div class="postbody">
+		<!-- IF S_CAT_ENABLED -->
+		<a href="{U_CAT}">&laquo;{BLOG_CAT}</a>
+		<!-- ELSE -->
+		<a href="{U_BLOG_INDEX}">&laquo;{L_BLOG_RET}</a>
+		<!-- ENDIF -->
+			<!-- IF S_EDIT_ALLOW --><ul style="float:right;padding-bottom:10px;" class="profile-icons"><li class="edit-icon"><a href="{U_BLOG_EDIT}" title="{L_EDIT}"><span>{L_EDIT}</span></a></li><li class="delete-icon"><a href="{U_DELETE}" title="{L_DELETE_POST}"><span>{L_DELETE_POST}</span></a></li></ul><!-- ENDIF -->
+			<br />{L_POSTED_BY} {BLOG_POSTER} &raquo; {TIME}<br /><br />
+			<div class="content" style="padding:5px;">
+			{BLOG_TEXT}
+			</div>
+			<!-- IF S_EDITED --><span style="float:right">{L_UPDATED} {EDIT_TIME}</span><!-- ENDIF -->
+		</div>
+        <dl class="postprofile" id="profile1">
+            <dt>
+                {BLOG_POSTER}
+            </dt>
+
+            <dd>&nbsp;</dd>
+            <!-- IF POSTER_POSTS != '' --><dd><strong>{L_POSTS}:</strong> {POSTER_POSTS}</dd><!-- ENDIF -->
+            <!-- IF POSTER_JOINED --><dd><strong>{L_JOINED}:</strong> {POSTER_JOINED}</dd><!-- ENDIF -->
+            <!-- IF POSTER_FROM --><dd><strong>{L_LOCATION}:</strong> {POSTER_FROM}</dd><!-- ENDIF -->
+        </dl>
+	<span class="corners-bottom"><span></span></span>
+	</div>
+</div>
+<!-- IF S_TAGS_SHOW -->
+<div class="post bg2" style="color:#000;">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<!-- IF .tag -->{L_TAG}:&nbsp;
+			<!-- BEGIN tag -->
+			<a href="{tag.U_TAG}">{tag.TAG}</a>
+			<!-- END tag -->
+		<!-- ELSE -->
+			{L_NO_TAGS}
+		<!-- ENDIF -->
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ENDIF -->
+<!-- IF S_VIEW_COMMENTS -->
+<!-- IF S_POST_COMMENT --><div style="color:#000;float:right; vertical-align:top" class="buttons"><div class="reply-icon" title="{L_POST_CMNT}"><a href="{U_POST_CMNT}#comments"><span></span>{L_POST_CMNT}</a></div></div><!-- ENDIF --><br />
+        
+		<div><h3><a name="comments">{L_CMNTS}</a></h3><!-- IF .commentrow --><ul class="linklist">
+    <li class="rightside pagination">{TOTAL_CMNTS} &bull;
+	<!-- IF PAGINATION --><a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER}</a> &bull; <span>{PAGINATION}</span><!-- ELSE -->{PAGE_NUMBER}<!-- ENDIF --></li>
+</ul><!-- ENDIF --></div>
+
+<!-- IF .commentrow -->
+<!-- BEGIN commentrow -->
+<div class="post<!-- IF commentrow.S_COMMENT_APPROVED --> bg1<!-- ELSE --> reported<!-- ENDIF -->">
+	<div class="inner"><span class="corners-top"><span></span></span>
+    <div style="float:left;" class="postbody">
+{L_POSTED_BY} <strong><a href="{commentrow.U_CMNT_POSTER}">{commentrow.CMNT_POSTER}</a></strong> &raquo; {commentrow.TIME}
+<!-- IF commentrow.S_EDIT_CMNT --><ul style="float:right;padding-bottom:10px;" class="profile-icons"><li class="edit-icon"><a href="{commentrow.U_CMNT_EDIT}" title="{L_EDIT}"><span>{L_EDIT}</span></a></li><li class="delete-icon"><a href="{commentrow.U_DELETE}" title="{L_DELETE_POST}"><span>{L_DELETE_POST}</span></a></li></ul><!-- ENDIF -->
+<br /><!-- IF commentrow.S_COMMENT_APPROVED --><br /><!-- ELSE --><br /><p class="rules">{commentrow.CMNT_APPROVE}</p><!-- ENDIF -->
+	<div class="content" style="padding:5px; max-width:1000px; overflow:auto;">{commentrow.CMNT_TEXT}&shy;</div>
+    </div>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- END commentrow -->
+<!-- ELSE -->
+<div class="post bg1" style="color:#000;">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<br />
+		<strong>{L_NO_COMMENTS}</strong>
+		<br />
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<!-- ENDIF --><br />
+<!-- ENDIF -->
+<!-- IF S_POST_COMMENT -->
+	<!-- IF S_CMNT_ALLOW -->
+	<div class="post bg2" style="color:#000;">
+		<div class="inner"><span class="corners-top"><span></span></span>
+			<div style="padding:10px;">
+				<a name="commentspost"><h3>{L_POST_CMNT}</h3></a>
+				<form action="{U_BLOG_CMNT}" method="post">
+					<table align="center" width="100%">
+						<tr align="center">
+							<td>
+								<div id="messagebox">
+								<textarea rows="10" name="comment"></textarea>
+								</div>
+							</td>
+						</tr>
+						<tr align="center">
+							<td>
+								<input type="submit" name="submit" class="button1" value="{L_SUBMIT}" /> <input type="reset" name="reset" class="button1" value="{L_RESET}" />
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+	<!-- ELSE -->
+	<div class="post bg3">
+		<div class="inner"><span class="corners-top"><span></span></span>
+			<div style="padding:10px;">
+				<strong>{L_CMNT_DISABLED}</strong>
+			</div>
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+	<!-- ENDIF -->
+<!-- ENDIF -->

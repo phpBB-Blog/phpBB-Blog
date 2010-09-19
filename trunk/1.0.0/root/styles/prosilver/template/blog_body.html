@@ -1,0 +1,22 @@
+<!-- IF .blogrow -->
+    <!-- BEGIN blogrow -->
+    <div style="color:#000000;" class="">
+        <div class="inner">
+            <span class="corners-top"><span></span></span>
+            <div class="postbody" style="width:100%;float:left;">
+                    <a href="{blogrow.U_BLOG}" style="text-decoration:none;" title="{blogrow.BLOG_TITLE}"><h2 class="blogtitle">{blogrow.BLOG_TITLE}</h2></a>
+                    {L_POSTED_BY} {blogrow.BLOG_POSTER} {L_IN} <a href="{blogrow.U_CAT}">{blogrow.CAT_TITLE}</a> {L_ON} {blogrow.TIME}<br /><br />
+                    <div class="content">{blogrow.BLOG_TEXT}
+                    <!-- IF S_SHOW_FULL --><a href="{blogrow.U_BLOG}">{L_MORE}</a><!-- ENDIF --></div>
+            </div><br />
+            <span style="vertical-align:bottom; float:left;">(<a href="{blogrow.U_BLOG}#comments">{blogrow.CMNT_COUNT} {blogrow.CMNT_VIEW} &raquo;</a> <!-- IF U_BLOG_MANAGE --> | <a href="{blogrow.U_BLOG}#comments">{blogrow.UNAPPROVED_CMNT_COUNT} {blogrow.UNAPPROVED_CMNT_VIEW} &raquo;</a><!-- ENDIF -->)</span>
+            <span class="corners-bottom"><span></span></span>
+        </div>
+    </div>
+    <hr />
+    <!-- END blogrow -->
+<!-- ELSE -->
+    <div class="post bg1" style="color:#000000;text-align:center;"><span class="corners-top"><span></span></span>
+        <strong>{L_NO_BLOGS_EXIST}</strong>
+    <span class="corners-bottom"><span></span></span></div>
+<!-- ENDIF -->

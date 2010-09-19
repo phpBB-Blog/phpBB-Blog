@@ -1,0 +1,20 @@
+<!-- IF .blogrow -->
+        <!-- BEGIN blogrow -->
+<div style="color:#000;" class="post <!-- IF blogrow.S_ROW_COUNT is even --> bg1 <!-- ELSE --> bg2 <!-- ENDIF -->">
+    <div class="inner">
+        <span class="corners-top"><span></span></span>
+        <div class="postbody" style="width:100%;float:left;">
+				<a href="{blogrow.U_BLOG}" title="{blogrow.BLOG_TITLE}"><h2>{blogrow.BLOG_TITLE}</h2></a>
+				{L_POSTED_BY} <a href="{blogrow.U_POSTER}"><strong>{blogrow.BLOG_POSTER}</strong></a> &raquo; {blogrow.TIME}<br /><br />
+				<div class="content">{blogrow.BLOG_TEXT}</div>
+				<span style="vertical-align:bottom; float:right;"><a href="{blogrow.U_BLOG}">{L_MORE} &raquo;</a> (<a href="{blogrow.U_BLOG}#comments">{blogrow.CMNT_COUNT} {blogrow.CMNT_VIEW} &raquo;</a>)</span>
+		</div>
+        <span class="corners-bottom"><span></span></span>
+    </div>
+</div>
+        <!-- END blogrow -->
+<!-- ELSE -->
+<div style="color:#000;" class="post bg1" style="text-align:center;"><span class="corners-top"><span></span></span>
+<strong>{L_NO_BLOGS_EXIST}</strong>
+<span class="corners-bottom"><span></span></span></div>
+<!-- ENDIF -->

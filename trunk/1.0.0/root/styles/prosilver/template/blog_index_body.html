@@ -1,0 +1,170 @@
+<!-- INCLUDE overall_header.html -->
+<style type="text/css">
+#main a, #main-extra a {
+	text-decoration: underline;
+}
+#main a.no-underline, #main-extra a.no-underline {
+	text-decoration: none;
+}
+#main .pagination a {
+	text-decoration: none;
+}
+#main h3 a, #main-extra h3 a {
+	color: #d21a4e;
+}
+#main h3, #main-extra h3 {
+	font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+	font-size: 1.2em;
+	text-transform: none;
+	color: #d21a4e;
+	border-bottom: none;
+}
+#main h3 span, #main-extra h3 span {
+	color: #222222;
+}
+#main .panel h3, #main-extra .panel h3 {
+	border-bottom:1px solid #CCCCCC;
+	color:#115098;
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:1.05em;
+	font-weight:bold;
+	padding-bottom:2px;
+	text-transform:uppercase;
+	margin:0.5em 0pt;
+}
+/* Extras column */
+#extras {
+	width: 260px;
+	float: right;
+}
+
+dl.extra-box {
+	display: block;
+	width: 260px;
+	height: 77px;
+	background-repeat: no-repeat;
+	background-position: 0 0;
+	margin-bottom: 5px;
+}
+dl.extra-box dt a {
+	font-weight: bold;
+	display: block;
+	padding: 10px 0 5px 10px;
+	color: #333333 !important;
+	text-decoration: none !important;
+}
+dl.extra-box dd a, dl.download-contrib dd {
+	font-weight: bold;
+	display: block;
+	color: #FFFFFF !important;
+	padding-left: 10px;
+	padding-right: 50px;
+	text-decoration: none !important;
+}
+dl.extra-box dd.fileformat {
+	padding-left: 10px;
+	padding-top: 5px;
+}
+dl.extra-box dd.fileformat label {
+	color: #FFF;
+}
+dl.extra-box dt a:hover {
+	text-decoration: none;
+	color: #000000 !important;
+}
+div.mini-panel {
+	padding: 0 10px;
+	background-color: #ebebeb;
+	margin-bottom: 5px;
+}
+div.mini-panel h3 {
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+	margin: 5px 0 0 0;
+	font-weight: bold;
+	color: #333333;
+}
+div.mini-panel p {
+	font-size: 1em;
+	margin: 3px 0;
+}
+div.mini-panel span.corners-top,
+div.mini-panel span.corners-bottom {
+	margin: 0 -10px;
+}
+#extras h3 a {
+	color: #333333;
+}
+/* Menu  listing */
+ul.menu {
+	border-top: 1px solid #FFFFFF;
+	list-style: none;
+}
+ul.menu li {
+	padding: 5px 0 4px 0;
+	border-bottom: 1px solid #CCCCCC;
+	margin: 0;
+}
+ul.menu li.last {
+	border-bottom: none;
+}
+</style>
+<!-- IF S_BLOG_DISABLED and S_USER_LOGGED_IN and (U_MCP or U_ACP) -->
+	<div id="information" class="rules">
+		<div class="inner"><span class="corners-top"><span></span></span>
+			<strong>{L_INFORMATION}:</strong> {BLOG_DISABLED}
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+<!-- ENDIF -->
+<div id="page-body">
+    <div id="main">
+        <h2 style="color:#000000;"><!-- IF S_ACTION eq 'cat' -->{CAT_TITLE}
+            <!-- ELSEIF S_ACTION eq 'view' -->{BLOG_TITLE}
+            <!-- ELSEIF S_ACTION eq 'tag' -->{TAG}
+            <!-- ELSE -->{OVERALL_BLOG_TITLE}<!-- ENDIF --></h2>
+            <p><!-- IF S_ACTION eq 'cat' -->{CAT_DESC}
+            <!-- ELSEIF S_ACTION eq 'view' -->{BLOG_DESC}
+            <!-- ELSEIF S_ACTION eq 'tag' -->&nbsp;
+            <!-- ELSE -->{OVERALL_BLOG_DESC}<!-- ENDIF --></p>
+            <!-- IF S_RSS_ENABLED --><div style="float:left;"><a href="{U_BLOG_FEED}"><img src="{T_THEME_PATH}/images/feed.gif" /></a></div><br clear="all" /><!-- ENDIF -->
+        <!-- IF S_NEW_POST -->
+            <div class="buttons"><div class="post-icon" title="{L_NEW_POST}">
+                <a href="{U_NEW_POST}"><span></span>{L_NEW_POST}</a>
+            </div></div>
+        <!-- ENDIF -->
+        <br clear="all" />
+        <div style="float:left;<!-- IF not S_CAT_ENABLED and not S_TAGCLOUD_ENABLED -->width:100%;<!-- ELSE -->width:75%;<!-- ENDIF -->">
+        <!-- IF not S_ACTION eq 'view' -->
+        <ul class="linklist">
+            <li class="rightside pagination">{TOTAL_BLOGS} &bull; <!-- IF PAGINATION --><a href="#" onclick="jumpto(); return false;" title="{L_JUMP_TO_PAGE}">{PAGE_NUMBER}</a> &bull; <span>{PAGINATION}</span><!-- ELSE -->{PAGE_NUMBER}<!-- ENDIF --></li>
+        </ul>
+        <!-- ENDIF -->
+        <!-- IF S_ACTION eq 'index' -->
+            <!-- INCLUDE blog_body.html -->
+        <!-- ELSEIF S_ACTION eq 'cat' -->
+            <!-- INCLUDE blog_cat_body.html -->
+        <!-- ELSEIF S_ACTION eq 'view' -->
+            <!-- INCLUDE blog_view_body.html -->
+        <!-- ELSEIF S_ACTION eq 'tag' -->
+            <!-- IF S_TAGCLOUD_ENABLED -->
+                <!-- INCLUDE blog_tag_body.html -->
+            <!-- ELSE -->
+                <!-- INCLUDE blog_body.html -->
+            <!-- ENDIF -->
+        <!-- ELSE -->
+            <!-- INCLUDE blog_body.html -->
+        <!-- ENDIF -->
+        </div>
+    </div>
+    <div id="extras">
+        <!-- IF S_CAT_ENABLED -->
+            <!-- INCLUDE cat_menu.html -->
+        <!-- ENDIF -->
+        <!-- IF S_TAGCLOUD_ENABLED -->
+                <!-- INCLUDE tag_cloud.html -->
+        <!-- ENDIF -->
+    </div>
+    <br clear="all" />
+    <!-- You may alter the following copyright text, but you must leave the link intact. -->
+            <span style="float:right">Powered by <a href="http://www.phpbbdevelopers.net/mods.php?a=blog">phpBB Blog System</a> &copy; 2009 - <a href="http://www.phpbbdevelopers.net/">David King</a></span><br clear="all" />
+</div>
+   <!-- INCLUDE overall_footer.html -->

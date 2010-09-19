@@ -1,0 +1,74 @@
+<!-- INCLUDE overall_header.html -->
+<script type="text/javascript">
+// <![CDATA[
+	onload_functions.push('apply_onkeypress_event()');
+// ]]>
+</script>
+<form action="{U_ACTION}" name="postform" method="post">
+<div class="post bg1">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<fieldset class="fields1">
+			<!-- IF S_ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
+			<dl style="clear: left;">
+				<dt><label for="title">{L_TITLE}:</label></dt>
+				<dd><input type="text" name="title" id="subject" size="45" maxlength="64" tabindex="1" value="{TITLE}" class="inputbox autowidth" /></dd>
+			</dl>
+			<dl style="clear: left;">
+				<dt><label for="desc">{L_DESC}:</label></dt>
+				<dd><input type="text" name="desc" id="subject" size="45" maxlength="64" tabindex="2" value="{DESC}" class="inputbox autowidth" /></dd>
+			</dl>
+			<!-- IF S_CAT_ENABLED -->
+			<dl style="clear: left;">
+				<dt><label for="cat_id">{L_CAT}:</label></dt>
+				<dd><select name="cat_id" tabindex="3"><!-- IF .cat --><!-- BEGIN cat -->{cat.CAT_OPTIONS}<!-- END cat --><!-- ENDIF --></select></dd>
+			</dl>
+			<!-- ENDIF -->
+			<!-- INCLUDE posting_buttons.html -->
+		
+			<div id="smiley-box">
+				<!-- IF S_SMILIES_ALLOWED and .smiley -->
+					<strong>{L_SMILIES}</strong><br />
+					<!-- BEGIN smiley -->
+						<a href="#" onclick="insert_text('{smiley.A_SMILEY_CODE}', true); return false;"><img src="{smiley.SMILEY_IMG}" width="{smiley.SMILEY_WIDTH}" height="{smiley.SMILEY_HEIGHT}" alt="{smiley.SMILEY_CODE}" title="{smiley.SMILEY_DESC}" /></a>
+					<!-- END smiley -->
+				<!-- ENDIF -->
+				<!-- IF S_SHOW_SMILEY_LINK and S_SMILIES_ALLOWED-->
+					<br /><a href="{U_MORE_SMILIES}" onclick="popup(this.href, 300, 350, '_phpbbsmilies'); return false;">{L_MORE_SMILIES}</a>
+				<!-- ENDIF -->
+		
+				<!-- IF BBCODE_STATUS -->
+				<!-- IF .smiley --><hr /><!-- ENDIF -->
+				{BBCODE_STATUS}<br />
+				<!-- IF S_BBCODE_ALLOWED -->
+					{IMG_STATUS}<br />
+					{FLASH_STATUS}<br />
+					{URL_STATUS}<br />
+				<!-- ENDIF -->
+				{SMILIES_STATUS}
+				<!-- ENDIF -->
+			</div>
+		
+			<div id="message-box">
+				<textarea name="message" id="message" rows="15" cols="76" tabindex="4" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);" onfocus="initInsertions();" class="inputbox">{MESSAGE}{DRAFT_MESSAGE}{SIGNATURE}</textarea>
+			</div>
+			<dl style="clear: left;">
+				<dt><label for="allow_cmnt">{L_ALLOW_CMNT}:</label></dt>
+				<dd><input type="checkbox" name="allow_cmnt" value="1" {ALLOW_CMNT} /></dd>
+			</dl>
+			<dl style="clear: left;">
+				<dt><label for="tags">{L_TAG}:<br /></label><em>{L_TAG_EXPLAIN}</em></dt>
+				<dd><input type="text" name="tags" id="subject" size="60" maxlength="255" tabindex="5" value="{TAGS}" class="inputbox autowidth" /></dd>
+			</dl>
+		</fieldset>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+<div class="panel bg2">
+	<div class="inner"><span class="corners-top"><span></span></span>
+		<fieldset class="submit-buttons">
+			<input type="reset" tabindex="5" name="reset" value="{L_RESET}" class="button1" />&nbsp;
+			<input type="submit" accesskey="s" tabindex="6" name="submit" value="{L_SUBMIT}" class="button1 default-submit-action" />&nbsp;
+		</fieldset>
+	<span class="corners-bottom"><span></span></span></div>
+</div>
+</form>
+<!-- INCLUDE overall_footer.html -->

@@ -1,0 +1,101 @@
+<!-- INCLUDE overall_header.html -->
+<a name="maincontent"></a>
+
+<!-- IF S_EDIT -->                                
+    <h1>{L_ACP_BLOG_CATS}</h1>
+                                        
+    <p>{L_ACP_BLOG_CATS_EXPLAIN}</p>
+	<!-- IF S_ERROR -->
+		<div class="errorbox">
+			<h3>{L_WARNING}</h3>
+			<p>{ERROR_MSG}</p>
+		</div>
+	<!-- ENDIF -->
+	<!-- IF S_CATS_OFF -->
+		<div class="errorbox">
+			<h3>{L_CATS_OFF}</h3>
+			<p>{L_CATS_OFF_EXPLAIN}</p>
+		</div>
+	<!-- ENDIF -->
+
+
+	<form id="blogcat" method="post" action="{U_ACTION}">
+
+	<fieldset>
+		<legend>{L_ACP_BLOG_CATS}</legend>
+	<dl>
+		<dt><label for="title">{L_ACP_BLOG_CAT}:</label></dt>
+		<dd><input name="title" type="text" id="title" value="{BLOG_CAT_TITLE}" maxlength="255" /></dd>
+	</dl>
+    <dl>
+    	<dt><label for="desc">{L_ACP_BLOG_CAT_DESC}:</label></dt>
+        <dd><input name="desc" type="text" id="title" value="{BLOG_CAT_DESC}" maxlength="255" /></dd>
+    </dl>
+	<p class="submit-buttons">
+    	<input type="hidden" name="id" value="{ID}" />
+		<input class="button1" type="submit" id="submit" name="create" value="{L_SUBMIT}" />&nbsp;
+		<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+		{S_FORM_TOKEN}
+	</p>
+	</fieldset>
+	</form>
+    
+<!-- ELSE -->
+    <h1>{L_ACP_BLOG_CATS}</h1>
+                                        
+    <p>{L_ACP_BLOG_CATS_EXPLAIN}</p>
+	
+	<!-- IF S_CATS_OFF -->
+		<div class="errorbox">
+			<h3>{L_CATS_OFF}</h3>
+			<p>{L_CATS_OFF_EXPLAIN}</p>
+		</div>
+	<!-- ENDIF -->
+	<form id="tmm" method="post" action="{U_ACTION}">
+
+	<fieldset>
+	<legend>{L_ACP_BLOG_CATS}</legend>
+    <!-- IF S_NOROWS_EXIST -->
+       	<table cellspacing="1">
+        	<col class="row1" />
+        	<tr>
+            	<td>{L_NOROWS}</td>
+            </tr>
+        </table>
+	<!-- ELSE IF .catrow -->
+		<table cellspacing="1">
+			<col class="row1" /><col class="row2" />
+		<thead>
+		<tr>
+			<th>{L_ACP_BLOG_CATS_MANAGE}</th>
+			<th>{L_OPTIONS}</th>
+		</tr>
+		</thead>
+		<tbody>
+		<!-- BEGIN catrow -->
+			<tr>
+				<td>
+					<strong>{catrow.CAT_TITLE}</strong><BR /><i>{catrow.CAT_DESC}</i>
+				</td>
+				<td style="width: 80px; text-align: center; white-space: nowrap;">
+					<a href="{catrow.U_EDIT}">{ICON_EDIT}</a> <a href="{catrow.U_DELETE}">{ICON_DELETE}</a>
+				</td>
+			</tr>
+		<!-- END catrow -->
+		</tbody>
+		</table>
+
+	<!-- ENDIF -->
+
+	<p class="quick">
+		<input type="hidden" name="action" value="add" />
+        <input type="text" name="title" value="" />
+		<input class="button2" name="submit" id="submit" type="submit" value="{L_SUBMIT}" />
+		<input class="button2" name="reset" id="reset" type="reset" value="{L_RESET}" />
+		{S_FORM_TOKEN}
+	</p>
+	</fieldset>
+	
+	</form>
+<!-- ENDIF -->
+<!-- INCLUDE overall_footer.html -->
