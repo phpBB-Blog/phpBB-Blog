@@ -12,7 +12,7 @@ if (!defined('IN_PHPBB'))
 {
 	exit;
 }
-define('BLOG_VERSION', '0.0.8a');
+define('BLOG_VERSION', '0.0.1');
 /**
 * acp_tmm
 * Topic Multi-Moderation Administration
@@ -321,8 +321,8 @@ class acp_blog
 		$errstr = '';
 		$errno = 0;
 
-		$info = get_remote_file('www.phpbbdevelopers.net', '/modver',
-				'blogsys.txt', $errstr, $errno);
+		$info = get_remote_file('www.unknownbliss.co.uk', '/modsver',
+				'blogver.txt', $errstr, $errno);
 	
 		if ($info === false)
 		{
