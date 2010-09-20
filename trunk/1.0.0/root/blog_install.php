@@ -25,7 +25,7 @@ if (!file_exists($phpbb_root_path . 'umil/umil_auto.' . $phpEx))
 }
 
 // The name of the mod to be displayed during installation.
-$mod_name = 'phpBB Blog System';
+$mod_name = 'phpBB Blog';
 
 /*
 * The name of the config variable which will hold the currently installed version
@@ -53,25 +53,15 @@ $language_file = 'mods/info_acp_blog_install';
 * The version numbering must otherwise be compatible with the version_compare function - http://php.net/manual/en/function.version-compare.php
 */
 $versions = array(
-	'0.0.10' => array(
+	'0.0.1' => array(
 		'config_add' => array(
 			array('blog_description', 'The forum\'s blog.'),
 		),
-	),
-	'0.0.9'	=> array(
 		//Ability to post to specific forum per category.
 		'table_column_add' => array(
 			array('phpbb_blog_categories', 'forum_post_bool', array('TINT:1', 0)),
 			array('phpbb_blog_categories', 'forum_post_id', array('UINT', 0)),
 		),
-	),
-	'0.0.8' => array(
-		//...no changes again
-	),
-	'0.0.7' => array(
-		//...no changes
-	),
-	'0.0.6' => array(
 		'table_column_add' => array(
 			array('phpbb_blog', 'blog_allow_cmnt', array('TINT:1', 1)),
 		),
@@ -80,19 +70,11 @@ $versions = array(
 			// replacing with ...(view more) link.
 			array('blog_short_msg', 500),
 		),
-	),
-	'0.0.5' => array(
 		'config_add' => array(
 			array('blog_title', 'Blog'),
 			array('blog_postlimit', 10),
 			array('blog_cmntlimit', 10),
-		),
-	),				  
-	'0.0.4' => array( ),				  
-	'0.0.3' => array( ),	
-	'0.0.2' => array( ),
-	'0.0.1'	=> array(
-					 
+		),					 
 		'table_add' => array(
 			array('phpbb_blog', array(
 					'COLUMNS'		=> array(
