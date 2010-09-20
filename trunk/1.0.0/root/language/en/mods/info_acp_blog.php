@@ -24,9 +24,9 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 //BLOG
-	'ACP_BLOG'					=> 'phpBB Blog System',
+	'ACP_BLOG'					=> 'phpBB Blog',
 	'ACP_BLOG_OVERVIEW'			=> 'Overview',
-	'ACP_BLOG_OVERVIEW_FULL'	=> 'phpBB Blog System Overview',
+	'ACP_BLOG_OVERVIEW_FULL'	=> 'phpBB Blog Overview',
 	'ACP_BLOG_OVERVIEW_EXPLAIN'	=> 'This page gives you an overview of information about your installation of the phpBB Blog MOD',
 	'ACP_BLOG_INDEX_TITLE'		=> 'Manage Blog',
 	'ACP_BLOG_MANAGE'			=> 'Blog Settings',
@@ -42,8 +42,8 @@ $lang = array_merge($lang, array(
 	'YOUR_BLOG_VERSION'			=> 'Current Version:',
 	'UPDATE_TO'					=> 'Update to %1$s',
 	'SERVER_DOWN'				=> 'The update server appears to be down. Try again in a few minutes. If the problem persists for more than a day, please check the development topic at phpBB.com for the latest version information.',
-	'UP2DATE'					=> 'The installed version of phpBB Blog System is up to date.',
-	'NUP2DATE'					=> 'The installed version of phpBB Blog System is <b>NOT</b> up to date.',
+	'UP2DATE'					=> 'The installed version of phpBB Blog is up to date.',
+	'NUP2DATE'					=> 'The installed version of phpBB Blog is <b>NOT</b> up to date.',
 	
 	'ACP_CAT_BLOG'				=> 'Blog',
 	'NOROWS'					=> 'There are no blog categories. Use the new category button to add a new category.',

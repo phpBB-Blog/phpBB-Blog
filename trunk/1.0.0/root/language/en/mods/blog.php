@@ -24,9 +24,10 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 
-	'MOD'					=> 'phpBB Blog System',
+	'MOD'					=> 'phpBB Blog',
 	'BLOG_DISABLED'			=> 'This functionality has been disabled by the administrator.',
 	'BLOG'					=> 'Blog',
+	'BLOG_COPYRIGHT'		=> 'Blog Software Copyright (c) <a href="http://unknownbliss.co.uk">Unknown Bliss</a>. Powered By <a href="http://www.phpbbdevelopers.net/board/viewforum.php?f=17">phpBB Blog</a>',
 	'BLOG_RET'				=> 'Return to Blog',
 	'BLOG_CAT'				=> 'Categories',
 	'INVALID_BLOG_ID'		=> 'Invalid Blog ID.',
