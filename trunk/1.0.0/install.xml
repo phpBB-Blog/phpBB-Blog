@@ -75,6 +75,7 @@
 			<action type="before-add"><![CDATA[<li class="icon-ucp"><a href="{U_BLOG}" title="{OVERALL_BLOG_TITLE}">{OVERALL_BLOG_TITLE}</a></li>]]></action>
 		</edit>
 	</open>
+	<php-installer>blog_install.php</php-installer>
 	<diy-instructions lang="en"><![CDATA[Navigate your browser to /blog_install.php - Once that runs, you are done. You may now remove that file and go to ACP.]]>
 	</diy-instructions>
 </action-group>
