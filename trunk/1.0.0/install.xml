@@ -16,12 +16,18 @@
 			<realname>Michael Cullum</realname>
 			<homepage>http://unknownbliss.co.uk</homepage>
 			<email>unknownbliss@phpbb.ce.ms</email>
+			<contributions-group>
+				  <contributions status="current" from="2010-09-19" position="Developer"></contributions>
+			</contributions-group>
 		</author>
 		<author>
 			<username>imkingdavid</username>
 			<realname>David King</realname>
 			<homepage>http://phpbbdevelopers.net</homepage>
 			<email>imkingdavid@gmail.com</email>
+			<contributions-group>
+				  <contributions status="past" from="2009-09-03" to="2010-09-19" position="Developer"/>
+			</contributions-group>
 		</author>
 	</author-group>
 
