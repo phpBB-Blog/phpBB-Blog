@@ -15,6 +15,13 @@ define('IN_PHPBB', true);
 $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : './';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
 include($phpbb_root_path . 'common.' . $phpEx);
+
+// We can't rely on common.php here that our hook file is actually included
+if (!function_exists('phpbb_blog_register_hooks'))
+{
+	include($phpbb_root_path . 'includes/hooks/hook_phpbb_blog.' . $phpEx);
+}
+
 $user->session_begin();
 $auth->acl($user->data);
 $user->setup();
