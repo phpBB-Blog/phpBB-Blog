@@ -1,0 +1,11 @@
+- Hook the templates system.
+
+- Code refurbishment
+
+- Tested integration with EXreaction's User Blog MOD
+
+- Report comment feature (similar to report post) allows user to report rule breaking comments made on blog posts, with MCP module included to handle such reports.
+
+- SEO (Search Engine Optimization) for links (cute URLS)
+
+- Searchable articles
