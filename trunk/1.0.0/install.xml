@@ -56,26 +56,6 @@
 		<file from="root/*.*" to="*.*" />
 	</copy>
 	
-	<open src="includes/constants.php">
-		<edit>
-			  <find><![CDATA[// Additional tables]]></find>
-			  <action type="after-add"><![CDATA[//phpBB Blog System
-define('BLOGS_TABLE', $table_prefix . 'blog');
-define('BLOG_CMNTS_TABLE', $table_prefix . 'blog_comments');
-define('BLOG_CATS_TABLE', $table_prefix . 'blog_categories');]]></action>
-		</edit>
-	</open>
-	
-	<open src="includes/functions.php">
-		<edit>
-			<find><![CDATA['SITE_LOGO_IMG'			=> $user->img('site_logo'),]]></find>
-			<action type="after-add"><![CDATA[		//BLOG SYSTEM MOD
-		'U_BLOG'	=> append_sid("{$phpbb_root_path}blog.$phpEx"),
-		'OVERALL_BLOG_TITLE' => $config['blog_title'],
-		//END BLOG SYSTEM MOD]]></action>
-		</edit>
-	</open>
-	
 	<open src="styles/prosilver/template/overall_header.html">
 		<edit>
 			<find><![CDATA[<li class="icon-faq"><a href="{U_FAQ}" title="{L_FAQ_EXPLAIN}">{L_FAQ}</a></li>]]></find>
