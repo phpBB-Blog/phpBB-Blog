@@ -1,0 +1,14 @@
+Authors & Contributors:
+- Michael Cullum [Head Developer]
+- David King [Ex-Developer]
+- Erik Frèrejean [Contributions]
+
+Liscence:
+http://opensource.org/licenses/gpl-2.0.php
+
+Github Development Repository:
+http://github.com/phpBB-Blog/phpBB-Blog
+
+Support Forum:
+http://www.phpbbdevelopers.net/board/viewforum.php?f=17
+http://www.phpbb.com/customise/db/mod/phpbb_blog/support/
