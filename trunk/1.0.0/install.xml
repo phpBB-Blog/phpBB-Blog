@@ -65,6 +65,10 @@
 			<rev-version>0.0.2</rev-version>
 			<changelog lang="en">
 				<change>[issue/1] Remove core edits by using hooks (Thanks to erikfrerejean)</change>
+				<change>Updating MOD Version ready for next release</change>
+				<change>Adding PHP Installer into MODX in PHP Installer Field</change>
+				<change>Changing Unknown Bliss's Email, due to typo</change>
+				<change>Adding Contribution Groups and Contribution Information for imkingdavid and Unknown Bliss</change>
 			</changelog>
 		</entry>
 	</history>
