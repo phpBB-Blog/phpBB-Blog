@@ -31,7 +31,7 @@
 		</author>
 	</author-group>
 
-	<mod-version>0.0.2</mod-version>
+	<mod-version>0.0.3</mod-version>
 
 	<installation>
 		<level>easy</level>
@@ -54,7 +54,6 @@
 			<rev-version>0.0.1</rev-version>
 			<changelog lang="en">
 				<change>Made a few changes (can't remember them though. Sorry)</change>
-				<change>Update MODX & install.xml</change>
 				<change>Updating UMIF to how it should be</change>
 				<change>Changing Name and copyright</change>
 				<change>Updating Title and Version in ACP Module Info File</change>
