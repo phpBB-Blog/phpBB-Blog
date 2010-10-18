@@ -70,6 +70,13 @@
 				<change>Adding Contribution Groups and Contribution Information for imkingdavid and Unknown Bliss</change>
 			</changelog>
 		</entry>
+		<entry>
+			<date>2010-10-18</date>
+			<rev-version>0.0.3</rev-version>
+			<changelog lang="en">
+				<change>Stop hooks breaking UMIL</change>
+			</changelog>
+		</entry>
 	</history>
 </header>
 
