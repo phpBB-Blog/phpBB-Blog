@@ -62,3 +62,9 @@ function phpbb_blog_pre_display(&$phpbb_hook)
 
 // Register them all
 phpbb_blog_register_hooks($phpbb_hook);
+
+//don't break the UMIL install
+if(!defined('UMIL_AUTO'))
+{
+	$phpbb_hook->register('phpbb_user_session_handler', 'tmm_open');
+}
