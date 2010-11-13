@@ -17,6 +17,14 @@ if (!defined('IN_PHPBB'))
 	exit;
 }
 
+/*
+ * Don't register the hooks when in the phpBB installer
+ */
+if (defined('IN_INSTALL'))
+{
+	return;
+}
+
 /**
  * Register all hooks
  * @param	phpbb_hook	$phpbb_hook	The phpBB hook object
