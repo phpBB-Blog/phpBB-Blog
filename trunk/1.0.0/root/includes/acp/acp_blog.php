@@ -12,7 +12,7 @@ if (!defined('IN_PHPBB'))
 {
 	exit;
 }
-define('BLOG_VERSION', '0.0.1');
+define('BLOG_VERSION', '0.0.3');
 /**
 * acp_tmm
 * Topic Multi-Moderation Administration
