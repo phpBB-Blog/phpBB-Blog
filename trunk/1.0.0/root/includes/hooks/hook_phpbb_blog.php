@@ -74,5 +74,5 @@ phpbb_blog_register_hooks($phpbb_hook);
 //don't break the UMIL install
 if(!defined('UMIL_AUTO'))
 {
-	$phpbb_hook->register('phpbb_user_session_handler', 'phpbb_blog');
+	$phpbb_hook->register('phpbb_user_session_handler', 'phpbb_blog_register_hooks');
 }
