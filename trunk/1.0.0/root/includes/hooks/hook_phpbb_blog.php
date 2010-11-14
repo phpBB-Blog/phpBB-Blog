@@ -63,7 +63,7 @@ function phpbb_blog_pre_display(&$phpbb_hook)
 	// Assign the blog's main template variables
 	$template->assign_vars(array(
 		'U_BLOG'				=> append_sid("{$phpbb_root_path}blog.$phpEx"),
-		'OVERALL_BLOG_TITLE'	=> isset($config['blog_title']),
+		'OVERALL_BLOG_TITLE'	=> isset($config['blog_title']) ? $config['blog_title'] : '',
 	));
 }
 
