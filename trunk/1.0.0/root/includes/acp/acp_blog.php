@@ -84,7 +84,7 @@ class acp_blog
 			$this->page_title = 'ACP_BLOG_MANAGE';
 			$this->tpl_name = 'acp_blog';
 			$this->new_config = $config;
-			$cfg_array = (isset(request_var['config'])) ? utf8_normalize_nfc(request_var('config', array('' => ''), true)) : $this->new_config;
+			$cfg_array = (isset($_REQUEST['config'])) ? utf8_normalize_nfc(request_var('config', array('' => ''), true)) : $this->new_config;
 			$error = array();
 			if (sizeof($error))
 			{
