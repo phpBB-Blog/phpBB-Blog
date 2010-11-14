@@ -14,8 +14,8 @@ if (!defined('IN_PHPBB'))
 }
 define('BLOG_VERSION', '0.0.3');
 /**
-* acp_tmm
-* Topic Multi-Moderation Administration
+* acp_blog
+* phpBB Blog System Administration
 * @package acp
 */
 class acp_blog
