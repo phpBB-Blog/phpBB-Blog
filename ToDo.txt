@@ -9,3 +9,5 @@
 - SEO (Search Engine Optimization) for links (cute URLS)
 
 - Searchable articles
+
+- Add new Version File on remote michaelcullum.com/modsver/blogver.txt
