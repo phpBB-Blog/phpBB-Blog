@@ -1,6 +1,12 @@
 Authors & Contributors:
-- Michael Cullum [Head Developer]
+- Michael Cullum [Developer]
+http://michaelcullum.com
+m[at]michaelcullum[dot]com
+
 - David King [Ex-Developer]
+http://phpbbdevelopers.net
+imkingdavid[at]gmail[dot]com
+
 - Erik Frèrejean [Contributions]
 
 Liscence:
@@ -10,5 +16,7 @@ Github Development Repository:
 http://github.com/phpBB-Blog/phpBB-Blog
 
 Support Forum:
-http://www.phpbbdevelopers.net/board/viewforum.php?f=17
 http://www.phpbb.com/customise/db/mod/phpbb_blog/support/
+
+Version:
+1.0.4
