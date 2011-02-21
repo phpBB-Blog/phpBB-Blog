@@ -8,14 +8,14 @@
 	
 	<description lang="en">This MOD adds a blog to your forum, to which users with the appropriate permissions can post and comment on posts. This is not to be confused with EXreaction's User Blog MOD.</description>
 
-	<author-notes lang="en">This MOD is Still in ALPHA. It should NOT be used on live boards. As it is still in alpha, feature requests are still accepted so ask at the phpbb.com development topic, Contributions Support Tab, unknownbliss.co.uk, phpBBdevelopers.net or where ever else you go this download from.</author-notes>
+	<author-notes lang="en">This MOD is Still in ALPHA. It should NOT be used on live boards. As it is still in alpha, feature requests are still accepted so ask where you downloaded this modification.</author-notes>
 
 	<author-group>
 		<author>
 			<username>Unknown Bliss</username>
 			<realname>Michael Cullum</realname>
-			<homepage>http://unknownbliss.co.uk</homepage>
-			<email>unknownbliss@phpbb.ce.ms</email>
+			<homepage>http://michaelcullum.com</homepage>
+			<email>m@michaelcullum.com</email>
 			<contributions-group>
 				  <contributions status="current" from="2010-09-19" position="Developer"></contributions>
 			</contributions-group>
@@ -31,12 +31,12 @@
 		</author>
 	</author-group>
 
-	<mod-version>0.0.3</mod-version>
+	<mod-version>0.0.4</mod-version>
 
 	<installation>
 		<level>easy</level>
 		<time>300</time>
-		<target-version>3.0.7-PL1</target-version>
+		<target-version>3.0.8</target-version>
 	</installation>
 	<history>
 		<entry>
@@ -92,7 +92,7 @@
 		</edit>
 	</open>
 	<php-installer>blog_install.php</php-installer>
-	<diy-instructions lang="en"><![CDATA[Navigate your browser to /blog_install.php - Once that runs, you are done. You may now remove that file and go to ACP.]]>
+	<diy-instructions lang="en"><![CDATA[Once the install script runs, you are done. You may now remove that file and go to ACP.]]>
 	</diy-instructions>
 </action-group>
 </mod>
