@@ -1,13 +1,13 @@
 <?php
 /**
- * Main file
- *
- * @package Blog
- * @version 0.0.1
- * @copyright (c) 2010 Michael Cullum (Unknown Bliss of http://unknownbliss.co.uk)
- * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License
- *
- */
+* Main file
+*
+* @package Blog
+* @version 0.0.4
+* @copyright (c) 2010, 2011 Michael Cullum (Unknown Bliss of http://michaelcullum.com)
+* @license http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
+*
+*/
 
 /**
  * @ignore
@@ -71,7 +71,7 @@ function phpbb_blog_pre_display(&$phpbb_hook)
 // Register them all
 phpbb_blog_register_hooks($phpbb_hook);
 
-//don't break the UMIL install
+// Don't break the UMIL install
 if(!defined('UMIL_AUTO'))
 {
 	$phpbb_hook->register('phpbb_user_session_handler', 'phpbb_blog_register_hooks');

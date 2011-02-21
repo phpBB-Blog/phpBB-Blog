@@ -3,9 +3,9 @@
 * Main file
 *
 * @package Blog
-* @version 0.0.1
-* @copyright (c) 2010 Michael Cullum (Unknown Bliss of http://unknownbliss.co.uk)
-* @license http://opensource.org/licenses/gpl-2.0.php GNU Public License
+* @version 0.0.4
+* @copyright (c) 2010, 2011 Michael Cullum (Unknown Bliss of http://michaelcullum.com)
+* @license http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
 *
 */
 if (!defined('IN_PHPBB'))
