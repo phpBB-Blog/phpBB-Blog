@@ -333,6 +333,7 @@ class blog
 	*/
 	function submit_comment($mode = 'new', $blog_id, $data = array(), $comment_id = 0)
 	{
+	global $db;
 		foreach($data as $key => $value)
 		{
 			$data[$key] = $db->sql_escape($value);

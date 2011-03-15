@@ -348,7 +348,7 @@ switch($action)
 				$apprv = append_sid('blog.' . $phpEx . '?' . $config['blog_act_name'] . '=apprvcmnt&cmntid=' . $cmnt['cmnt_id']);
 				$template->assign_block_vars('commentrow', array(
 					'CMNT_POSTER' 		=> get_username_string('full', $cmnt['cmnt_poster_id'], $userrow['username'], $userrow['user_colour']),
-					'U_CMNT_POSTER' 	=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&u=' . $blog_data['cmnt_poster_id']),
+					'U_CMNT_POSTER' 	=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&u=' . $cmnt['cmnt_poster_id']),
 					'TIME'				=> $user->format_date($cmnt['cmnt_posted_time']),
 					'S_COMMENT_APPROVED'=> ($cmnt['cmnt_approved'] == 0) ? false : true,
 					'CMNT_APPROVE'		=> sprintf($user->lang['APPROVE'], $apprv),
@@ -587,10 +587,10 @@ switch($action)
 				'cmnt_blog_id'		=> request_var('id', (int) 0),
 				'cmnt_poster_id'	=> $user->data['user_id'],
 				'cmnt_approved'		=> $approved,
-				'enable_bbcode'		=> ($config['blog_bbcode_on'] == '1' && $auth->acl_get('u_blog_bbcode')) ? true : false,
-				'enable_smilies'	=> ($config['blog_emote_on'] == '1' && $auth->acl_get('u_block_emote')) ? true : false,
+				'enable_bbcode'		=> ($config['blog_bbcode_on'] == '1' && $auth->acl_get('u_blog_bbcode')) ? 1 : 0,
+				'enable_smilies'	=> ($config['blog_emote_on'] == '1' && $auth->acl_get('u_block_emote')) ? 1 : 0,
 			);
-			$comment = $blog->post_comment('new', $id, $data);
+			$comment = $blog->submit_comment('new', $id, $data);
 			
 			$message = ($approved == 1) ? $user->lang['RETURN_CMNT'] : $user->lang['RETURN'];
 			$u_action = append_sid($phpbb_root_path . 'blog.' . $phpEx . '?' . $config['blog_act_name'] . '=view&id=' . $id ) . '#comment' . $comment;
