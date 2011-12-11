@@ -22,7 +22,7 @@ class acp_blog_info
         return array(
             'filename'	=> 'acp_blog',
             'title'		=> 'phpBB Blog',
-            'version'	=> '0.0.1',
+            'version'	=> '0.0.4',
             'modes'		=> array(
 				'index'		=> array('title' => 'ACP_BLOG_OVERVIEW',	'auth' => 'acl_a_blog_manage',	'cat' => array('ACP_CAT_BLOG')),
                 'settings'	=> array('title' => 'ACP_BLOG_MANAGE',		'auth' => 'acl_a_blog_manage',	'cat' => array('ACP_CAT_BLOG')),
