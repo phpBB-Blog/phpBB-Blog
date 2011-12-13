@@ -44,7 +44,7 @@ $template->assign_vars(array(
 	'ACT_NAME'   			=> $act_name,
 	'U_BLOG_MANAGE'			=> $manager,
 	'U_BLOG_INDEX'			=> append_sid($phpbb_root_path . 'blog.' . $phpEx),
-	'NEW_POST'				=> $user->img('button_topic_new', 'New Blog'),
+	'NEW_POST'				=> $user->img('button_article_new', 'New Blog'),
 	'OVERALL_BLOG_DESC'		=> $config['blog_description'],
 	'U_BLOG_FEED'			=> append_sid($phpbb_root_path . 'blog.rss.' . $phpEx),
 	'S_CAN_POST'			=> $post_auth,
