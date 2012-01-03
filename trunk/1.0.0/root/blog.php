@@ -592,10 +592,11 @@ switch($action)
 			);
 			$comment = $blog->submit_comment('new', $id, $data);
 			
-			$message = $approved ? $user->lang['RETURN_CMNT'] : $user->lang['RETURN'];
+			$message = $approved ? $user->lang['CMNTSUCCESS'] : $user->lang['RETURN'];
+			$submessage = $approved ? $user->lang['RETURN_CMNT'] : $user->lang['RETURN'];
 			$u_action = append_sid($phpbb_root_path . 'blog.' . $phpEx . '?' . $config['blog_act_name'] . '=view&id=' . $id ) . '#comment' . $comment;
 			meta_refresh('3', $u_action);
-			trigger_error($message . '<BR /><a href="' . $u_action . '">' . $message . '</a>');
+			trigger_error($message . '<BR /><BR /><a href="' . $u_action . '">' . $submessage . '</a>');
 		}
 		page_header($user->lang['BLOG']);
 		page_footer();
