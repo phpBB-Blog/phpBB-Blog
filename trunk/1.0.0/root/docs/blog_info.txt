@@ -9,7 +9,7 @@ imkingdavid[at]gmail[dot]com
 
 - Erik Frèrejean [Contributions]
 
-Liscence:
+License:
 http://opensource.org/licenses/gpl-2.0.php
 
 Github Development Repository:
