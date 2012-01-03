@@ -55,7 +55,7 @@ $language_file = 'mods/info_acp_blog_install';
 * The version numbering must otherwise be compatible with the version_compare function - http://php.net/manual/en/function.version-compare.php
 */
 $versions = array(
-	'0.0.1' => array(
+	'1.0.0' => array(
 		'config_add' => array(
 			array('blog_description', 'The forum\'s blog.'),
 			array('blog_short_msg', 500),

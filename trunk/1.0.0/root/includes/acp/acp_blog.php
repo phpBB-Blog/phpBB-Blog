@@ -3,7 +3,7 @@
 * Main file
 *
 * @package Blog
-* @version 0.0.4
+* @version 1.0.0
 * @copyright (c) 2010, 2011 Michael Cullum (Unknown Bliss of http://michaelcullum.com)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
 *
@@ -12,7 +12,7 @@ if (!defined('IN_PHPBB'))
 {
 	exit;
 }
-define('BLOG_VERSION', '0.0.4');
+define('BLOG_VERSION', '1.0.0');
 /**
 * acp_blog
 * phpBB Blog System Administration

@@ -8,7 +8,7 @@
 	
 	<description lang="en">This MOD adds a blog to your forum, to which users with the appropriate permissions can post and comment on posts. This is not to be confused with EXreaction's User Blog MOD.</description>
 
-	<author-notes lang="en">This MOD is Still in ALPHA. It should NOT be used on live boards. As it is still in alpha, feature requests are still accepted so ask where you downloaded this modification.</author-notes>
+	<author-notes lang="en">Support is avaliable from here: http://www.phpbb.com/customise/db/mod/phpbb_blog/support/</author-notes>
 
 	<author-group>
 		<author>
@@ -31,12 +31,12 @@
 		</author>
 	</author-group>
 
-	<mod-version>0.0.4</mod-version>
+	<mod-version>1.0.0</mod-version>
 
 	<installation>
 		<level>easy</level>
 		<time>300</time>
-		<target-version>3.0.9</target-version>
+		<target-version>3.0.10</target-version>
 	</installation>
 	<history>
 		<entry>
@@ -75,6 +75,28 @@
 			<rev-version>0.0.3</rev-version>
 			<changelog lang="en">
 				<change>Stop hooks breaking UMIL</change>
+			</changelog>
+		</entry>
+		<entry>
+			<date>2011-01-10</date>
+			<rev-version>1.0.0</rev-version>
+			<changelog lang="en">
+				<change>Update site URL</change>
+				<change>Update author info</change>
+				<change>Update DIY instructions in accordance with php-installer tag</change>
+				<change>Remote Version Check</change>
+				<change>Header Update</change>
+				<change>Fix commenting system</change>
+				<change>Update blog info file</change>
+				<change>Update UMIL</change>
+				<change>phpBB Version</change>
+				<change>Clearer ACP Language Settings</change>
+				<change>Powered By links updated</change>
+				<change>phpBB Version</change>
+				<change>Updated to phpBB 3.0.8</change>
+				<change>Updated to phpBB 3.0.9</change>
+				<change>Updated to phpBB 3.0.10</change>
+				<change>Remove Post Reply Button</change>
 			</changelog>
 		</entry>
 	</history>
