@@ -186,7 +186,7 @@ switch($action)
 		if(!$cat_id || !is_numeric($cat_id))
 		{
 			meta_refresh('3', append_sid('blog.' . $phpEx));
-			trigger_error($user->lang['INVALID_CAT_ID'] . '<BR /><a href="' . $phpbb_root_path . append_sid('blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
+			trigger_error($user->lang['INVALID_CAT_ID'] . '<BR /><BR /><a href="' . $phpbb_root_path . append_sid('blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
 		}
 		else
 		{
@@ -283,7 +283,7 @@ switch($action)
 		if($blog_data == '')
 		{
 			meta_refresh('3', append_sid('blog.' . $phpEx));
-			trigger_error($user->lang['INVALID_BLOG_ID'] . '<BR /><a href="' . $phpbb_root_path . append_sid('blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
+			trigger_error($user->lang['INVALID_BLOG_ID'] . '<BR /><BR /><a href="' . $phpbb_root_path . append_sid('blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
 		}
 		else
 		{
@@ -387,7 +387,7 @@ switch($action)
 		if(!request_var('cmntid', (int) 0))
 		{
 			meta_refresh('3', append_sid($phpbb_root_path . 'blog.' . $phpEx));
-			trigger_error($user->lang['INVALID_CMNT_ID'] . '<BR /><a href="' . append_sid($phpbb_root_path . 'blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
+			trigger_error($user->lang['INVALID_CMNT_ID'] . '<BR /><BR /><a href="' . append_sid($phpbb_root_path . 'blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
 		}
 		$blog->toggle_comment_approval(request_var('cmntid', (int) 0));
 	break;
@@ -433,7 +433,7 @@ switch($action)
 			}
 			$u_action = $phpbb_root_path . 'blog.' . $phpEx . '?' . $config['blog_act_name'] . '=view&id=' . $blog_id;
 			meta_refresh('3', append_sid($u_action));
-			trigger_error($user->lang['BLOG_POST_SUCCESS'] . '<BR /><a href="' . $u_action . '">' . $user->lang['RETURN_POST'] . '</a>');
+			trigger_error($user->lang['BLOG_POST_SUCCESS'] . '<BR /><BR /><a href="' . $u_action . '">' . $user->lang['RETURN_POST'] . '</a>');
 		}
 		else
 		{
@@ -505,7 +505,7 @@ switch($action)
 			}
 			$u_action = $phpbb_root_path . 'blog.' . $phpEx . '?' . $config['blog_act_name'] . '=view&id=' . $blog_id;
 			meta_refresh('3', append_sid($u_action));
-			trigger_error($user->lang['BLOG_POST_SUCCESS'] . '<BR /><a href="' . $u_action . '">' . $user->lang['RETURN_POST'] . '</a>');
+			trigger_error($user->lang['BLOG_POST_SUCCESS'] . '<BR /><BR /><a href="' . $u_action . '">' . $user->lang['RETURN_POST'] . '</a>');
 		}
 		else
 		{
@@ -557,6 +557,7 @@ switch($action)
 		if(confirm_box(true))
 		{
 			$blog->delete_blog($blog_id);
+			trigger_error($user->lang['GENERIC_SUCCESS']);
 		}
 		else
 		{
@@ -607,7 +608,7 @@ switch($action)
 		$cid = request_var('cid', (int) 0);
 		if(!is_numeric($cid) || !$cid)
 		{
-			trigger_error($user->lang['INVALID_CMNT_ID'] . '<BR /><a href="' . $phpbb_root_path . append_sid('blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
+			trigger_error($user->lang['INVALID_CMNT_ID'] . '<BR /><BR /><a href="' . $phpbb_root_path . append_sid('blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
 		}
 		if(!$auth->acl_get('u_blog_comment_manage'))
 		{
@@ -618,7 +619,7 @@ switch($action)
 			$cmnt_data = (isset($cid) && is_numeric($cid)) ? $blog->get_cmnt_data($cid) : '';
 			if($cmnt_data == '')
 			{
-				trigger_error($user->lang['INVALID_CMNT_ID'] . '<BR /><a href="' . $phpbb_root_path . append_sid('blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
+				trigger_error($user->lang['INVALID_CMNT_ID'] . '<BR /><BR /><a href="' . $phpbb_root_path . append_sid('blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
 			}
 			decode_message($cmnt_data['cmnt_text'], $cmnt_data['bbcode_uid']);
 			$template->assign_vars(array(
@@ -633,7 +634,7 @@ switch($action)
 			$blog->submit_blog_cmnt('update', request_var('poster_id', 2), request_var('blog_id', 1), $text, time(), $cid);
 			$cmnt_data = (isset($cid) && is_numeric($cid)) ? $blog->get_cmnt_data($cid) : '';
 			meta_refresh('3', append_sid('blog.' . $phpEx . '?' . $config['blog_act_name'] . '=view&id=' . $cmnt_data['cmnt_blog_id']));
-			trigger_error($user->lang['CMNTSUCCESS'] . '<BR /><a href="' . append_sid('blog.' . $phpEx . '?' . $config['blog_act_name'] . '=view&id=' . $cmnt_data['cmnt_blog_id']) . '">' . $user->lang['RETURN'] . '</a>');
+			trigger_error($user->lang['CMNTSUCCESS'] . '<BR /><BR /><a href="' . append_sid('blog.' . $phpEx . '?' . $config['blog_act_name'] . '=view&id=' . $cmnt_data['cmnt_blog_id']) . '">' . $user->lang['RETURN'] . '</a>');
 		}
 		page_header($user->lang['BLOG']);
 		$template->assign_var('S_ACTION', 'edit');
@@ -653,6 +654,7 @@ switch($action)
 		if(confirm_box(true))
 		{
 			$blog->delete_cmnt($cid, $blog_id);
+			trigger_error($user->lang['GENERIC_SUCCESS']);
 		}
 		else
 		{
