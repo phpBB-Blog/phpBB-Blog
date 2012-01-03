@@ -616,7 +616,7 @@ switch($action)
 		}
 		if(!$submit)
 		{
-			$cmnt_data = (isset($cid) && is_numeric($cid)) ? $blog->get_cmnt_data($cid) : '';
+			$cmnt_data = (isset($cid) && is_numeric($cid)) ? $blog->get_comment_data($cid) : '';
 			if($cmnt_data == '')
 			{
 				trigger_error($user->lang['INVALID_CMNT_ID'] . '<BR /><BR /><a href="' . $phpbb_root_path . append_sid('blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
@@ -632,7 +632,7 @@ switch($action)
 		{
 			$text = utf8_normalize_nfc(request_var('message', '', true));
 			$blog->submit_blog_cmnt('update', request_var('poster_id', 2), request_var('blog_id', 1), $text, time(), $cid);
-			$cmnt_data = (isset($cid) && is_numeric($cid)) ? $blog->get_cmnt_data($cid) : '';
+			$cmnt_data = (isset($cid) && is_numeric($cid)) ? $blog->get_comment_data($cid) : '';
 			meta_refresh('3', append_sid('blog.' . $phpEx . '?' . $config['blog_act_name'] . '=view&id=' . $cmnt_data['cmnt_blog_id']));
 			trigger_error($user->lang['CMNTSUCCESS'] . '<BR /><BR /><a href="' . append_sid('blog.' . $phpEx . '?' . $config['blog_act_name'] . '=view&id=' . $cmnt_data['cmnt_blog_id']) . '">' . $user->lang['RETURN'] . '</a>');
 		}

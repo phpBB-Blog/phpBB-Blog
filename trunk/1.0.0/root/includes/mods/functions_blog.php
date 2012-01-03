@@ -4,7 +4,7 @@
 *
 * @package Blog
 * @version 1.0.0
-* @copyright (c) 2010, 2011 Michael Cullum (Unknown Bliss of http://michaelcullum.com)
+* @copyright (c) 2010, 2011, 2012 Michael Cullum (Unknown Bliss of http://michaelcullum.com), David King (imkingdavid)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
 *
 */
@@ -14,15 +14,15 @@ if(!defined('IN_PHPBB'))
 }
 class blog
 {
-	/*
-	submit_blog - Create a new blog post.
-	Parameters:
-		$mode - Possible values: 'new', 'update'
-		$data - Array of information to be added to DB (e.g. title, description, time, etc.)
-		$blog_id - ID of blog to update; (optional) Default: 0 - leave blank for new.
-	Return:
-		False if it did not go through, ID of blog if it did
-	*/
+	/**
+	 * Create new blog post
+	 *
+	 * @param string $mode What to do: 'new' || 'update'
+	 * @param array $data Blog data
+	 * @param int $blog_id Only needed when updating.
+	 *
+	 * @return mixed
+	 */
 	function submit_blog( $mode = 'new', $data = array(), $blog_id = 0)
 	{
 		global $db, $user, $auth, $config, $template, $phpbb_root_path;
@@ -87,15 +87,14 @@ class blog
 		}
 	}
 	
-	/*
-	blog_post_to_forum - Posts a new topic when a new blog is created in the selected forum
-	
-	Parameters:
-		$forum_id - The ID of the forum to which the topic should be posted
-		$data - Array of data for post
-	Return:
-		true on success, false on failure
-	*/
+	/**
+	 * If enabled when a new blog is created, a new topic is posted in a specified forum
+	 *
+	 * @param int $forum_id Forum ID
+	 * @param array $data Post data
+	 *
+	 * @return bool
+	 */
 	function blog_post_to_forum($forum_id, $data)
 	{
 		global $db, $user, $auth, $template, $phpbb_root_path, $config;
@@ -159,21 +158,19 @@ class blog
 		return ($s) ? true : false;
 	}
 
-	/*
-	get_blog_data - Returns an array of data for given $blog_id
-	
-	Parameters:
-		$blog_id - ID of blog
-	Return:
-		False if query is unsuccessful
-		Array $row - contains array of data for given $blog_id
-	*/
+	/**
+	 * Returns an array of data for given $blog_id
+	 *
+	 * @param int $blog_id ID of blog
+	 *
+	 * @return mixed
+	 */
 	function get_blog_data($blog_id)
 	{
-		global $db, $user, $auth, $config, $template, $phpbb_root_path;
+		global $db;
 		if(!$blog_id)
 		{
-			trigger_error($user->lang['GEN_ERROR']);
+			return false;
 		}
 		$sql_ary = array(
 			'SELECT'    => 'b.*,c.*,u.*',
@@ -198,15 +195,14 @@ class blog
 		$db->sql_freeresult($result);
 		return $row;
 	}
-	
-	/*
-	get_blog_count - Returns number of blogs (total or in $category)
-	
-	Parameters:
-		$category - (Optional) Category to look inside. Default: 0
-	Return:
-		$blogs - Number of blogs with the specified criteria
-	*/
+
+	/**
+	 * Returns number of blogs (total or in $category)
+	 *
+	 * @param int $category Category to look inside, if provided (optional)
+	 *
+	 * @return int Number of blogs with the specified criteria
+	 */
 	function get_blog_count($category = 0)
 	{
 		global $db;
@@ -226,21 +222,18 @@ class blog
 		return $blogs;
 	}
 	
-	/*
-	get_category_list - Assigns template variables for a template $loop of categories
-	*/
-	function get_category_list($limit = 0, $loop)
+	/**
+	 * Assigns template variables to template block
+	 *
+	 * @param int $limit Number of categories to list
+	 * @param string $block Block name
+	 */
+	function get_category_list($limit = 0, $block)
 	{
 		global $db, $template, $auth, $user, $config;
 		global $phpbb_root_path, $phpEx;
-		if(!$config['blog_cat_on'])
-		{
-			$template->assign_var('S_CAT_ENABLED', false);
-		}
-		else
-		{
-			$template->assign_var('S_CAT_ENABLED', true);
-		}
+		$template->assign_var('S_CAT_ENABLED', ($config['blog_cat_on'] ? true : false));
+
 		$sql = 'SELECT *
 				FROM ' . BLOG_CATS_TABLE . '
 				ORDER BY cat_id';
@@ -253,7 +246,7 @@ class blog
 			$res = $db->sql_query($sql);
 			$crow = $db->sql_fetchrow($res);
 			$cat_id = $catrow['cat_id'];
-			$template->assign_block_vars($loop, array(
+			$template->assign_block_vars($block, array(
 				'CAT_ID'	=> $cat_id,
 				'CAT_TITLE'	=> $catrow['cat_title'],
 				'CAT_DESC'	=> ($catrow['cat_desc'] != '') ? $catrow['cat_desc'] . '<BR />' : '',
@@ -261,12 +254,11 @@ class blog
 				'BLOG_COUNT'=> $crow['num'],
 				'S_SHOW_BLOGS'=> ($crow['num'] >= 1) ? true : false,
 			));
-			$template->assign_var('S_SHOW_BLOGS', ($crow['num'] >= 1) ? true : false);
 			$db->sql_freeresult($res);
-			$limit = ($limit != '0') ? "LIMIT $limit" : '';
+			$sql_limit = $limit ? "LIMIT $limit" : '';
 			$sql = 'SELECT *
-					FROM ' . BLOGS_TABLE . '
-					WHERE blog_cat_id = \'' . $cat_id . '\' ORDER BY blog_id DESC ' . $limit;
+					FROM ' . BLOGS_TABLE . "
+					WHERE blog_cat_id = $cat_id ORDER BY blog_id DESC $sql_limit";
 			$res = $db->sql_query($sql);
 			while($brow = $db->sql_fetchrow($res))
 			{
@@ -277,33 +269,31 @@ class blog
 			}
 		}
 	}
-	
-	/*
-	get_comment_data - Returns an array of data for given $comment_id
-	
-	Parameters:
-		$comment_id - ID of comment
-	Return:
-		False if query is unsuccessful
-		Array $row - contains array of data for given $comment_id
-	*/
+
+	/**
+	 * Returns an array of data for given $comment_id
+	 *
+	 * @param int $comment_id ID of comment
+	 *
+	 * @return mixed
+	 */
 	function get_comment_data($comment_id)
 	{
-		global $db, $user, $auth, $config, $template, $phpbb_root_path;
+		global $db;
 		if(!$comment_id)
 		{
-			trigger_error($user->lang['GEN_ERROR']);
+			return false;
 		}
 		$sql_ary = array(
 			'SELECT'    => 'c.*,b.*,ct.*,u.*',
-		
+
 			'FROM'      => array(
 				BLOG_CMNTS_TABLE		=> 'c',
 				BLOGS_TABLE				=> 'b',
 				BLOG_CATS_TABLE			=> 'ct',
 				USERS_TABLE				=> 'u',
 			),
-		
+
 			'WHERE'     => 'c.cmnt_id = ' . $db->sql_escape($comment_id) . '
 				AND b.blog_id = c.cmnt_blog_id
 				AND c.cat_id = b.blog_cat_id
@@ -311,29 +301,28 @@ class blog
 		);
 		$sql = $db->sql_build_query($sql_ary);
 		$result = $db->sql_query($sql);
-		if(!$result)
+		$row = $db->sql_fetchrow($result);
+		if(empty($row))
 		{
 			return false;
 		}
-		$row = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);
 		return $row;
-	}	
-	
-	/*
-	submit_comment - Create a comment on the selected blog
-	
-	Parameters:
-		$mode - possible values: 'new', 'update'
-		$blog_id - ID of blog
-		$data - Array of information to be added to DB
-		$comment_id - ID of comment (for updating; optional) Default: 0
-	Return:
-		false if it did not go through, comment ID if it did
+	}
+
+	/**
+	 * Create a comment on the selected blog
+	 *
+	 * @param string $mode What to do (values: 'new' || 'update')
+	 * @param int $blog_id ID of blog
+	 * @param array $data Information to be added to DB
+	 * @param id $comment_id ID of comment (only if updating)
+	 *
+	 * @return mixed
 	*/
 	function submit_comment($mode = 'new', $blog_id, $data = array(), $comment_id = 0)
 	{
-	global $db;
+		global $db;
 		foreach($data as $key => $value)
 		{
 			$data[$key] = $db->sql_escape($value);
@@ -347,10 +336,6 @@ class blog
 			default:
 			case 'new':
 				$sql = 'INSERT INTO ' . BLOG_CMNTS_TABLE . ' ' . $db->sql_build_array('INSERT', $data);
-				$result = $db->sql_query($sql);
-				$next_id = ($result) ? $db->sql_nextid() : false;
-				$db->sql_freeresult($result);
-				return ($next_id != false) ? $next_id : false;
 			break;
 			
 			case 'update':
@@ -361,87 +346,77 @@ class blog
 				$sql = 'UPDATE ' . BLOG_CMNTS_TABLE . '
 					SET ' . $db->sql_build_array('UPDATE', $data) . "
 					WHERE comment_id = $comment_id";
-				$result = $db->sql_query($sql);
-				$comment_id = ($result) ? $comment_id : false;
-				$db->sql_freeresult($result);
-				return ($comment_id != false) ? $comment_id : false;
 			break;
 		}
+		$result = $db->sql_query($sql);
+		$return_id = ($mode == 'new') ? $db->sql_nextid() : $comment_id;
+		// Oh, how I wish we were using PHP 5.3 miniimum
+		// Because then I could do this:
+		// return ($return_id) ?: false;
+		return $return_id ? $return_id : false;
 	}
 	
-	/*
-	toggle_comment_approval - Approve/disapprove comment
-	
-	Parameters:
-		$comment_id - ID of comment
-	Return:
-		true if success, fail if not success
-	*/
+	/**
+	 * Approve/disapprove comment
+	 *
+	 * @param int $comment_id ID of comment
+	 *
+	 * @return boolean
+	 */
 	function toggle_comment_approval($comment_id)
 	{
-		global $db, $user, $template, $auth, $phpbb_root_path;
-		$sql_ary = array(
-			'SELECT'    => 'cmnt_approved',
-			'FROM'      => constant('BLOG_COMMENTS TABLE'),
-			'WHERE'     =>  'cmnt_id = ' . $db->sql_escape($comment_id),
-		);
+		global $db;
+		$sql = 'SELECT cmnt_approved FROM ' . BLOG_CMNTS_TABLE . " WHERE cmnt_id = $comment_id";
 		$sql = $db->sql_build_query('SELECT', $sql_ary);
 		$result = $db->sql_query($sql);
-		$end = ($result) ? true : false;
+		$row = $db->sql_fetchrow($result);
 		$db->sql_freeresult($result);
-		return ($end) ? true : false;
+		if(empty($row))
+		{
+			return false;
+		}
+		// Set the comment to the opposite of its current state
+		// the ! returns the opposite value
+		$sql = 'UPDATE ' . BLOG_CMNTS_TABLE . ' SET cmnt_approved = ' . !$row['cmnt_approved'];
+		$db->sql_query($sql);
+		return true;
 	}
 	
-	/*
-	delete_blog - Deletes the selected blog & all related comments
-	
-	NOTE: No authentication is checked here. Check before running!
-	
-	Parameters:
-		(int) $blog_id - ID of blog
-	
-	Return:
-		true if success, false if not success
-	*/
-	function delete_blog( $blog_id)
+	/**
+	 * Deletes the selected blog & all related comments
+	 * No authentication is checked here. Check before running!
+	 *
+	 * @param int $blog_id ID of blog
+	 *
+	 * @return boolean
+	 */
+	function delete_blog($blog_id)
 	{
-		global $db, $user, $phpbb_root_path, $auth, $template;
+		global $db;
 		if(!$blog_id)
 		{
 			return false;
 		}
-		//Make sure it's safe
-		$blog_id = $db->sql_escape($blog_id);
 		//Delete the blog itself
 		$sql = 'DELETE FROM ' . BLOGS_TABLE . "
 			WHERE blog_id = $blog_id";
-		$result = $db->sql_query($sql);
-		if(!$result)
-		{
-			return false;
-		}
-		$db->sql_freeresult($result);
+		$db->sql_query($sql);
+		
 		//Delete the comments
 		$sql = 'DELETE FROM ' . BLOG_CMNTS_TABLE . "
 			WHERE cmnt_blog_id = $blog_id";
 		$result = $db->sql_query($sql);
-		if(!$result)
-		{
-			return false;
-		}
-		$db->sql_freeresult($result);
+
 		return true;
 	}
 	
-	/*
-	delete_cmnt - Deletes the selected comment
-	
-	NOTE: No authentication is checked here. Check before running!
-	
-	Parameters:
-		(int) $comment_id - ID of comment
-	Return:
-		true if success, false if not success
+	/**
+	 * Deletes the selected comment
+	 * No authentication is checked here. Check before running!
+	 *
+	 * @param int $comment_id ID of comment
+	 * 
+	 * @return boolean
 	*/
 	function delete_cmnt($comment_id)
 	{
@@ -450,29 +425,22 @@ class blog
 		{
 			return false;
 		}
-		
-		$comment_id = $db->sql_escape($comment_id);
+
 		$sql = 'DELETE FROM ' . BLOG_CMNTS_TABLE . "
 			WHERE cmnt_id = $comment_id";
 		$result = $db->sql_query($sql);
-		if(!$result)
-		{
-			return false;
-		}
+
 		return true;
 	}
 	
-	/*
-	getrssfeed - Publish blog posts to RSS feed
-	
-	Parameters:
-		N/A
-	Return:
-		$feed = XML-formetted feed for use in RSS Feed readers
-	*/
+	/**
+	 * Publish blog posts to RSS feed
+	 *
+	 * @return RSS-formatted feed
+	 */
 	function getrssfeed()
 	{
-		global $db, $user, $auth, $config, $template, $phpbb_root_path;
+		global $db;
 		
 		$rss_info = '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -502,18 +470,17 @@ class blog
 		return $feed;
 	}
 	
-	/*
-	get_tag_cloud - Gets and assigns template variables for a tag cloud
-	
-	Parameters:
-		$tagrow - Template loop name
-		$blog_id - Tags from specific blog
-	Return:
-		N/A
-	*/
-	function get_tag_cloud($tagrow = 'tagrow', $blog_id = '0')
+	/**
+	 * Gets and assigns template variables for a tag cloud
+	 *
+	 * @param string $tagrow Template loop name
+	 * @param int $blog_id Blog ID to get tags from (optional)
+	 *
+	 * @return void
+	 */
+	function get_tag_cloud($tagrow = 'tagrow', $blog_id = 0)
 	{
-		global $db, $user, $auth, $template, $config;
+		global $db, $template, $config;
 		//This function's job is to get all of the tags submitted in blog posts
 		//and making a cloud based off of them. Maybe it will work, maybe not...
 		$whereclause = ($blog_id != '0') ? ' WHERE blog_id = \'' . $blog_id .'\'' : '';
@@ -528,6 +495,7 @@ class blog
 				$tags .= utf8_normalize_nfc($row['tags']);
 			}
 		}
+		$db->sql_freeresult($result);
 		$tags = explode(",",utf8_normalize_nfc($tags));
 		$tags = array_unique(utf8_normalize_nfc($tags));
 		$factor = 0.5;
@@ -539,24 +507,22 @@ class blog
 		$result = $db->sql_query($sql);
 		$bl = $db->sql_fetchrow($result);
 		$num_blogs = $bl['numblog'];
-		//Now do another query on each tag to see how many times it occurs in all
-		//articles combined.
+		// Now do another query on each tag to see how many times it occurs in all articles combined.
+
+		// NOTE: This is not the optimal way to do this, having a query in a loop
+		// The best way I can think of is to add a new column on the tags table that
+		// gets updated with the number of times it has been used.
 		foreach($tags AS $tag)
 		{
-			if($tag != '')
+			if($tag)
 			{
 				$sql = 'SELECT COUNT(blog_tags) AS numtag
 						FROM ' . BLOGS_TABLE . '
 						WHERE blog_tags LIKE \'%' . utf8_normalize_nfc($tag) . '%\'';
 				$result = $db->sql_query($sql);
-				$row = $db->sql_fetchrow($result);
-				
-				$count = $row['numtag'];
-				if($num_blogs == 0)
-				{
-					$size = 10;
-				}
-				elseif($num_blogs == 1)
+				$count = $db->sql_fetchfield('numtag');
+				$db->sql_freeresult($result);
+				if($num_blogs <= 1)
 				{
 					$size = 10;
 				}
@@ -579,20 +545,19 @@ class blog
 		}
 	}
 	
-	/*
-	trucate - Shortens a post to $length with optional $ending and $splitter. Does nothing to text shorter than $length if
-		no $splitter is provided.
-	
-	Parameters:
-		$text - The text to truncate
-		$length - The length to shorten $text to
-		$ending - (optional) Append this to text after shortened. Default: '...'
-		$splitter - (optional) Ignore $length and split at this point. Default NULL
-		$exact - (optional) (bool) If true, stop at exactly 100. Otherwise, stop at end of next full word. Default: true
-		$considerHtml - (optional) (bool) If true, close all tags before shortening. Otherwise, ignore possible tags. Default: false
-	Return:
-		$truncate - The shortened text
-	*/
+	/**
+	 * Shortens a post to $length with optional $ending and $splitter. Does nothing to text shorter than $length if
+	 *	no $splitter is provided.
+	 *
+	 * @param string $text The text to truncate
+	 * @param int $length The length to shorten $text to (in individual characters)
+	 * @param string $ending (optional) Append this to text after shortened. Default: '...'
+	 * @param string $splitter If found, the post will be split at this point rather than at a certain length
+	 * @param bool $exact Stop at exactly $length characters or at end of current word
+	 * @param bool $considerHtml If true, close all tags before shortening.
+	 *
+	 * @return Shortened text
+	 */
 	function truncate($text, $length = 100, $ending = '...', $splitter = NULL, $exact = true, $considerHtml = false)
 	{
 		global $template;
