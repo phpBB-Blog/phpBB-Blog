@@ -66,7 +66,7 @@ $lang = array_merge($lang, array(
 	'FEED_DISABLED'			=> 'The RSS feed for this websites\'s blog has been disabled.',
 
 	'INVALID_CMNT_ID'		=> 'Invalid comment ID.',
-	'CMNTSUCCESSUNAPPROVED'	=> 'Your comment has been submitted successfully and is awaiting approval. It will be visible once it has been approved. <b>To avoid waiting, you can register to have your comment automatically posted.</b>',
+	'CMNTSUCCESSUNAPPROVED'	=> 'Your comment has been submitted successfully and is awaiting approval. It will be visible once it has been approved.',
 	'CMNTSUCCESS'			=> 'Your comment has been submitted successfully.',
 	'RETURN_CMNT'			=> 'View your comment',
 	
