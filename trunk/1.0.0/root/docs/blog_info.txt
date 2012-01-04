@@ -5,9 +5,9 @@ m[at]michaelcullum[dot]com
 
 Thanks to:
 - David King [Ex-Developer & Contributor]
-http://phpbbdevelopers.net
+http://www.thedavidking.net
 imkingdavid[at]gmail[dot]com
-- Erik Fr�rejean [Contributions]
+- Erik Frèrejean [Contributions]
 - Marcus Vinny [Contributions]
 
 License:
