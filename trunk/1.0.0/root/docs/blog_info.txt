@@ -3,11 +3,13 @@ Authors & Contributors:
 http://michaelcullum.com
 m[at]michaelcullum[dot]com
 
-- David King [Ex-Developer]
+- David King [Ex-Developer & Contributor]
 http://phpbbdevelopers.net
 imkingdavid[at]gmail[dot]com
 
-- Erik Frèrejean [Contributions]
+- Erik Frï¿½rejean [Contributions]
+
+- Marcus Vinny [Contributions]
 
 License:
 http://opensource.org/licenses/gpl-2.0.php
