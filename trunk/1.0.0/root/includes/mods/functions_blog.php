@@ -240,19 +240,22 @@ class blog
 		$result = $db->sql_query($sql);
 		while($catrow = $db->sql_fetchrow($result))
 		{
+			// at some point we should look into removing the following query/queries from the loop
+			// and perhaps store the needed data somewhere else.
+			// for instance, for this one, store the blog_count on the category table
 			$sql = 'SELECT COUNT(blog_id) AS num
 					FROM ' . BLOGS_TABLE . '
-					WHERE blog_cat_id = \'' . $catrow['cat_id'] . '\'';
+					WHERE blog_cat_id = ' . $catrow['cat_id'];
 			$res = $db->sql_query($sql);
 			$crow = $db->sql_fetchrow($res);
 			$cat_id = $catrow['cat_id'];
 			$template->assign_block_vars($block, array(
 				'CAT_ID'	=> $cat_id,
 				'CAT_TITLE'	=> $catrow['cat_title'],
-				'CAT_DESC'	=> ($catrow['cat_desc'] != '') ? $catrow['cat_desc'] . '<BR />' : '',
-				'U_CAT'		=> append_sid('blog.php?' . $config['blog_act_name'] . '=cat&cid=' . $catrow['cat_id']),
+				'CAT_DESC'	=> ($catrow['cat_desc']) ? $catrow['cat_desc'] . '<BR />' : '',
+				'U_CAT'		=> append_sid($phpbb_root_path . 'blog.' . $phpEx, array($config['blog_act_name'] => 'cat', 'cid' => $catrow['cat_id'])),
 				'BLOG_COUNT'=> $crow['num'],
-				'S_SHOW_BLOGS'=> ($crow['num'] >= 1) ? true : false,
+				'S_SHOW_BLOGS'=> ($crow['num']) ? true : false,
 			));
 			$db->sql_freeresult($res);
 			$sql_limit = $limit ? "LIMIT $limit" : '';
@@ -264,7 +267,7 @@ class blog
 			{
 				$template->assign_block_vars('catrow.blogrow', array(
 					'BLOG_TITLE' => $brow['blog_title'],
-					'U_CAT_BLOG' => append_sid("{$phpbb_root_path}blog.$phpEx?" . $config['blog_act_name'] . '=view&id=' . $brow['blog_id']),
+					'U_CAT_BLOG' => append_sid("{$phpbb_root_path}blog.$phpEx", array($config['blog_act_name'] => 'view', 'id' => $brow['blog_id'])),
 				));
 			}
 		}
@@ -294,10 +297,10 @@ class blog
 				USERS_TABLE				=> 'u',
 			),
 
-			'WHERE'     => 'c.cmnt_id = ' . $db->sql_escape($comment_id) . '
+			'WHERE'     => "c.cmnt_id = $comment_id
 				AND b.blog_id = c.cmnt_blog_id
-				AND c.cat_id = b.blog_cat_id
-				AND u.user_id = b.blog_poster_id',
+				AND ct.cat_id = b.blog_cat_id
+				AND u.user_id = b.blog_poster_id",
 		);
 		$sql = $db->sql_build_query('SELECT', $sql_ary);
 		$result = $db->sql_query($sql);
@@ -420,7 +423,7 @@ class blog
 	*/
 	function delete_cmnt($comment_id)
 	{
-		global $db, $user, $auth, $template, $phpbb_root_path;
+		global $db;
 		if(!$comment_id)
 		{
 			return false;
