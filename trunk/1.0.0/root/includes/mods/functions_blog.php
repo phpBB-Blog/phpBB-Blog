@@ -253,7 +253,7 @@ class blog
 				'CAT_ID'	=> $cat_id,
 				'CAT_TITLE'	=> $catrow['cat_title'],
 				'CAT_DESC'	=> ($catrow['cat_desc']) ? $catrow['cat_desc'] . '<BR />' : '',
-				'U_CAT'		=> append_sid($phpbb_root_path . 'blog.' . $phpEx, array($config['blog_act_name'] => 'cat', 'cid' => $catrow['cat_id']),
+				'U_CAT'		=> append_sid($phpbb_root_path . 'blog.' . $phpEx, array($config['blog_act_name'] => 'cat', 'cid' => $catrow['cat_id'])),
 				'BLOG_COUNT'=> $crow['num'],
 				'S_SHOW_BLOGS'=> ($crow['num']) ? true : false,
 			));
@@ -267,7 +267,7 @@ class blog
 			{
 				$template->assign_block_vars('catrow.blogrow', array(
 					'BLOG_TITLE' => $brow['blog_title'],
-					'U_CAT_BLOG' => append_sid("{$phpbb_root_path}blog.$phpEx", array($config['blog_act_name'] => 'view', 'id' => $brow['blog_id']),
+					'U_CAT_BLOG' => append_sid("{$phpbb_root_path}blog.$phpEx", array($config['blog_act_name'] => 'view', 'id' => $brow['blog_id'])),
 				));
 			}
 		}
