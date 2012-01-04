@@ -7,7 +7,7 @@ Thanks to:
 - David King [Ex-Developer & Contributor]
 http://phpbbdevelopers.net
 imkingdavid[at]gmail[dot]com
-- Erik Fr�rejean [Contributions]
+- Erik Frèrejean [Contributions]
 - Marcus Vinny [Contributions]
 
 License:
