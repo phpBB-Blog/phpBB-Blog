@@ -299,7 +299,7 @@ class blog
 				AND c.cat_id = b.blog_cat_id
 				AND u.user_id = b.blog_poster_id',
 		);
-		$sql = $db->sql_build_query($sql_ary);
+		$sql = $db->sql_build_query('SELECT', $sql_ary);
 		$result = $db->sql_query($sql);
 		$row = $db->sql_fetchrow($result);
 		if(empty($row))
