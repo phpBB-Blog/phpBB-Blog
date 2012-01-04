@@ -27,7 +27,7 @@ $lang = array_merge($lang, array(
 	'MOD'					=> 'phpBB Blog',
 	'BLOG_DISABLED'			=> 'This functionality has been disabled by the administrator.',
 	'BLOG'					=> 'Blog',
-	'BLOG_COPYRIGHT'		=> '<div align="center">Powered By <a href="http://michaelcullum.com/">phpBB Blog</a></div>',
+	'BLOG_COPYRIGHT'		=> '<text align="center">Powered By <a href="http://michaelcullum.com/phpbbb_blog">phpBB Blog</a></center>',
 	'BLOG_RET'				=> 'Return to Blog',
 	'BLOG_CAT'				=> 'Categories',
 	'INVALID_BLOG_ID'		=> 'Invalid Blog ID.',
