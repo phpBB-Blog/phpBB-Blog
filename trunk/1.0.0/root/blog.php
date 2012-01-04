@@ -21,6 +21,9 @@ include($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
 include($phpbb_root_path . 'includes/mods/functions_blog.' . $phpEx);
 include($phpbb_root_path . 'includes/bbcode.' . $phpEx);
 
+// Assigning custom bbcodes
+display_custom_bbcodes();
+
 // Start session management
 $user->session_begin();
 $auth->acl($user->data);
