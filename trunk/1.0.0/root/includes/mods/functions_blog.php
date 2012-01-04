@@ -480,7 +480,7 @@ class blog
 	 */
 	function get_tag_cloud($tagrow = 'tagrow', $blog_id = 0)
 	{
-		global $db, $template, $config;
+		global $db, $template, $config, $user;
 		//This function's job is to get all of the tags submitted in blog posts
 		//and making a cloud based off of them. Maybe it will work, maybe not...
 		$whereclause = ($blog_id != '0') ? ' WHERE blog_id = \'' . $blog_id .'\'' : '';
