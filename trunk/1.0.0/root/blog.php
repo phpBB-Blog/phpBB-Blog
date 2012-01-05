@@ -164,7 +164,6 @@ switch($action)
 				'BLOG_TEXT'		=> $message,
 				'U_POSTER'		=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&amp;u=' . $blogrow['blog_poster_id']),
 				'BLOG_POSTER'	=> get_username_string('full', $blogrow['blog_poster_id'], $blogrow['username'], $blogrow['user_colour']),
-//				'<font color="#' . $urow['user_colour'] . '">' . $urow['username'] . '</font>',
 			));
 		}
 		$db->sql_freeresult($result);
@@ -721,7 +720,7 @@ switch($action)
 				'BLOG_TEXT'		=> $message,
 				'VIEW_MORE'		=> '...<a href="' . $url . '">' . $user->lang['VIEW_MORE'] . '</a>',
 				'U_POSTER'		=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&amp;u=' . $blogrow['blog_poster_id']),
-				'BLOG_POSTER'	=> '<font color="#' . $urow['user_colour'] . '">' . $urow['username'] . '</font>',
+				'BLOG_POSTER'	=> '<span style="color:#' . $urow['user_colour'] . '">' . $urow['username'] . '</span>',
 			));
 		}
 		page_header($user->lang['BLOG']);
