@@ -115,7 +115,7 @@ ul.menu li.last {
 		<span class="corners-bottom"><span></span></span></div>
 	</div>
 <!-- ENDIF -->
-<div id="page-body">
+
     <div id="main">
         <h2 style="color:#000000;"><!-- IF S_ACTION eq 'cat' -->{CAT_TITLE}
             <!-- ELSEIF S_ACTION eq 'view' -->{BLOG_TITLE}
@@ -125,13 +125,13 @@ ul.menu li.last {
             <!-- ELSEIF S_ACTION eq 'view' -->{BLOG_DESC}
             <!-- ELSEIF S_ACTION eq 'tag' -->&nbsp;
             <!-- ELSE -->{OVERALL_BLOG_DESC}<!-- ENDIF --></p>
-            <!-- IF S_RSS_ENABLED --><div style="float:left;"><a href="{U_BLOG_FEED}"><img src="{T_THEME_PATH}/images/feed.gif" /></a></div><br clear="all" /><!-- ENDIF -->
+            <!-- IF S_RSS_ENABLED --><div style="float:left;"><a href="{U_BLOG_FEED}"><img src="{T_THEME_PATH}/images/feed.gif" alt="" /></a></div><br style="clear: both;" /><!-- ENDIF -->
         <!-- IF S_NEW_POST -->
             <div class="buttons"><div class="post-icon" title="{L_NEW_POST}">
                 <a href="{U_NEW_POST}"><span></span>{L_NEW_POST}</a>
             </div></div>
         <!-- ENDIF -->
-        <br clear="all" />
+        <br style="clear: both;" />
         <div style="float:left;<!-- IF not S_CAT_ENABLED and not S_TAGCLOUD_ENABLED -->width:100%;<!-- ELSE -->width:70%;<!-- ENDIF -->">
         <!-- IF not S_ACTION eq 'view' -->
         <ul class="linklist">
@@ -163,8 +163,8 @@ ul.menu li.last {
                 <!-- INCLUDE tag_cloud.html -->
         <!-- ENDIF -->
     </div>
-    <br clear="all" />
+    <br style="clear: both;" />
     <!-- You may alter the following copyright text, but you must leave the link intact. -->
-            <span>{L_BLOG_COPYRIGHT}</span><br clear="all" />
-</div>
+            {L_BLOG_COPYRIGHT}<br style="clear: both;" />
+
    <!-- INCLUDE overall_footer.html -->
