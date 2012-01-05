@@ -570,6 +570,7 @@ switch($action)
 				)
 			);
 			confirm_box(false, 'CONF_DEL_POST', $s_hidden_fields);
+			trigger_error($user->lang['GENERIC_ERROR']);
 		}
 	break;
 	
@@ -668,6 +669,7 @@ switch($action)
 				)
 			);
 			confirm_box(false, 'CONF_DEL_CMNT', $s_hidden_fields);
+			trigger_error($user->lang['GENERIC_ERROR']);
 		}
 	break;
 	
