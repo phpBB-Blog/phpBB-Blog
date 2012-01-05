@@ -43,4 +43,3 @@ $lang = array_merge($lang, array(
 	'acl_u_blog_view_full'		=> array('lang'	=> 'User can view full blog posts',				'cat' => 'blog'),
 	'acl_u_blog_view_comments'	=> array('lang'	=> 'User can view comments made on blogs',		'cat' => 'blog'),
 ));
-?>

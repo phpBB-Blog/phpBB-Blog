@@ -332,4 +332,3 @@ class acp_blog
 		return $info;
 	}
 }
-?>

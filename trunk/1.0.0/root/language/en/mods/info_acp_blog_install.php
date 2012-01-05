@@ -31,5 +31,3 @@ $lang = array_merge($lang, array(
 	'UPDATE_BLOG_MOD'			=> 'Update phpBB Blog System',
 	'UPDATE_BLOG_MOD_CONFIRM'	=> 'Are you ready to update phpBB Blog System?',
 ));
-
-?>

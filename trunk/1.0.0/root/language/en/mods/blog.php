@@ -102,4 +102,3 @@ $lang = array_merge($lang, array(
 	'FP_SUBJECT'			=> 'Blog: %1$s',
 	'FP_MESSAGE'			=> 'A new blog has been posted. A preview is available here:<hr />[quote]%2$s[/quote]Click <a href="%1$s">here</a> to view and discuss it.',
 ));
-?>
