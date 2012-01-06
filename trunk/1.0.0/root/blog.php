@@ -34,6 +34,7 @@ $blog_id	= request_var('id', '');
 $cat_id		= request_var('cid', '');
 $blog 		= new blog;
 $redirect	= request_var('redirect', '');
+$blog_on_c	= $config['blog_on']
 $act_name 	= $config['blog_act_name'];
 $action		= request_var($act_name, 'index');
 $manager 	= ($auth->acl_get('a_blog_manage') == 1) ? 1 : 0;
@@ -46,6 +47,7 @@ $template->assign_vars(array(
 	'S_NEW_POST'	 		=> ($auth->acl_get('u_blog_post')) ? true : false,
 	'ACT_NAME'   			=> $act_name,
 	'U_BLOG_MANAGE'			=> $manager,
+	'BLOG_ENABLED_C'		=> $blog_on_c
 	'U_BLOG_INDEX'			=> append_sid($phpbb_root_path . 'blog.' . $phpEx),
 	'NEW_POST'				=> $user->img('button_article_new', 'New Blog'),
 	'OVERALL_BLOG_DESC'		=> $config['blog_description'],
@@ -56,7 +58,7 @@ $template->assign_block_vars('navlinks', array(
 	'FORUM_NAME'	=> $config['blog_title'],
 	'U_VIEW_FORUM'	=> append_sid($phpbb_root_path . 'blog.' . $phpEx),	
 ));
-if($config['blog_on'] == 0)
+if($blog_on_c == 0)
 {
 	if(!$auth->acl_get('a_'))
 	{
