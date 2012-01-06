@@ -117,17 +117,17 @@ switch($action)
 				'S_ROW_COUNT'	=> count($blogrow['blog_id']),
 				'BLOG_TITLE'	=> $blogrow['blog_title'],
 				'CAT_TITLE'		=> $blogrow['cat_title'],
-				'U_CAT'			=> append_sid('blog.' . $phpEx . '?' . $act_name . '=cat&cid=' . $blogrow['blog_cat_id']),
+				'U_CAT'			=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'cid' => $blogrow['blog_cat_id'])),
 				'TIME'			=> $user->format_date($blogrow['blog_posted_time']),
 				'BLOG_ID'		=> $blogrow['blog_id'],
 				'BLOG_DESC'		=> $blogrow['blog_desc'],
-				'U_BLOG'		=> append_sid('blog.' . $phpEx . '?' . $act_name . '=view&id=' . $blogrow['blog_id']),
+				'U_BLOG'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blogrow['blog_id']),
 				'CMNT_COUNT'	=> $blogrow['cmnts_approved'],
 				'CMNT_VIEW'		=> ($blogrow['cmnts_approved'] == 1) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
 				'UNAPPROVED_CMNT_COUNT' => $blogrow['cmnts_unapproved'],
 				'UNAPPROVED_CMNT_VIEW'	=> ($blogrow['cmnts_unapproved'] == 1) ? $user->lang['UCMNT'] : $user->lang['UCMNTS'],
 				'BLOG_TEXT'		=> $message,
-				'U_POSTER'		=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&amp;u=' . $blogrow['blog_poster_id']),
+				'U_POSTER'		=> append_sid("{$phpbb_root_path}memberlist.$phpEx", array('mode' => 'viewprofile', 'u' => $blowrow['blog_poster_id'])),
 				'BLOG_POSTER'	=> get_username_string('full', $blogrow['blog_poster_id'], $blogrow['username'], $blogrow['user_colour']),
 			));
 		}
@@ -152,7 +152,7 @@ switch($action)
 	case 'cat':
 		if(!$cat_id || !is_numeric($cat_id))
 		{
-			meta_refresh('3', append_sid('blog.' . $phpEx));
+			meta_refresh('3', append_sid("{$phpbb_root_path}blog.$phpEx"));
 			trigger_error($user->lang['INVALID_CAT_ID'] . '<BR /><BR /><a href="' . append_sid("{$phpbb_root_path}blog.$phpEx") . '">' . $user->lang['RETURN'] . '</a>');
 		}
 		else
@@ -204,7 +204,7 @@ switch($action)
 				(($blog_data['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) + 
 				(($blog_data['enable_magic_url']) ? OPTION_FLAG_LINKS : 0);
 				$text = generate_text_for_display($blog_data['blog_text'], $blog_data['bbcode_uid'], $blog_data['bbcode_bitfield'], $blog_data['bbcode_options']);
-				$url = append_sid('blog.' . $phpEx . '?' . $act_name . '=view&id=' . $blog_data['blog_id']);
+				$url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_data['blog_id']));
 				$message = blog::truncate($text, $config['blog_short_msg'], '...<a href="' . $url . '">' . $user->lang['VIEW_MORE'] . '</a>', '[SNIP]', false, true);
 				$template->assign_block_vars('blogrow', array(
 					'S_ROW_COUNT'	=> count($blog_data['blog_id']),
@@ -215,12 +215,12 @@ switch($action)
 					'CMNT_COUNT'	=> $brow['COUNT(cmnt_id)'],
 					'CMNT_VIEW'		=> ($brow['COUNT(cmnt_id)'] == 1) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
 					'BLOG_POSTER'	=> get_username_string('full', $blog_data['user_id'], $blog_data['username'], $blog_data['user_colour']),
-					'U_CAT'			=> append_sid('blog.' . $phpEx . '?' . $act_name . '=cat&cid=' . $blog_data['cat_id']),
+					'U_CAT'			=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'id' => $blog_data['cat_id'])),
 					'UNAPPROVED_CMNT_COUNT' => $ubrow['COUNT(cmnt_id)'],
 					'UNAPPROVED_CMNT_VIEW'	=> ($ubrow['COUNT(cmnt_id)'] == 1) ? $user->lang['UCMNT'] : $user->lang['UCMNTS'],
 					'CAT_TITLE'		=> $blog_data['cat_title'],
 					'LAST_POST_TIME'=> $blog_data['blog_posted_time'],
-					'U_BLOG'		=> append_sid('blog.' . $phpEx . '?' . $act_name . '=view&id=' . $blog_data['blog_id']),
+					'U_BLOG'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_data['blog_id'])),
 				));
 			}
 			//Start pagination
@@ -236,7 +236,7 @@ switch($action)
 			));
 			$template->assign_block_vars('navlinks', array(
 				'FORUM_NAME'   => $cat['cat_title'],
-				'U_VIEW_FORUM'   => append_sid('blog.' . $phpEx . '?' . $act_name . '=cat&cid=' . $cat_id),
+				'U_VIEW_FORUM'   => append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'id' => $cat_id)),
 			));
 			$template->set_filenames(array(
 				'body' => 'blog_index_body.html')
@@ -251,10 +251,10 @@ switch($action)
 			trigger_error($user->lang['UNAUTHED']);
 		}
 		$blog_data 	= (isset($blog_id) && is_numeric($blog_id)) ? blog::get_blog_data($blog_id) : '';
-		if($blog_data == '')
+		if(empty($blog_data))
 		{
-			meta_refresh('3', append_sid('blog.' . $phpEx));
-			trigger_error($user->lang['INVALID_BLOG_ID'] . '<BR /><BR /><a href="' . $phpbb_root_path . append_sid('blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
+			meta_refresh('3', append_sid("{$phpbb_root_path}blog.$phpEx"));
+			trigger_error($user->lang['INVALID_BLOG_ID'] . '<BR /><BR /><a href="' . $phpbb_root_path . append_sid("{$phpbb_root_path}blog.$phpEx") . '">' . $user->lang['RETURN'] . '</a>');
 		}
 		else
 		{
@@ -273,17 +273,17 @@ switch($action)
 				'EDIT_TIME'	=> $user->format_date($blog_data['blog_last_edited']),
 				'S_EDITED' => ($blog_data['blog_last_edited'] != 0) ? true : false,
 				'BLOG_ID' => $blog_data['blog_id'],
-				'U_BLOG_LINK' => append_sid('blog.' . $phpEx . '?' . $act_name . '=view&id=' . $blog_data['blog_id']),
+				'U_BLOG_LINK' => append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name = 'view', 'id' => $blog_data['blog_id'])),
 				'BLOG_POSTER' => get_username_string('full', $blog_data['user_id'], $blog_data['username'], $blog_data['user_colour']),
 				'POSTER_POSTS'	=> $blog_data['user_posts'],
 				'POSTER_JOINED'	=> $user->format_date($blog_data['user_regdate']),
 				'BLOG_TEXT'	=> $text,		
-				'U_CAT' => append_sid('blog.' . $phpEx . '?' . $act_name . '=cat&cid=' . $blog_data['cat_id']),
+				'U_CAT' => append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'cid' => $blog_data['cat_id'])),
 				'BLOG_CAT'	=> $blog_data['cat_title'],
-				'U_BLOG_CMNT' => append_sid('blog.' . $phpEx . '?' . $act_name . '=post_comment&id=' . $blog_data['blog_id']), 
+				'U_BLOG_CMNT' => append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'post_comment', 'id' => $blog_data['blog_id'])), 
 				'CMNT_POSTER_ID' => $user->data['user_id'],
-				'U_BLOG_EDIT' => append_sid('blog.' . $phpEx . '?' . $act_name . '=edit_blog&id=' . $blog_data['blog_id']),
-				'U_DELETE' => append_sid('blog.' . $phpEx . '?' . $act_name . '=delete_blog&id=' . $blog_data['blog_id']),
+				'U_BLOG_EDIT' => append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'edit_blog', 'id' => $blog_data['blog_id'])),
+				'U_DELETE' => append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'delete_blog', 'id' => $blog_data['blog_id'])),
 				//AUTH
 				'S_VIEW_COMMENTS' => ($auth->acl_get('u_blog_view_comments')) ? true : false,
 				'S_POST_COMMENT' => ($auth->acl_get('u_blog_comment')) ? true : false,
@@ -301,7 +301,7 @@ switch($action)
 			$db->sql_freeresult($result);
 			
 			$sql_limit = ($sql_limit > 100) ? 100 : $sql_limit;
-			$pagination_url = append_sid($phpbb_root_path . 'blog.' . $phpEx . '?' . $act_name . "=view&amp;id=$blog_id");
+			$pagination_url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_id));
 
 			$sql = 'SELECT *
 				FROM ' . BLOG_CMNTS_TABLE . '
@@ -316,17 +316,17 @@ switch($action)
 				$userrow = $db->sql_fetchrow($res);
 				$cmnt['bbcode_options'] = (($cmnt['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0) + (($cmnt['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) + (($cmnt['enable_magic_url']) ? OPTION_FLAG_LINKS : 0);
 				$text = generate_text_for_display($cmnt['cmnt_text'], $cmnt['bbcode_uid'], $cmnt['bbcode_bitfield'], $cmnt['bbcode_options']);
-				$apprv = append_sid('blog.' . $phpEx . '?' . $act_name . '=apprvcmnt&cmntid=' . $cmnt['cmnt_id']);
+				$apprv = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'apprvcmnt', 'cmntid' => $cmnt['cmnt_id']));
 				$template->assign_block_vars('commentrow', array(
 					'CMNT_POSTER' 		=> get_username_string('full', $cmnt['cmnt_poster_id'], $userrow['username'], $userrow['user_colour']),
-					'U_CMNT_POSTER' 	=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&amp;u=' . $cmnt['cmnt_poster_id']),
+					'U_CMNT_POSTER' 	=> append_sid("{$phpbb_root_path}memberlist.$phpEx", array('mode' => 'viewprofile', 'u' => $cmnt['cmnt_poster_id'])),
 					'TIME'				=> $user->format_date($cmnt['cmnt_posted_time']),
 					'S_COMMENT_APPROVED'=> ($cmnt['cmnt_approved'] == 0) ? false : true,
 					'CMNT_APPROVE'		=> sprintf($user->lang['APPROVE'], $apprv),
 					'CMNT_TEXT'	  		=> $text,
 					'S_EDIT_CMNT'		=> ($auth->acl_get('a_blog_manage') || ($user->data['user_id'] == $cmnt['cmnt_poster_id'] && $auth->acl_get('u_blog_comment_manage'))) ? true : false,
-					'U_DELETE'			=> append_sid('blog.' . $phpEx . '?' . $act_name . '=delete_comment&id=' . $blog_data['blog_id'] . '&cid=' . $cmnt['cmnt_id']),
-					'U_CMNT_EDIT'		=> append_sid('blog.' . $phpEx . '?' . $act_name . '=edit_comment&cid=' . $cmnt['cmnt_id']),
+					'U_DELETE'			=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'delete_comment', 'id' => $blog_data['blog_id'], 'cid' => $cmnt['cmnt_id'])),
+					'U_CMNT_EDIT'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'edit_comment', 'cid' => $cmnt['cmnt_id'])),
 				));
 			}
 			//Start pagination
@@ -343,7 +343,7 @@ switch($action)
 			));
 			$template->assign_block_vars('navlinks', array(
 				'FORUM_NAME'   => $blog_data['cat_title'],
-				'U_VIEW_FORUM'   => append_sid('blog.' . $phpEx . '?' . $act_name . '=cat&cid=' . $blog_data['cat_id']),
+				'U_VIEW_FORUM'   => append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'cid' => $blog_data['cat_id'])),
 			));
 			$template->set_filenames(array(
 				'body' => 'blog_index_body.html')
@@ -369,7 +369,7 @@ switch($action)
 		$user->add_lang('posting');
 		$template->assign_block_vars('navlinks', array(
 			'FORUM_NAME'	=> $user->lang['NEW_POST'],
-			'U_VIEW_FORUM'	=> append_sid($phpbb_root_path . 'blog.' . $phpEx . '?' . $act_name . '=post_blog'),
+			'U_VIEW_FORUM'	=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'post_blog')),
 		));
 		if(!$auth->acl_get('u_blog_post'))
 		{
@@ -403,8 +403,8 @@ switch($action)
 			{
 				trigger_error($user->lang['GEN_ERROR']);
 			}
-			$u_action = $phpbb_root_path . 'blog.' . $phpEx . '?' . $act_name . '=view&id=' . $blog_id;
-			meta_refresh('3', append_sid($u_action));
+			$u_action = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_id));
+			meta_refresh('3', $u_action);
 			trigger_error($user->lang['BLOG_POST_SUCCESS'] . '<BR /><BR /><a href="' . $u_action . '">' . $user->lang['RETURN_POST'] . '</a>');
 		}
 		else
@@ -428,7 +428,7 @@ switch($action)
 				'S_POSTER_ID_HIDDEN'	=> $user->data['user_id'],
 				'S_BBCODE_ALLOWED'		=>	$bbcode,
 				'S_SMILIES_ALLOWED'		=> $emote,
-				'U_ACTION'				=> append_sid($phpbb_root_path . 'blog.' . $phpEx . '?' . $act_name . '=post_blog'),
+				'U_ACTION'				=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'post_blog')),
 			));
 		}
 		page_header($user->lang['BLOG']);
@@ -475,8 +475,8 @@ switch($action)
 			{
 				trigger_error($user->lang['GEN_ERROR']);
 			}
-			$u_action = $phpbb_root_path . 'blog.' . $phpEx . '?' . $act_name . '=view&id=' . $blog_id;
-			meta_refresh('3', append_sid($u_action));
+			$u_action = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_id));;
+			meta_refresh('3', $u_action);
 			trigger_error($user->lang['BLOG_POST_SUCCESS'] . '<BR /><BR /><a href="' . $u_action . '">' . $user->lang['RETURN_POST'] . '</a>');
 		}
 		else
@@ -510,7 +510,7 @@ switch($action)
 				'S_POSTER_ID_HIDDEN'	=> $user->data['user_id'],
 				'S_BBCODE_ALLOWED'		=> $bbcode,
 				'S_SMILIES_ALLOWED'		=> $emote,
-				'U_ACTION'				=> append_sid('blog.' . $phpEx . '?' . $act_name . '=edit_blog&id=' . $blog_data['blog_id']),
+				'U_ACTION'				=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'edit_blog', 'id' => $blog_data['blog_id'])),
 			));
 		}
 		page_header($user->lang['BLOG']);
@@ -568,7 +568,7 @@ switch($action)
 			
 			$message = $approved ? $user->lang['CMNTSUCCESS'] : $user->lang['RETURN'];
 			$submessage = $approved ? $user->lang['RETURN_CMNT'] : $user->lang['RETURN'];
-			$u_action = append_sid($phpbb_root_path . 'blog.' . $phpEx . '?' . $act_name . '=view&id=' . $id ) . '#comment' . $comment;
+			$u_action = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $id)) . '#comment' . $comment;
 			meta_refresh('3', $u_action);
 			trigger_error($message . '<BR /><BR /><a href="' . $u_action . '">' . $submessage . '</a>');
 		}
@@ -581,7 +581,7 @@ switch($action)
 		$cid = request_var('cid', (int) 0);
 		if(!is_numeric($cid) || !$cid)
 		{
-			trigger_error($user->lang['INVALID_CMNT_ID'] . '<BR /><BR /><a href="' . $phpbb_root_path . append_sid('blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
+			trigger_error($user->lang['INVALID_CMNT_ID'] . '<BR /><BR /><a href="' . append_sid("{$phpbb_root_path}blog.$phpEx") . '">' . $user->lang['RETURN'] . '</a>');
 		}
 		if(!$auth->acl_get('u_blog_comment_manage'))
 		{
@@ -592,13 +592,13 @@ switch($action)
 			$cmnt_data = (isset($cid) && is_numeric($cid)) ? blog::get_comment_data($cid) : '';
 			if($cmnt_data == '')
 			{
-				trigger_error($user->lang['INVALID_CMNT_ID'] . '<BR /><BR /><a href="' . $phpbb_root_path . append_sid('blog.' . $phpEx) . '">' . $user->lang['RETURN'] . '</a>');
+				trigger_error($user->lang['INVALID_CMNT_ID'] . '<BR /><BR /><a href="' . append_sid("{$phpbb_root_path}blog.$phpEx") . '">' . $user->lang['RETURN'] . '</a>');
 			}
 			decode_message($cmnt_data['cmnt_text'], $cmnt_data['bbcode_uid']);
 			$template->assign_vars(array(
 				'MESSAGE'	=> $cmnt_data['cmnt_text'],
 				'CMNT_BLOG_ID' => $cmnt_data['cmnt_blog_id'],
-				'U_ACTION' => append_sid('blog.' . $phpEx . '?' . $act_name . '=edit_comment&cid=' . $cid),
+				'U_ACTION' => append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'edit_comment', 'cid' => $cid)),
 			));
 		}
 		else
@@ -606,8 +606,8 @@ switch($action)
 			$text = utf8_normalize_nfc(request_var('message', '', true));
 			blog::submit_blog_cmnt('update', request_var('poster_id', 2), request_var('blog_id', 1), $text, time(), $cid);
 			$cmnt_data = (isset($cid) && is_numeric($cid)) ? blog::get_comment_data($cid) : '';
-			meta_refresh('3', append_sid('blog.' . $phpEx . '?' . $act_name . '=view&id=' . $cmnt_data['cmnt_blog_id']));
-			trigger_error($user->lang['CMNTSUCCESS'] . '<BR /><BR /><a href="' . append_sid('blog.' . $phpEx . '?' . $act_name . '=view&id=' . $cmnt_data['cmnt_blog_id']) . '">' . $user->lang['RETURN'] . '</a>');
+			meta_refresh('3', append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name = 'view', 'id' => $cmnt_data['cmnt_blog_id'])));
+			trigger_error($user->lang['CMNTSUCCESS'] . '<BR /><BR /><a href="' . append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name = 'view', 'id' => $cmnt_data['cmnt_blog_id'])) . '">' . $user->lang['RETURN'] . '</a>');
 		}
 		page_header($user->lang['BLOG']);
 		$template->assign_var('S_ACTION', 'edit');
@@ -676,22 +676,22 @@ switch($action)
 			$res3 = $db->sql_query($sql);
 			$crow = $db->sql_fetchrow($sql);
 			
-			$url = append_sid('blog.' . $phpEx . '?' . $act_name . '=view&id=' . $blogrow['blog_id']);
+			$url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blogrow['blog_id']));
 			$message = blog::truncate($text, $config['blog_short_msg'], '...<a href="' . $url . '">' . $user->lang['VIEW_MORE'] . '</a>', '[SNIP]', false, true);
 			
 			$template->assign_block_vars('blogrow', array(
 				'S_ROW_COUNT'	=> count($blogrow['blog_id']),
 				'BLOG_TITLE'	=> $blogrow['blog_title'],
 				'CAT_TITLE'		=> $crow['cat_title'],
-				'U_CAT'			=> append_sid('blog.' . $phpEx . '?' . $act_name . '=cat&cid=' . $blogrow['blog_cat_id']),
+				'U_CAT'			=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'cid' => $blogrow['blog_cat_id'])),
 				'TIME'			=> $user->format_date($blogrow['blog_posted_time']),
 				'BLOG_DESC'		=> $blogrow['blog_title'],
-				'U_BLOG'		=> append_sid('blog.' . $phpEx . '?' . $act_name . '=view&id=' . $blogrow['blog_id']),
+				'U_BLOG'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blogrow['blog_id'])),
 				'CMNT_COUNT'	=> $brow['COUNT(cmnt_id)'],
 				'CMNT_VIEW'		=> ($brow['COUNT(cmnt_id)'] == 1) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
 				'BLOG_TEXT'		=> $message,
 				'VIEW_MORE'		=> '...<a href="' . $url . '">' . $user->lang['VIEW_MORE'] . '</a>',
-				'U_POSTER'		=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&amp;u=' . $blogrow['blog_poster_id']),
+				'U_POSTER'		=> append_sid("{$phpbb_root_path}memberlist.$phpEx", array('mode' => 'viewprofile', 'u' => $blogrow['blog_poster_id'])),
 				'BLOG_POSTER'	=> '<span style="color:#' . $urow['user_colour'] . '">' . $urow['username'] . '</span>',
 			));
 		}
@@ -699,7 +699,7 @@ switch($action)
 		$template->assign_vars(array(
 			'S_ACTION' 		=> 'tag',
 			'TAG'			=> $tag,
-			'U_TAG'			=> append_sid('blog.' . $phpEx . '?' . $act_name . '=tag&tag=' . $tag),
+			'U_TAG'			=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'tag', 'tag' => $tag)),
 		));
 		$template->set_filenames(array(
 			'body' => 'blog_index_body.html')
