@@ -98,4 +98,3 @@ $lang = array_merge($lang, array(
 	'DELETE_POST'				=> 'Are you sure you would like to delete this blog post? This cannot be undone.',
 	'DELETE_COMMENT'			=> 'Are you sure you would like to remove the selected comment(s)? This cannot be undone.',
 ));
-?>

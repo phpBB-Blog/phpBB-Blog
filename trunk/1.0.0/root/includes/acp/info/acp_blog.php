@@ -39,4 +39,3 @@ class acp_blog_info
     {
     }
 }
-?>
