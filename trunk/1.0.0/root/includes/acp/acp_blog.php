@@ -156,7 +156,7 @@ class acp_blog
 			}
 			if($submit)
 			{
-				trigger_error($user->lang['ACP_GEN_BLOG_SUCCESS']);
+				trigger_error($user->lang['ACP_GEN_BLOG_SUCCESS'] . adm_back_link($this->u_action));
 			}
 			$template->assign_vars(array(
 				'U_ACTION'	=> $this->u_action,
