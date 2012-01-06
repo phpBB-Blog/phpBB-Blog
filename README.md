@@ -1,6 +1,6 @@
 # phpBB Blog System
 
-phpBB Blog system is a Modification with just 1 small edit that adds a fully functional blog to your board. It was originally by imkingdavid but then he let it go and I picked it up.
+phpBB Blog System is a MOD with just 2 small edits that adds a fully functional blog to your board. It was originally by imkingdavid but then he let it go and I picked it up.
 
 ## Patches
 
