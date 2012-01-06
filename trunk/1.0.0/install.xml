@@ -109,6 +109,10 @@
 	
 	<open src="styles/prosilver/template/overall_header.html">
 		<edit>
+			<find><![CDATA[</head>]]></find>
+			<action type="before-add"><![CDATA[<!-- IF SCRIPT_NAME eq 'blog' --><link href="{T_THEME_PATH}/blog.css" rel="stylesheet" type="text/css" /><!-- ENDIF -->]]></action>
+		</edit>
+		<edit>
 			<find><![CDATA[<li class="icon-faq"><a href="{U_FAQ}" title="{L_FAQ_EXPLAIN}">{L_FAQ}</a></li>]]></find>
 			<action type="before-add"><![CDATA[<li class="icon-ucp"><a href="{U_BLOG}" title="{OVERALL_BLOG_TITLE}">{OVERALL_BLOG_TITLE}</a></li>]]></action>
 		</edit>
