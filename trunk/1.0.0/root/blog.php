@@ -36,6 +36,7 @@ $act_name 	= $config['blog_act_name'];
 $action		= request_var($act_name, 'index');
 $sql_start = request_var('start', 0);
 $sql_limit = request_var('limit', $config['blog_postlimit']);
+
 $template->assign_vars(array(
 	'SCRIPT_NAME'			=> 'blog',
 	'U_NEW_POST' 			=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'post_blog')),
@@ -111,7 +112,6 @@ switch($action)
 			
 			//Generate the URL for the blog
 			$url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blogrow['blog_id']));
-
 			$message = blog::truncate($text, $config['blog_short_msg'], '...<a href="' . $url . '">' . $user->lang['VIEW_MORE'] . '</a>', '[SNIP]', false, true);
 			$template->assign_block_vars('blogrow', array(
 				'S_ROW_COUNT'	=> count($blogrow['blog_id']),
@@ -127,7 +127,7 @@ switch($action)
 				'UNAPPROVED_CMNT_COUNT' => $blogrow['cmnts_unapproved'],
 				'UNAPPROVED_CMNT_VIEW'	=> ($blogrow['cmnts_unapproved'] == 1) ? $user->lang['UCMNT'] : $user->lang['UCMNTS'],
 				'BLOG_TEXT'		=> $message,
-				'U_POSTER'		=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&u=' . $blogrow['blog_poster_id']),
+				'U_POSTER'		=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&amp;u=' . $blogrow['blog_poster_id']),
 				'BLOG_POSTER'	=> get_username_string('full', $blogrow['blog_poster_id'], $blogrow['username'], $blogrow['user_colour']),
 			));
 		}
@@ -170,8 +170,7 @@ switch($action)
 			$db->sql_freeresult($result);
 			
 			$sql_limit = ($sql_limit > 100) ? 100 : $sql_limit;
-			$pagination_url = append_sid("{$phpbb_root_path}blog.$phpEx", arraay(config['blog_act_name'] => 'cat', 'cid' => $cat_id);
-
+			$pagination_url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'cid' => $cat_id);
 			$sql = 'SELECT cat_title,cat_desc
 				FROM ' . BLOG_CATS_TABLE . '
 				WHERE cat_id = \'' . $cat_id . '\'';
@@ -320,7 +319,7 @@ switch($action)
 				$apprv = append_sid('blog.' . $phpEx . '?' . $act_name . '=apprvcmnt&cmntid=' . $cmnt['cmnt_id']);
 				$template->assign_block_vars('commentrow', array(
 					'CMNT_POSTER' 		=> get_username_string('full', $cmnt['cmnt_poster_id'], $userrow['username'], $userrow['user_colour']),
-					'U_CMNT_POSTER' 	=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&u=' . $cmnt['cmnt_poster_id']),
+					'U_CMNT_POSTER' 	=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&amp;u=' . $cmnt['cmnt_poster_id']),
 					'TIME'				=> $user->format_date($cmnt['cmnt_posted_time']),
 					'S_COMMENT_APPROVED'=> ($cmnt['cmnt_approved'] == 0) ? false : true,
 					'CMNT_APPROVE'		=> sprintf($user->lang['APPROVE'], $apprv),
@@ -540,6 +539,7 @@ switch($action)
 				)
 			);
 			confirm_box(false, 'CONF_DEL_POST', $s_hidden_fields);
+			trigger_error($user->lang['GENERIC_ERROR']);
 		}
 	break;
 	
@@ -638,6 +638,7 @@ switch($action)
 				)
 			);
 			confirm_box(false, 'CONF_DEL_CMNT', $s_hidden_fields);
+			trigger_error($user->lang['GENERIC_ERROR']);
 		}
 	break;
 	
@@ -690,8 +691,8 @@ switch($action)
 				'CMNT_VIEW'		=> ($brow['COUNT(cmnt_id)'] == 1) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
 				'BLOG_TEXT'		=> $message,
 				'VIEW_MORE'		=> '...<a href="' . $url . '">' . $user->lang['VIEW_MORE'] . '</a>',
-				'U_POSTER'		=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&u=' . $blogrow['blog_poster_id']),
-				'BLOG_POSTER'	=> '<font color="#' . $urow['user_colour'] . '">' . $urow['username'] . '</font>',
+				'U_POSTER'		=> append_sid('memberlist.' . $phpEx . '?mode=viewprofile&amp;u=' . $blogrow['blog_poster_id']),
+				'BLOG_POSTER'	=> '<span style="color:#' . $urow['user_colour'] . '">' . $urow['username'] . '</span>',
 			));
 		}
 		page_header($user->lang['BLOG']);

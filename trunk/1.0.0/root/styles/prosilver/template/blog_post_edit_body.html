@@ -4,18 +4,18 @@
 	onload_functions.push('apply_onkeypress_event()');
 // ]]>
 </script>
-<form action="{U_ACTION}" name="postform" method="post">
+<form action="{U_ACTION}" id="postform" method="post">
 <div class="post bg1">
 	<div class="inner"><span class="corners-top"><span></span></span>
 		<fieldset class="fields1">
 			<!-- IF S_ERROR --><p class="error">{ERROR}</p><!-- ENDIF -->
 			<dl style="clear: left;">
 				<dt><label for="title">{L_TITLE}:</label></dt>
-				<dd><input type="text" name="title" id="subject" size="45" maxlength="64" tabindex="1" value="{TITLE}" class="inputbox autowidth" /></dd>
+				<dd><input type="text" name="title" id="title" size="45" maxlength="64" tabindex="1" value="{TITLE}" class="inputbox autowidth" /></dd>
 			</dl>
 			<dl style="clear: left;">
 				<dt><label for="desc">{L_DESC}:</label></dt>
-				<dd><input type="text" name="desc" id="subject" size="45" maxlength="64" tabindex="2" value="{DESC}" class="inputbox autowidth" /></dd>
+				<dd><input type="text" name="desc" id="desc" size="45" maxlength="64" tabindex="2" value="{DESC}" class="inputbox autowidth" /></dd>
 			</dl>
 			<!-- IF S_CAT_ENABLED -->
 			<dl style="clear: left;">
@@ -56,8 +56,8 @@
 				<dd><input type="checkbox" name="allow_cmnt" value="1" {ALLOW_CMNT} /></dd>
 			</dl>
 			<dl style="clear: left;">
-				<dt><label for="tags">{L_TAG}:<br /></label><em>{L_TAG_EXPLAIN}</em></dt>
-				<dd><input type="text" name="tags" id="subject" size="60" maxlength="255" tabindex="5" value="{TAGS}" class="inputbox autowidth" /></dd>
+				<dt><label for="tags">{L_TAG}:<br /></label>{L_TAG_EXPLAIN}</dt>
+				<dd><input type="text" name="tags" id="tags" size="60" maxlength="255" tabindex="5" value="{TAGS}" class="inputbox autowidth" /></dd>
 			</dl>
 		</fieldset>
 	<span class="corners-bottom"><span></span></span></div>

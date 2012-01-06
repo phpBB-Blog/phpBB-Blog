@@ -110,7 +110,7 @@ class blog
 				$data[$key] = utf8_normalize_nfc($value);
 			}
 		}		
-		$url = append_sid(generate_board_url() . '/blog.' . $phpEx . '?' . $config['blog_act_name'] . '=view&id=' . $data['blog_id']);
+		$url = append_sid(generate_board_url() . '/blog.' . $phpEx . '?' . $config['blog_act_name'] . '=view&amp;id=' . $data['blog_id']);
 		$subject = sprintf($user->lang['FP_SUBJECT'], $data['blog_title']);
 		$message = sprintf($user->lang['FP_MESSAGE'], $url, self::truncate($data['blog_text'], 1000, '...', NULL, false, false));
 		// variables to hold the parameters for submit_post
@@ -542,7 +542,7 @@ class blog
 					'TAG' => utf8_normalize_nfc($tag),
 					'NUM' => $user->lang['BLOGS'] . ': ' . $count,
 					'TAGSIZE' => floor($size) . 'pt',
-					'U_TAG' => append_sid('blog.php?' . $config['blog_act_name'] . '=tag&t=' . $full_tag),
+					'U_TAG' => append_sid('blog.php?' . $config['blog_act_name'] . '=tag&amp;t=' . $full_tag),
 				));
 			}
 		}
