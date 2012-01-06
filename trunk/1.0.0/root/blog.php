@@ -38,9 +38,9 @@ $blog_on_c	= $config['blog_on'];
 $act_name 	= $config['blog_act_name'];
 $action		= request_var($act_name, 'index');
 $manager 	= ($auth->acl_get('a_blog_manage') == 1) ? 1 : 0;
-$sql_start = request_var('start', 0);
-$sql_limit = request_var('limit', (int) $config['blog_postlimit']);
-$post_auth = ($auth->acl_get('u_blog_post')) ? true : false;
+$sql_start 	= request_var('start', 0);
+$sql_limit 	= request_var('limit', (int) $config['blog_postlimit']);
+$post_auth	= ($auth->acl_get('u_blog_post')) ? true : false;
 $template->assign_vars(array(
 	'SCRIPT_NAME'			=> 'blog',
 	'U_NEW_POST' 			=> append_sid($phpbb_root_path . 'blog.' . $phpEx . '?' . $config['blog_act_name'] . '=post_blog'),
