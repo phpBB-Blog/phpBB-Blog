@@ -23,7 +23,7 @@ class blog
 	 *
 	 * @return mixed
 	 */
-	function submit_blog( $mode = 'new', $data = array(), $blog_id = 0)
+	static function submit_blog($mode = 'new', $data = array(), $blog_id = 0)
 	{
 		global $db, $user, $auth, $config, $template, $phpbb_root_path;
 		
@@ -66,7 +66,7 @@ class blog
 						'blog_id'    => $next_id,
 						'blog_title' => $data['blog_title'],
 						'blog_text'  => $data['blog_text']);
-					$post_to_forum = $this->blog_post_to_forum($row['forum_post_id'], $post_data);
+					$post_to_forum = self::blog_post_to_forum($row['forum_post_id'], $post_data);
 					if(!$post_to_forum)
 					{
 						return false;
@@ -95,7 +95,7 @@ class blog
 	 *
 	 * @return bool
 	 */
-	function blog_post_to_forum($forum_id, $data)
+	static function blog_post_to_forum($forum_id, $data)
 	{
 		global $db, $user, $auth, $template, $phpbb_root_path, $config;
 		if(!$forum_id || !is_numeric($forum_id))
@@ -112,7 +112,7 @@ class blog
 		}		
 		$url = append_sid(generate_board_url() . '/blog.' . $phpEx . '?' . $config['blog_act_name'] . '=view&amp;id=' . $data['blog_id']);
 		$subject = sprintf($user->lang['FP_SUBJECT'], $data['blog_title']);
-		$message = sprintf($user->lang['FP_MESSAGE'], $url, $this->truncate($data['blog_text'], 1000, '...', NULL, false, false));
+		$message = sprintf($user->lang['FP_MESSAGE'], $url, self::truncate($data['blog_text'], 1000, '...', NULL, false, false));
 		// variables to hold the parameters for submit_post
 		$poll = $uid = $bitfield = $options = ''; 
 		$allow_bbcode = ($config['blog_bbcode_on'] == 1) ? true : false;
@@ -165,7 +165,7 @@ class blog
 	 *
 	 * @return mixed
 	 */
-	function get_blog_data($blog_id)
+	static function get_blog_data($blog_id)
 	{
 		global $db;
 		if(!$blog_id)
@@ -203,7 +203,7 @@ class blog
 	 *
 	 * @return int Number of blogs with the specified criteria
 	 */
-	function get_blog_count($category = 0)
+	static function get_blog_count($category = 0)
 	{
 		global $db;
 		$sql_ary = array(
@@ -228,7 +228,7 @@ class blog
 	 * @param int $limit Number of categories to list
 	 * @param string $block Block name
 	 */
-	function get_category_list($limit = 0, $block)
+	static function get_category_list($limit = 0, $block)
 	{
 		global $db, $template, $auth, $user, $config;
 		global $phpbb_root_path, $phpEx;
@@ -280,7 +280,7 @@ class blog
 	 *
 	 * @return mixed
 	 */
-	function get_comment_data($comment_id)
+	static function get_comment_data($comment_id)
 	{
 		global $db;
 		if(!$comment_id)
@@ -323,7 +323,7 @@ class blog
 	 *
 	 * @return mixed
 	*/
-	function submit_comment($mode = 'new', $blog_id, $data = array(), $comment_id = 0)
+	static function submit_comment($mode = 'new', $blog_id, $data = array(), $comment_id = 0)
 	{
 		global $db;
 		foreach($data as $key => $value)
@@ -366,7 +366,7 @@ class blog
 	 *
 	 * @return boolean
 	 */
-	function toggle_comment_approval($comment_id)
+	static function toggle_comment_approval($comment_id)
 	{
 		global $db;
 		$sql = 'SELECT cmnt_approved FROM ' . BLOG_CMNTS_TABLE . " WHERE cmnt_id = $comment_id";
@@ -393,7 +393,7 @@ class blog
 	 *
 	 * @return boolean
 	 */
-	function delete_blog($blog_id)
+	static function delete_blog($blog_id)
 	{
 		global $db;
 		if(!$blog_id)
@@ -421,7 +421,7 @@ class blog
 	 * 
 	 * @return boolean
 	*/
-	function delete_cmnt($comment_id)
+	static function delete_cmnt($comment_id)
 	{
 		global $db;
 		if(!$comment_id)
@@ -441,7 +441,7 @@ class blog
 	 *
 	 * @return RSS-formatted feed
 	 */
-	function getrssfeed()
+	static sfunction getrssfeed()
 	{
 		global $db;
 		
@@ -459,7 +459,7 @@ class blog
 		$rss_item = '';
 		while($row = $db->sql_fetchrow($result))
 		{
-			$data = $this->get_blog_data($row['blog_id']);
+			$data = self::get_blog_data($row['blog_id']);
 			$rss_item .= '
 <item>
 <title>'. utf8_normalize_nfc($data['blog_title']) .'</title> 
@@ -689,4 +689,3 @@ class blog
 		return $truncate;
 	}
 }
-?>
