@@ -103,7 +103,7 @@ switch($action)
 					AND b.blog_poster_id = u.user_id',
 			'ORDER_BY'	=> 'b.blog_id DESC',
 		);
-		$sql = $db->sql_build_query($sql_ary)
+		$sql = $db->sql_build_query($sql_ary);
 		$result = $db->sql_query_limit($sql, $sql_limit, $sql_start);
 		while($blogrow = $db->sql_fetchrow($result))
 		{
