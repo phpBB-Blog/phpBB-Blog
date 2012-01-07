@@ -98,11 +98,14 @@ switch($action)
 				USERS_TABLE			=> 'u',
 			),
 			'WHERE'		=> 'ct.cat_id = b.blog_cat_id
+					AND bb.blog_id = b.blog_id
+					AND c.cmnt_blog_id = b.blog_id
+					AND cc.cmnt_blog_id = b.blog_id
 					AND c.cmnt_approved = 1
-					AND cc.cmnt_approved = 0
 					AND b.blog_poster_id = u.user_id',
 			'ORDER_BY'	=> 'b.blog_id DESC',
 		);
+		$sql_ary['WHERE'] .= !$auth->acl_get('a_blog_manage') ? 'AND cmnt_approved = 1' : '';
 		$sql = $db->sql_build_query($sql_ary);
 		$result = $db->sql_query_limit($sql, $sql_limit, $sql_start);
 		while($blogrow = $db->sql_fetchrow($result))
@@ -157,48 +160,32 @@ switch($action)
 		}
 		else
 		{
-
-			$sql_ary = array(
-				'SELECT'	=> 'b.*, COUNT(bb.blog_id) as blog_count, ct.*,'
-			);
-
-			$sql = 'SELECT COUNT(blog_id) AS blog_count
-			FROM ' . BLOGS_TABLE . '
-			WHERE blog_cat_id = \'' . $cat_id . '\'';
-			$result = $db->sql_query($sql);
-			$total_blogs = $db->sql_fetchfield('blog_count');
-			$db->sql_freeresult($result);
-			
-			$sql_limit = ($sql_limit > 100) ? 100 : $sql_limit;
 			$pagination_url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'cid' => $cat_id);
-			$sql = 'SELECT cat_title,cat_desc
-				FROM ' . BLOG_CATS_TABLE . '
-				WHERE cat_id = \'' . $cat_id . '\'';
-			$result = $db->sql_query($sql);
-			$cat = $db->sql_fetchrow($result);
-			$template->assign_vars(array(
-				'CAT_TITLE'	=> $cat['cat_title'],
-				'CAT_DESC'	=> $cat['cat_desc'],
-			));
-			$sql = 'SELECT blog_id
-				FROM ' . BLOGS_TABLE . '
-				WHERE blog_cat_id = \'' . $cat_id . '\'
-				ORDER BY blog_id DESC';
+			$sql_ary = array(
+				'SELECT'	=> 'b.*, COUNT(bb.blog_id) as blog_count, COUNT(c.cmnt_id) as cmnts_approved, COUNT(cc.cmnt_id) as cmnts_unapproved, ct.cat_id, ct.cat_title, ct.cat_desc, u.username, u.user_colour, u.user_id',
+				'FROM'		=> array(
+					BLOGS_TABLE			=> 'b',
+					BLOGS_TABLE			=> 'bb',
+					BLOG_CMNTS_TABLE	=> 'c',
+					BLOG_CMNTS_TABLE	=> 'cc',
+					BLOG_CATS_TABLE		=> 'ct',
+					USERS_TABLE			=> 'u',
+				),
+				'WHERE'		=> 'b.blog_cat_id = ' . (int) $cat_id . '
+						AND ct.cat_id = b.blog_cat_id,
+						AND bb.blog_id = b.blog_id
+						AND c.cmnt_blog_id = b.blog_id
+						AND cc.cmnt_blog_id = b.blog_id
+						AND c.cmnt_approved = 1
+						AND b.blog_poster_id = u.user_id',
+				'ORDER_BY'	=> 'b.blog_id DESC',
+			);
+			$sql_ary['WHERE'] .= !$auth->acl_get('a_blog_manage') ? ' AND cmnt_approved = 1' : '';
+			$sql_limit = ($sql_limit > 100) ? 100 : $sql_limit;
+			$sql = $db->sql_build_query($sql);
 			$result = $db->sql_query_limit($sql, $sql_limit, $sql_start);
 			while($row = $db->sql_fetchrow($result))
-			{
-				$fetch = (!$auth->acl_get('a_blog_manage')) ? 'AND cmnt_approved = \'1\'' : '';
-				$sql = 'SELECT COUNT(cmnt_id)
-						FROM ' . BLOG_CMNTS_TABLE . '
-						WHERE cmnt_blog_id = \'' . $row['blog_id'] . '\' ' . $fetch;
-				$res = $db->sql_query($sql);
-				$brow = $db->sql_fetchrow($res);
-				//Get number of unapproved comments
-				$sql2 = 'SELECT COUNT(cmnt_id)
-						FROM ' . BLOG_CMNTS_TABLE . '
-						WHERE cmnt_blog_id = \'' . $row['blog_id'] . '\' AND cmnt_approved = \'0\'';
-				$res2 = $db->sql_query($sql2);
-				$ubrow = $db->sql_fetchrow($res2);
+			{				
 				$blog_data = blog::get_blog_data($row['blog_id']);
 				$blog_data['bbcode_options'] = (($blog_data['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0) +
 				(($blog_data['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) + 
@@ -212,30 +199,33 @@ switch($action)
 					'BLOG_TEXT'		=> $message,
 					'BLOG_DESC'		=> $blog_data['blog_desc'],
 					'TIME'			=> $user->format_date($blog_data['blog_posted_time']),
-					'CMNT_COUNT'	=> $brow['COUNT(cmnt_id)'],
-					'CMNT_VIEW'		=> ($brow['COUNT(cmnt_id)'] == 1) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
+					'CMNT_COUNT'	=> $blog_data['cmnts_approved'],
+					'CMNT_VIEW'		=> ($blog_data['cmts_approved'] == 1) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
 					'BLOG_POSTER'	=> get_username_string('full', $blog_data['user_id'], $blog_data['username'], $blog_data['user_colour']),
-					'U_CAT'			=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'id' => $blog_data['cat_id'])),
-					'UNAPPROVED_CMNT_COUNT' => $ubrow['COUNT(cmnt_id)'],
-					'UNAPPROVED_CMNT_VIEW'	=> ($ubrow['COUNT(cmnt_id)'] == 1) ? $user->lang['UCMNT'] : $user->lang['UCMNTS'],
-					'CAT_TITLE'		=> $blog_data['cat_title'],
+					'UNAPPROVED_CMNT_COUNT' => $blog_data['cmnts_unapproved'],
+					'UNAPPROVED_CMNT_VIEW'	=> ($blog_data['cmnts_unapproved'] == 1) ? $user->lang['UCMNT'] : $user->lang['UCMNTS'],
 					'LAST_POST_TIME'=> $blog_data['blog_posted_time'],
 					'U_BLOG'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_data['blog_id'])),
 				));
 			}
+			$db->sql_freeresult($result);
 			//Start pagination
 			$template->assign_vars(array(
-				'PAGINATION'        => generate_pagination($pagination_url, $total_blogs, $sql_limit, $sql_start),
-				'PAGE_NUMBER'       => on_page($total_blogs, $sql_limit, $sql_start),
-				'TOTAL_BLOGS'       => ($total_blogs == 1) ? $user->lang['LIST_BLOG'] : sprintf($user->lang['LIST_BLOGS'], $total_blogs),
+				'PAGINATION'        => generate_pagination($pagination_url, $blog_data['blog_count'], $sql_limit, $sql_start),
+				'PAGE_NUMBER'       => on_page($blog_data['blog_count'], $sql_limit, $sql_start),
+				'TOTAL_BLOGS'       => ($blog_data['blog_count'] == 1) ? $user->lang['LIST_BLOG'] : sprintf($user->lang['LIST_BLOGS'], $blog_data['blog_count']),
 			));
 			//End pagination
 			page_header($user->lang['BLOG']);
 			$template->assign_vars(array(
 				'S_ACTION' => 'cat',
 			));
+			$sql = 'SELECT * FROM ' . BLOG_CATS_TABLE . ' WHERE cat_id = ' . (int) $cat_id;
+			$result = $db->sql_query($sql);
+			$row = $db->sql_fetchrow($result);
+			$db->sql_freeresult($result);
 			$template->assign_block_vars('navlinks', array(
-				'FORUM_NAME'   => $cat['cat_title'],
+				'FORUM_NAME'   => $row['cat_title'],
 				'U_VIEW_FORUM'   => append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'id' => $cat_id)),
 			));
 			$template->set_filenames(array(
@@ -303,22 +293,27 @@ switch($action)
 			$sql_limit = ($sql_limit > 100) ? 100 : $sql_limit;
 			$pagination_url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_id));
 
-			$sql = 'SELECT *
-				FROM ' . BLOG_CMNTS_TABLE . '
-				WHERE cmnt_blog_id = \'' . $blog_data['blog_id'] . '\' ' . (($perm != true) ? 'AND cmnt_approved = \'1\'' : '') . 'ORDER BY cmnt_id DESC';
+			$sql_ary = array(
+				'SELECT'	=> 'c.*, u.user_id, u.username, u.user_colour',
+				'FROM'		=> array(
+					BLOG_CMNTS_TABLE	=> 'c',
+					USERS_TABLE			=> 'u',
+				),
+				'WHERE'		=> 'c.cmnt_blog_id = ' . (int) $blog_data['blog_id'] . '
+							AND u.user_id = ct.cmnt_poster_id',
+			);
+			$sql_ary['WHERE'] .= (!$perm) ? ' AND c.cmnt_approved = 1' : '';
+			$sql = $db->sql_build_query($sql);
 			$result = $db->sql_query_limit($sql, $sql_limit, $sql_start);
+			$total_cmnts = 0;
 			while($cmnt = $db->sql_fetchrow($result))
 			{
-				$sql = 'SELECT *
-					FROM ' . USERS_TABLE . ' u, ' . BLOG_CMNTS_TABLE . ' c
-					WHERE u.user_id = \'' . $cmnt['cmnt_poster_id'] . '\'';
-				$res = $db->sql_query($sql);
-				$userrow = $db->sql_fetchrow($res);
+				$total_cmnts++;
 				$cmnt['bbcode_options'] = (($cmnt['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0) + (($cmnt['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) + (($cmnt['enable_magic_url']) ? OPTION_FLAG_LINKS : 0);
 				$text = generate_text_for_display($cmnt['cmnt_text'], $cmnt['bbcode_uid'], $cmnt['bbcode_bitfield'], $cmnt['bbcode_options']);
 				$apprv = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'apprvcmnt', 'cmntid' => $cmnt['cmnt_id']));
 				$template->assign_block_vars('commentrow', array(
-					'CMNT_POSTER' 		=> get_username_string('full', $cmnt['cmnt_poster_id'], $userrow['username'], $userrow['user_colour']),
+					'CMNT_POSTER' 		=> get_username_string('full', $cmnt['cmnt_poster_id'], $cmnt['username'], $cmnt['user_colour']),
 					'U_CMNT_POSTER' 	=> append_sid("{$phpbb_root_path}memberlist.$phpEx", array('mode' => 'viewprofile', 'u' => $cmnt['cmnt_poster_id'])),
 					'TIME'				=> $user->format_date($cmnt['cmnt_posted_time']),
 					'S_COMMENT_APPROVED'=> ($cmnt['cmnt_approved'] == 0) ? false : true,
@@ -329,6 +324,7 @@ switch($action)
 					'U_CMNT_EDIT'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'edit_comment', 'cid' => $cmnt['cmnt_id'])),
 				));
 			}
+			$db->sql_freeresult($result);
 			//Start pagination
 			$template->assign_vars(array(
 				'PAGINATION'        => generate_pagination($pagination_url, $total_cmnts, $sql_limit, $sql_start),
