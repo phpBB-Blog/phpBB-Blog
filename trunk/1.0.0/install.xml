@@ -78,7 +78,7 @@
 			</changelog>
 		</entry>
 		<entry>
-			<date>2011-01-10</date>
+			<date>2011-01-06</date>
 			<rev-version>1.0.0</rev-version>
 			<changelog lang="en">
 				<change>Update site URL</change>
@@ -114,8 +114,8 @@
 			</changelog>
 		</entry>
 		<entry>
-			<date>2011-01-10</date>
-			<rev-version>1.0.0</rev-version>
+			<date>2011-01-07</date>
+			<rev-version>1.0.1</rev-version>
 			<changelog lang="en">
 				<change>Find line endings</change>
 				<change>Fix Parse Error</change>
