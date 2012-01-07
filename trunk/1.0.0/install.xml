@@ -31,7 +31,7 @@
 		</author>
 	</author-group>
 
-	<mod-version>1.0.0</mod-version>
+	<mod-version>1.0.1</mod-version>
 
 	<installation>
 		<level>easy</level>
@@ -111,6 +111,15 @@
 				<change>blog.css added</change>
 				<change>ACP Improvments</change>
 				<change>Package ready for 1.0.0 and valdiation</change>
+			</changelog>
+		</entry>
+		<entry>
+			<date>2011-01-10</date>
+			<rev-version>1.0.0</rev-version>
+			<changelog lang="en">
+				<change>Find line endings</change>
+				<change>Fix Parse Error</change>
+				<change>More code cleanup</change>
 			</changelog>
 		</entry>
 	</history>
