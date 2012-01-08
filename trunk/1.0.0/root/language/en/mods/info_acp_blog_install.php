@@ -22,6 +22,7 @@ if (empty($lang) || !is_array($lang))
 // in a url you again do not need to specify an order e.g., 'Click %sHERE%s' is fine
 
 $lang = array_merge($lang, array(
+	'BLOG_MOD'					=> 'phpBB Blog System',
 	'INSTALL_BLOG'				=> 'Install phpBB Blog System',
 	'INSTALL_BLOG_CONFIRM'		=> 'Are you ready to install phpBB Blog System?',
 
