@@ -124,7 +124,7 @@ switch($action)
 				'TIME'			=> $user->format_date($blogrow['blog_posted_time']),
 				'BLOG_ID'		=> $blogrow['blog_id'],
 				'BLOG_DESC'		=> $blogrow['blog_desc'],
-				'U_BLOG'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blogrow['blog_id']),
+				'U_BLOG'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blogrow['blog_id'])),
 				'CMNT_COUNT'	=> $blogrow['cmnts_approved'],
 				'CMNT_VIEW'		=> ($blogrow['cmnts_approved'] == 1) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
 				'UNAPPROVED_CMNT_COUNT' => $blogrow['cmnts_unapproved'],
@@ -160,7 +160,7 @@ switch($action)
 		}
 		else
 		{
-			$pagination_url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'cid' => $cat_id);
+			$pagination_url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'cid' => $cat_id));
 			$sql_ary = array(
 				'SELECT'	=> 'b.*, COUNT(bb.blog_id) as blog_count, COUNT(c.cmnt_id) as cmnts_approved, COUNT(cc.cmnt_id) as cmnts_unapproved, ct.cat_id, ct.cat_title, ct.cat_desc, u.username, u.user_colour, u.user_id',
 				'FROM'		=> array(
@@ -350,7 +350,7 @@ switch($action)
 	break;
 	
 	case 'apprvcmnt':
-		$comment_id = request_var('cmntid', (int) 0)
+		$comment_id = request_var('cmntid', (int) 0);
 		//This is used to approve comments that are not yet approved.
 		if(!$comment_id)
 		{

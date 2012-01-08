@@ -441,7 +441,7 @@ class blog
 	 *
 	 * @return RSS-formatted feed
 	 */
-	static sfunction getrssfeed()
+	static function getrssfeed()
 	{
 		global $db;
 		
