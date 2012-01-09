@@ -443,7 +443,7 @@ class blog
 	 */
 	static function getrssfeed()
 	{
-		global $db;
+		global $config, $db;
 		
 		$rss_info = '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
