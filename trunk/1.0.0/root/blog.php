@@ -438,7 +438,6 @@ switch($action)
 	case 'edit_blog':
 		$user->add_lang('posting');
 		$submit = request_var('submit', '');
-		$bid = (int) $blog_id;
 		if(!$auth->acl_get('u_blog_post'))
 		{
 			trigger_error($user->lang['UNAUTHED']);
