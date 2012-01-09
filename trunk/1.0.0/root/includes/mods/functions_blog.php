@@ -25,7 +25,7 @@ class blog
 	 */
 	static function submit_blog($mode = 'new', $data = array(), $blog_id = 0)
 	{
-		global $db, $user, $auth, $config, $template, $phpbb_root_path;
+		global $db, $user, $config;
 		
 		if(!is_array($data))
 		{
@@ -97,7 +97,7 @@ class blog
 	 */
 	static function blog_post_to_forum($forum_id, $data)
 	{
-		global $db, $user, $auth, $template, $phpbb_root_path, $config;
+		global $db, $user, $config;
 		if(!$forum_id || !is_numeric($forum_id))
 		{
 			trigger_error($user->lang['GEN_ERROR']);
@@ -230,7 +230,7 @@ class blog
 	 */
 	static function get_category_list($limit = 0, $block)
 	{
-		global $db, $template, $auth, $user, $config;
+		global $db, $template, $config;
 		global $phpbb_root_path, $phpEx;
 		$template->assign_var('S_CAT_ENABLED', ($config['blog_cat_on'] ? true : false));
 
