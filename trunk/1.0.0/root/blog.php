@@ -106,7 +106,7 @@ switch($action)
 			'ORDER_BY'	=> 'b.blog_id DESC',
 		);
 		$sql_ary['WHERE'] .= !$auth->acl_get('a_blog_manage') ? 'AND cmnt_approved = 1' : '';
-		$sql = $db->sql_build_query($sql_ary);
+		$sql = $db->sql_build_query('SELECT', $sql_ary);
 		$result = $db->sql_query_limit($sql, $sql_limit, $sql_start);
 		while($blogrow = $db->sql_fetchrow($result))
 		{
@@ -182,7 +182,7 @@ switch($action)
 			);
 			$sql_ary['WHERE'] .= !$auth->acl_get('a_blog_manage') ? ' AND cmnt_approved = 1' : '';
 			$sql_limit = ($sql_limit > 100) ? 100 : $sql_limit;
-			$sql = $db->sql_build_query($sql);
+			$sql = $db->sql_build_query('SELECT', $sql_ary);
 			$result = $db->sql_query_limit($sql, $sql_limit, $sql_start);
 			while($row = $db->sql_fetchrow($result))
 			{				
@@ -303,7 +303,7 @@ switch($action)
 							AND u.user_id = ct.cmnt_poster_id',
 			);
 			$sql_ary['WHERE'] .= (!$perm) ? ' AND c.cmnt_approved = 1' : '';
-			$sql = $db->sql_build_query($sql);
+			$sql = $db->sql_build_query('SELECT', $sql_ary);
 			$result = $db->sql_query_limit($sql, $sql_limit, $sql_start);
 			$total_cmnts = 0;
 			while($cmnt = $db->sql_fetchrow($result))
@@ -659,7 +659,7 @@ switch($action)
 		);
 
 
-		$sql = $db->sql_build_query($sql_ary);
+		$sql = $db->sql_build_query('SELECT', $sql_ary);
 		$result = $db->sql_query($sql);
 		while($blogrow = $db->sql_fetchrow($result))
 		{
