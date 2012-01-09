@@ -98,6 +98,8 @@ class blog
 	static function blog_post_to_forum($forum_id, $data)
 	{
 		global $db, $user, $config;
+		global $phpEx;
+
 		if(!$forum_id || !is_numeric($forum_id))
 		{
 			trigger_error($user->lang['GEN_ERROR']);
@@ -351,7 +353,7 @@ class blog
 					WHERE comment_id = $comment_id";
 			break;
 		}
-		$result = $db->sql_query($sql);
+		$db->sql_query($sql);
 		$return_id = ($mode == 'new') ? $db->sql_nextid() : $comment_id;
 		// Oh, how I wish we were using PHP 5.3 miniimum
 		// Because then I could do this:
@@ -408,7 +410,7 @@ class blog
 		//Delete the comments
 		$sql = 'DELETE FROM ' . BLOG_CMNTS_TABLE . "
 			WHERE cmnt_blog_id = $blog_id";
-		$result = $db->sql_query($sql);
+		$db->sql_query($sql);
 
 		return true;
 	}
@@ -431,7 +433,7 @@ class blog
 
 		$sql = 'DELETE FROM ' . BLOG_CMNTS_TABLE . "
 			WHERE cmnt_id = $comment_id";
-		$result = $db->sql_query($sql);
+		$db->sql_query($sql);
 
 		return true;
 	}
@@ -502,7 +504,6 @@ class blog
 		$tags = explode(",",utf8_normalize_nfc($tags));
 		$tags = array_unique(utf8_normalize_nfc($tags));
 		$factor = 0.5;
-		$start_size = 12;
 
 		//Now get the total number of blogs in the database:
 		$sql = 'SELECT COUNT(blog_id) AS numblog
