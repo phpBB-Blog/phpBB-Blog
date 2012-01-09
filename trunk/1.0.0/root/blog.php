@@ -558,7 +558,7 @@ switch($action)
 				'cmnt_blog_id'		=> $comment_id,
 				'cmnt_poster_id'	=> $user->data['user_id'],
 				'cmnt_approved'		=> $approved,
-				'enable_bbcode'		=> ($config['blog_bbcode_on' && $auth->acl_get('u_blog_bbcode')) ? true : false,
+				'enable_bbcode'		=> ($config['blog_bbcode_on'] && $auth->acl_get('u_blog_bbcode')) ? true : false,
 				'enable_smilies'	=> ($config['blog_emote_on'] && $auth->acl_get('u_block_emote')) ? true : false,
 			);
 			$comment = blog::submit_comment('new', $id, $data);
