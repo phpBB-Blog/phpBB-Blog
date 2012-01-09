@@ -544,21 +544,22 @@ switch($action)
 		{
 			trigger_error('UNAUTHED');
 		}
-		if((request_var('id', (int) 0) == 0) || !request_var('submit', ''))
+		$comment_id = request_var('id', 0);
+		if(!$comment_id || !isset($_POST['submit']))
 		{
 			trigger_error($user->lang['INVALID_BLOG_ID']);
 		}
 		if(request_var('submit', ''))
 		{
 			$id = request_var('id', (int) 0);
-			$approved = ($auth->acl_get('u_blog_approved')) ? 1 : 0;
+			$approved = ($auth->acl_get('u_blog_approved')) ? true : false;
 			$data = array(
 				'cmnt_text'			=> request_var('comment', '', true),
-				'cmnt_blog_id'		=> request_var('id', (int) 0),
+				'cmnt_blog_id'		=> $comment_id,
 				'cmnt_poster_id'	=> $user->data['user_id'],
 				'cmnt_approved'		=> $approved,
-				'enable_bbcode'		=> ($config['blog_bbcode_on'] == '1' && $auth->acl_get('u_blog_bbcode')) ? 1 : 0,
-				'enable_smilies'	=> ($config['blog_emote_on'] == '1' && $auth->acl_get('u_block_emote')) ? 1 : 0,
+				'enable_bbcode'		=> ($config['blog_bbcode_on' && $auth->acl_get('u_blog_bbcode')) ? true : false,
+				'enable_smilies'	=> ($config['blog_emote_on'] && $auth->acl_get('u_block_emote')) ? true : false,
 			);
 			$comment = blog::submit_comment('new', $id, $data);
 			
@@ -573,8 +574,8 @@ switch($action)
 	break;
 	
 	case 'edit_comment':
-		$submit = request_var('submit', '');
-		$cid = request_var('cid', (int) 0);
+		$submit = isset($_POST['submit']) ? true : false;
+		$cid = request_var('cid', 0);
 		if(!is_numeric($cid) || !$cid)
 		{
 			trigger_error($user->lang['INVALID_CMNT_ID'] . '<BR /><BR /><a href="' . append_sid("{$phpbb_root_path}blog.$phpEx") . '">' . $user->lang['RETURN'] . '</a>');
@@ -614,8 +615,8 @@ switch($action)
 	break;
 	
 	case 'delete_comment':
-		$cid = request_var('cid', (int) 0);
-		$blog_id = request_var('id', (int) 0);
+		$cid = request_var('cid', 0);
+		$blog_id = request_var('id', 0);
 		if(!$cid || !is_numeric($cid))
 		{
 			trigger_error($user->lang['INVALID_CMNT_ID']);
@@ -642,10 +643,23 @@ switch($action)
 		$tag = request_var('t', '', true);
 		$tag = utf8_normalize_nfc($tag);
 		$tag = $db->sql_escape($tag);
-		$sql = 'SELECT *
-			FROM ' . BLOGS_TABLE . '
-			WHERE blog_tags LIKE \'%' . $tag . '%\'
-			ORDER BY blog_id DESC';
+
+		$sql_ary = array(
+			'SELECT'	=> 'b.*, COUNT(c.cmnt_id) AS cmnt_count, ct.cat_title, u.username, u.user_colour',
+			'FROM'		=> array(
+				BLOGS_TABLE			=> 'b',
+				BLOG_CMNTS_TABLE	=> 'c',
+				BLOG_CATS_TABLE		=> 'ct',
+				USERS_TABLE			=> 'u',
+			),
+			'WHERE'		=> 'ct.cat_id = b.blog_cat_id
+						AND c.cmnt_blog_id = b.blog_id
+						AND u.user_id = b.blog_poster_id',
+			'ORDER_BY'	=> 'b.blog_id DESC',
+		);
+
+
+		$sql = $db->sql_build_query($sql_ary);
 		$result = $db->sql_query($sql);
 		while($blogrow = $db->sql_fetchrow($result))
 		{
@@ -678,17 +692,16 @@ switch($action)
 			$template->assign_block_vars('blogrow', array(
 				'S_ROW_COUNT'	=> count($blogrow['blog_id']),
 				'BLOG_TITLE'	=> $blogrow['blog_title'],
-				'CAT_TITLE'		=> $crow['cat_title'],
+				'CAT_TITLE'		=> $blogrow['cat_title'],
 				'U_CAT'			=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'cid' => $blogrow['blog_cat_id'])),
 				'TIME'			=> $user->format_date($blogrow['blog_posted_time']),
 				'BLOG_DESC'		=> $blogrow['blog_title'],
 				'U_BLOG'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blogrow['blog_id'])),
-				'CMNT_COUNT'	=> $brow['COUNT(cmnt_id)'],
-				'CMNT_VIEW'		=> ($brow['COUNT(cmnt_id)'] == 1) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
+				'CMNT_COUNT'	=> $blogrow['cmnt_count'],
+				'CMNT_VIEW'		=> ($brow['cmnt_count']) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
 				'BLOG_TEXT'		=> $message,
 				'VIEW_MORE'		=> '...<a href="' . $url . '">' . $user->lang['VIEW_MORE'] . '</a>',
-				'U_POSTER'		=> append_sid("{$phpbb_root_path}memberlist.$phpEx", array('mode' => 'viewprofile', 'u' => $blogrow['blog_poster_id'])),
-				'BLOG_POSTER'	=> '<span style="color:#' . $urow['user_colour'] . '">' . $urow['username'] . '</span>',
+				'BLOG_POSTER'	=> generate_username_string('full', $blogrow['blog_poster_id'], $blogrow['username'], $blogrow['user_colour']),
 			));
 		}
 		page_header($user->lang['BLOG']);
