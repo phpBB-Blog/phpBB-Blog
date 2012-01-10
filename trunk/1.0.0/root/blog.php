@@ -186,27 +186,29 @@ switch($action)
 			$result = $db->sql_query_limit($sql, $sql_limit, $sql_start);
 			while($row = $db->sql_fetchrow($result))
 			{				
-				$blog_data = blog::get_blog_data($row['blog_id']);
-				$blog_data['bbcode_options'] = (($blog_data['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0) +
-				(($blog_data['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) + 
-				(($blog_data['enable_magic_url']) ? OPTION_FLAG_LINKS : 0);
-				$text = generate_text_for_display($blog_data['blog_text'], $blog_data['bbcode_uid'], $blog_data['bbcode_bitfield'], $blog_data['bbcode_options']);
-				$url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_data['blog_id']));
-				$message = blog::truncate($text, $config['blog_short_msg'], '...<a href="' . $url . '">' . $user->lang['VIEW_MORE'] . '</a>', '[SNIP]', false, true);
-				$template->assign_block_vars('blogrow', array(
-					'S_ROW_COUNT'	=> count($blog_data['blog_id']),
-					'BLOG_TITLE'	=> $blog_data['blog_title'],
-					'BLOG_TEXT'		=> $message,
-					'BLOG_DESC'		=> $blog_data['blog_desc'],
-					'TIME'			=> $user->format_date($blog_data['blog_posted_time']),
-					'CMNT_COUNT'	=> $blog_data['cmnts_approved'],
-					'CMNT_VIEW'		=> ($blog_data['cmts_approved'] == 1) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
-					'BLOG_POSTER'	=> get_username_string('full', $blog_data['user_id'], $blog_data['username'], $blog_data['user_colour']),
-					'UNAPPROVED_CMNT_COUNT' => $blog_data['cmnts_unapproved'],
-					'UNAPPROVED_CMNT_VIEW'	=> ($blog_data['cmnts_unapproved'] == 1) ? $user->lang['UCMNT'] : $user->lang['UCMNTS'],
-					'LAST_POST_TIME'=> $blog_data['blog_posted_time'],
-					'U_BLOG'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_data['blog_id'])),
-				));
+				if (false !== ($blog_data = blog::get_blog_data($row['blog_id'])))
+				{
+					$blog_data['bbcode_options'] = (($blog_data['enable_bbcode']) ? OPTION_FLAG_BBCODE : 0) +
+					(($blog_data['enable_smilies']) ? OPTION_FLAG_SMILIES : 0) + 
+					(($blog_data['enable_magic_url']) ? OPTION_FLAG_LINKS : 0);
+					$text = generate_text_for_display($blog_data['blog_text'], $blog_data['bbcode_uid'], $blog_data['bbcode_bitfield'], $blog_data['bbcode_options']);
+					$url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_data['blog_id']));
+					$message = blog::truncate($text, $config['blog_short_msg'], '...<a href="' . $url . '">' . $user->lang['VIEW_MORE'] . '</a>', '[SNIP]', false, true);
+					$template->assign_block_vars('blogrow', array(
+						'S_ROW_COUNT'	=> count($blog_data['blog_id']),
+						'BLOG_TITLE'	=> $blog_data['blog_title'],
+						'BLOG_TEXT'		=> $message,
+						'BLOG_DESC'		=> $blog_data['blog_desc'],
+						'TIME'			=> $user->format_date($blog_data['blog_posted_time']),
+						'CMNT_COUNT'	=> $blog_data['cmnts_approved'],
+						'CMNT_VIEW'		=> ($blog_data['cmts_approved'] == 1) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
+						'BLOG_POSTER'	=> get_username_string('full', $blog_data['user_id'], $blog_data['username'], $blog_data['user_colour']),
+						'UNAPPROVED_CMNT_COUNT' => $blog_data['cmnts_unapproved'],
+						'UNAPPROVED_CMNT_VIEW'	=> ($blog_data['cmnts_unapproved'] == 1) ? $user->lang['UCMNT'] : $user->lang['UCMNTS'],
+						'LAST_POST_TIME'=> $blog_data['blog_posted_time'],
+						'U_BLOG'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_data['blog_id'])),
+					));
+				}
 			}
 			$db->sql_freeresult($result);
 			//Start pagination
