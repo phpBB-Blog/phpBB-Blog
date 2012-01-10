@@ -131,7 +131,7 @@ switch($action)
 				'UNAPPROVED_CMNT_COUNT' => $blogrow['cmnts_unapproved'],
 				'UNAPPROVED_CMNT_VIEW'	=> ($blogrow['cmnts_unapproved'] == 1) ? $user->lang['UCMNT'] : $user->lang['UCMNTS'],
 				'BLOG_TEXT'		=> $message,
-				'U_POSTER'		=> append_sid("{$phpbb_root_path}memberlist.$phpEx", array('mode' => 'viewprofile', 'u' => $blowrow['blog_poster_id'])),
+				'U_POSTER'		=> append_sid("{$phpbb_root_path}memberlist.$phpEx", array('mode' => 'viewprofile', 'u' => $blogrow['blog_poster_id'])),
 				'BLOG_POSTER'	=> get_username_string('full', $blogrow['blog_poster_id'], $blogrow['username'], $blogrow['user_colour']),
 			));
 		}
