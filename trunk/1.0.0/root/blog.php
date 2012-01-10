@@ -350,7 +350,7 @@ switch($action)
 	break;
 	
 	case 'apprvcmnt':
-		$comment_id = request_var('cmntid', (int) 0);
+		$comment_id = request_var('cmntid', 0);
 		//This is used to approve comments that are not yet approved.
 		if(!$comment_id)
 		{
