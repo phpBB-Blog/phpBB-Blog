@@ -385,8 +385,8 @@ switch($action)
 				'blog_text'			=> $message,
 				'blog_title'		=> request_var('title', '', true),
 				'blog_desc'			=> request_var('desc', '', true),
-				'blog_allow_cmnt'	=> request_var('allow_cmnt', (int) 0),
-				'blog_cat_id'		=> request_var('cat_id', (int) 1),
+				'blog_allow_cmnt'	=> request_var('allow_cmnt', 0),
+				'blog_cat_id'		=> request_var('cat_id', 1),
 				'blog_poster_id'	=> $user->data['user_id'],
 				'blog_tags'			=> $tag,
 				'bbcode_bitfield'	=> $bitfield,
@@ -456,8 +456,8 @@ switch($action)
 				'blog_text'			=> $message,
 				'blog_title'		=> request_var('title', '', true),
 				'blog_desc'			=> request_var('desc', '', true),
-				'blog_allow_cmnt'	=> request_var('allow_cmnt', (int) 0),
-				'blog_cat_id'		=> request_var('cat_id', (int) 1),
+				'blog_allow_cmnt'	=> request_var('allow_cmnt', 0),
+				'blog_cat_id'		=> request_var('cat_id', 1),
 				'blog_poster_id'	=> $user->data['user_id'],
 				'blog_tags'			=> $tag,
 				'bbcode_bitfield'	=> $bitfield,
@@ -550,7 +550,7 @@ switch($action)
 		}
 		if(request_var('submit', ''))
 		{
-			$id = request_var('id', (int) 0);
+			$id = request_var('id', 0);
 			$approved = ($auth->acl_get('u_blog_approved')) ? true : false;
 			$data = array(
 				'cmnt_text'			=> request_var('comment', '', true),
