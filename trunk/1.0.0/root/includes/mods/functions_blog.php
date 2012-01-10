@@ -8,10 +8,15 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
 *
 */
+
+/**
+ * @ignore
+ */
 if(!defined('IN_PHPBB'))
 {
 	exit;
 }
+
 class blog
 {
 	/**
@@ -230,7 +235,7 @@ class blog
 	 * @param int $limit Number of categories to list
 	 * @param string $block Block name
 	 */
-	static function get_category_list($limit = 0, $block)
+	static function get_category_list($limit, $block)
 	{
 		global $db, $template, $config;
 		global $phpbb_root_path, $phpEx;
@@ -325,7 +330,7 @@ class blog
 	 *
 	 * @return mixed
 	*/
-	static function submit_comment($mode = 'new', $blog_id, $data = array(), $comment_id = 0)
+	static function submit_comment($mode, $blog_id, $data = array(), $comment_id = 0)
 	{
 		global $db;
 		foreach($data as $key => $value)
