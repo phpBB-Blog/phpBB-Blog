@@ -91,12 +91,12 @@ switch($action)
 			'SELECT'	=> 'b.*, COUNT(bb.blog_id) as blog_count, COUNT(c.cmnt_id) as cmnts_approved, COUNT(cc.cmnt_id) as cmnts_unapproved, ct.cat_title, ct.cat_id,
 					u.username, u.user_colour, u.user_id',
 			'FROM'		=> array(
-				BLOGS_TABLE			=> 'b',
-				BLOGS_TABLE			=> 'bb',
-				BLOG_CMNTS_TABLE	=> 'c',
-				BLOG_CMNTS_TABLE	=> 'cc',
-				BLOG_CATS_TABLE		=> 'ct',
-				USERS_TABLE			=> 'u',
+				BLOGS_TABLE				=> 'b',
+				BLOGS_TABLE . ' '		=> 'bb',
+				BLOG_CMNTS_TABLE		=> 'c',
+				BLOG_CMNTS_TABLE . ' '	=> 'cc',
+				BLOG_CATS_TABLE			=> 'ct',
+				USERS_TABLE				=> 'u',
 			),
 			'WHERE'		=> 'ct.cat_id = b.blog_cat_id
 					AND bb.blog_id = b.blog_id
@@ -165,12 +165,12 @@ switch($action)
 			$sql_ary = array(
 				'SELECT'	=> 'b.*, COUNT(bb.blog_id) as blog_count, COUNT(c.cmnt_id) as cmnts_approved, COUNT(cc.cmnt_id) as cmnts_unapproved, ct.cat_id, ct.cat_title, ct.cat_desc, u.username, u.user_colour, u.user_id',
 				'FROM'		=> array(
-					BLOGS_TABLE			=> 'b',
-					BLOGS_TABLE			=> 'bb',
-					BLOG_CMNTS_TABLE	=> 'c',
-					BLOG_CMNTS_TABLE	=> 'cc',
-					BLOG_CATS_TABLE		=> 'ct',
-					USERS_TABLE			=> 'u',
+					BLOGS_TABLE				=> 'b',
+					BLOGS_TABLE	. ' '		=> 'bb',
+					BLOG_CMNTS_TABLE		=> 'c',
+					BLOG_CMNTS_TABLE . ' '	=> 'cc',
+					BLOG_CATS_TABLE			=> 'ct',
+					USERS_TABLE				=> 'u',
 				),
 				'WHERE'		=> 'b.blog_cat_id = ' . (int) $cat_id . '
 						AND ct.cat_id = b.blog_cat_id,
