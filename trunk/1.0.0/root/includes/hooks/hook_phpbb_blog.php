@@ -43,11 +43,10 @@ function phpbb_blog_register_hooks(&$phpbb_hook)
  */
 function initialise_phpbb_blog(&$phpbb_hook)
 {
-	// Define the table constants
-	global $table_prefix;
-	define('BLOGS_TABLE',		$table_prefix . 'blog');
-	define('BLOG_CMNTS_TABLE',	$table_prefix . 'blog_comments');
-	define('BLOG_CATS_TABLE',	$table_prefix . 'blog_categories');
+	global $phpbb_root_path, $phpEx;
+	global $table_prefix;	// Required for the include!
+
+	require "{$phpbb_root_path}includes/mods/constants_blog.$phpEx";
 }
 
 /**
