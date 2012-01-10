@@ -8,10 +8,15 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
 *
 */
+
+/**
+ * @ignore
+ */
 if(!defined('IN_PHPBB'))
 {
 	exit;
 }
+
 class blog
 {
 	/**
@@ -25,7 +30,7 @@ class blog
 	 */
 	static function submit_blog($mode = 'new', $data = array(), $blog_id = 0)
 	{
-		global $db, $user, $auth, $config, $template, $phpbb_root_path;
+		global $db, $user, $config;
 		
 		if(!is_array($data))
 		{
@@ -97,7 +102,9 @@ class blog
 	 */
 	static function blog_post_to_forum($forum_id, $data)
 	{
-		global $db, $user, $auth, $template, $phpbb_root_path, $config;
+		global $db, $user, $config;
+		global $phpEx;
+
 		if(!$forum_id || !is_numeric($forum_id))
 		{
 			trigger_error($user->lang['GEN_ERROR']);
@@ -228,9 +235,9 @@ class blog
 	 * @param int $limit Number of categories to list
 	 * @param string $block Block name
 	 */
-	static function get_category_list($limit = 0, $block)
+	static function get_category_list($limit, $block)
 	{
-		global $db, $template, $auth, $user, $config;
+		global $db, $template, $config;
 		global $phpbb_root_path, $phpEx;
 		$template->assign_var('S_CAT_ENABLED', ($config['blog_cat_on'] ? true : false));
 
@@ -323,7 +330,7 @@ class blog
 	 *
 	 * @return mixed
 	*/
-	static function submit_comment($mode = 'new', $blog_id, $data = array(), $comment_id = 0)
+	static function submit_comment($mode, $blog_id, $data = array(), $comment_id = 0)
 	{
 		global $db;
 		foreach($data as $key => $value)
@@ -351,7 +358,7 @@ class blog
 					WHERE comment_id = $comment_id";
 			break;
 		}
-		$result = $db->sql_query($sql);
+		$db->sql_query($sql);
 		$return_id = ($mode == 'new') ? $db->sql_nextid() : $comment_id;
 		// Oh, how I wish we were using PHP 5.3 miniimum
 		// Because then I could do this:
@@ -408,7 +415,7 @@ class blog
 		//Delete the comments
 		$sql = 'DELETE FROM ' . BLOG_CMNTS_TABLE . "
 			WHERE cmnt_blog_id = $blog_id";
-		$result = $db->sql_query($sql);
+		$db->sql_query($sql);
 
 		return true;
 	}
@@ -431,7 +438,7 @@ class blog
 
 		$sql = 'DELETE FROM ' . BLOG_CMNTS_TABLE . "
 			WHERE cmnt_id = $comment_id";
-		$result = $db->sql_query($sql);
+		$db->sql_query($sql);
 
 		return true;
 	}
@@ -443,7 +450,7 @@ class blog
 	 */
 	static function getrssfeed()
 	{
-		global $db;
+		global $config, $db;
 		
 		$rss_info = '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -502,7 +509,6 @@ class blog
 		$tags = explode(",",utf8_normalize_nfc($tags));
 		$tags = array_unique(utf8_normalize_nfc($tags));
 		$factor = 0.5;
-		$start_size = 12;
 
 		//Now get the total number of blogs in the database:
 		$sql = 'SELECT COUNT(blog_id) AS numblog

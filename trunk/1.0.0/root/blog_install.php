@@ -26,6 +26,9 @@ if (!file_exists($phpbb_root_path . 'umil/umil_auto.' . $phpEx))
 	trigger_error('Please download the latest UMIL (Unified MOD Install Library) from: <a href="http://www.phpbb.com/mods/umil/">phpBB.com/mods/umil</a>', E_USER_ERROR);
 }
 
+// Some blog files we need
+require "{$phpbb_root_path}includes/mods/constants_blog.$phpEx";
+
 // The name of the mod to be displayed during installation.
 $mod_name = 'BLOG_MOD';
 
@@ -75,7 +78,7 @@ $versions = array(
 			array('blog_emote_on', true),
 		),		 
 		'table_add' => array(
-			array('phpbb_blog', array(
+			array(BLOGS_TABLE, array(
 					'COLUMNS'		=> array(
 						'blog_id'			=> array('UINT', NULL, 'auto_increment'),
 						'blog_title'		=> array('VCHAR_UNI', ''),
@@ -96,7 +99,7 @@ $versions = array(
 					'PRIMARY_KEY'	=> 'blog_id',
 				),
 			),
-			array('phpbb_blog_comments', array(
+			array(BLOG_CMNTS_TABLE, array(
 					'COLUMNS'	=> array(
 						'cmnt_id'			=> array('UINT', NULL, 'auto_increment'),
 						'cmnt_blog_id'		=> array('UINT', 0),
@@ -114,7 +117,7 @@ $versions = array(
 					'PRIMARY_KEY'	=> 'cmnt_id',
 				),
 			),
-			array('phpbb_blog_categories', array(
+			array(BLOG_CATS_TABLE, array(
 					'COLUMNS'	=> array(
 						'cat_id'			=>	array('UINT', NULL, 'auto_increment'),
 						'cat_title'			=>	array('VCHAR_UNI', ''),
@@ -127,7 +130,7 @@ $versions = array(
 			),
 		),
 		'table_insert'	=> array(
-			array('phpbb_blog_categories', array(
+			array(BLOG_CMNTS_TABLE, array(
 				array(
 					'cat_id'		=> 1,
 					'cat_title'		=> 'News',
