@@ -702,7 +702,7 @@ switch($action)
 				'CMNT_VIEW'		=> ($brow['cmnt_count']) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
 				'BLOG_TEXT'		=> $message,
 				'VIEW_MORE'		=> '...<a href="' . $url . '">' . $user->lang['VIEW_MORE'] . '</a>',
-				'BLOG_POSTER'	=> generate_username_string('full', $blogrow['blog_poster_id'], $blogrow['username'], $blogrow['user_colour']),
+				'BLOG_POSTER'	=> get_username_string('full', $blogrow['blog_poster_id'], $blogrow['username'], $blogrow['user_colour']),
 			));
 		}
 		page_header($user->lang['BLOG']);
