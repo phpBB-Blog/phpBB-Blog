@@ -669,7 +669,7 @@ switch($action)
 			$text = generate_text_for_display($blogrow['blog_text'], $blogrow['bbcode_uid'], $blogrow['bbcode_bitfield'], $blogrow['bbcode_options']);
 			
 			$fetch = (!$auth->acl_get('a_blog_manage')) ? 'AND cmnt_approved = \'1\'' : '';
-			$sql = 'SELECT COUNT(cmnt_id)
+			$sql = 'SELECT COUNT(cmnt_id) cmnt_count
 					FROM ' . BLOG_CMNTS_TABLE . '
 					WHERE cmnt_blog_id = \'' . $blogrow['blog_id'] . '\' ' . $fetch;
 			$res = $db->sql_query($sql);
