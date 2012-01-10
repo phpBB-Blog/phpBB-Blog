@@ -19,6 +19,7 @@ include($phpbb_root_path . 'common.' . $phpEx);
 include($phpbb_root_path . 'includes/functions_display.' . $phpEx);
 include($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
 include($phpbb_root_path . 'includes/mods/functions_blog.' . $phpEx);
+include($phpbb_root_path . 'includes/mods/constants_blog.' . $phpEx);
 include($phpbb_root_path . 'includes/bbcode.' . $phpEx);
 
 // Assigning custom bbcodes
@@ -84,7 +85,7 @@ switch($action)
 {
 	default:
 	case 'index':		
-		$sql_limit = ($sql_limit > 100) ? 100 : $sql_limit;
+		$sql_limit = ($sql_limit > MAX_BLOG_CNT_DISPLAY) ? MAX_BLOG_CNT_DISPLAY : $sql_limit;
 		$pagination_url = append_sid("{$phpbb_root_path}blog.$phpEx");
 		$sql_ary = array(
 			'SELECT'	=> 'b.*, COUNT(bb.blog_id) as blog_count, COUNT(c.cmnt_id) as cmnts_approved, COUNT(cc.cmnt_id) as cmnts_unapproved, ct.cat_title, ct.cat_id
@@ -181,7 +182,7 @@ switch($action)
 				'ORDER_BY'	=> 'b.blog_id DESC',
 			);
 			$sql_ary['WHERE'] .= !$auth->acl_get('a_blog_manage') ? ' AND cmnt_approved = 1' : '';
-			$sql_limit = ($sql_limit > 100) ? 100 : $sql_limit;
+			$sql_limit = ($sql_limit > MAX_BLOG_CNT_DISPLAY) ? MAX_BLOG_CNT_DISPLAY : $sql_limit;
 			$sql = $db->sql_build_query('SELECT', $sql_ary);
 			$result = $db->sql_query_limit($sql, $sql_limit, $sql_start);
 			while($row = $db->sql_fetchrow($result))
@@ -290,7 +291,7 @@ switch($action)
 			$total_cmnts = $db->sql_fetchfield('cmnt_count');
 			$db->sql_freeresult($result);
 			
-			$sql_limit = ($sql_limit > 100) ? 100 : $sql_limit;
+			$sql_limit = ($sql_limit > MAX_BLOG_CNT_DISPLAY) ? MAX_BLOG_CNT_DISPLAY : $sql_limit;
 			$pagination_url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_id));
 
 			$sql_ary = array(
