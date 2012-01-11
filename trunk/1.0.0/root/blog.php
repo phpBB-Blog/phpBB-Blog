@@ -659,7 +659,7 @@ switch($action)
 		);
 
 
-		$sql = $db->sql_build_query($sql_ary);
+		$sql = $db->sql_build_query('SELECT', $sql_ary);
 		$result = $db->sql_query($sql);
 		while($blogrow = $db->sql_fetchrow($result))
 		{
@@ -667,27 +667,8 @@ switch($action)
 			
 			$text = generate_text_for_display($blogrow['blog_text'], $blogrow['bbcode_uid'], $blogrow['bbcode_bitfield'], $blogrow['bbcode_options']);
 			
-			$fetch = (!$auth->acl_get('a_blog_manage')) ? 'AND cmnt_approved = \'1\'' : '';
-			$sql = 'SELECT COUNT(cmnt_id)
-					FROM ' . BLOG_CMNTS_TABLE . '
-					WHERE cmnt_blog_id = \'' . $blogrow['blog_id'] . '\' ' . $fetch;
-			$res = $db->sql_query($sql);
-			$brow = $db->sql_fetchrow($res);
-			
-			$sql = 'SELECT username,user_colour
-					FROM ' . USERS_TABLE . '
-					WHERE user_id = \'' . $blogrow['blog_poster_id'] . '\'';
-			$res2 = $db->sql_query($sql);
-			$urow = $db->sql_fetchrow($res2);
-			
-			$sql = 'SELECT cat_title
-					FROM ' . BLOG_CATS_TABLE . '
-					WHERE cat_id = \'' . $blogrow['blog_cat_id'] . '\'';
-			$res3 = $db->sql_query($sql);
-			$crow = $db->sql_fetchrow($sql);
-			
 			$url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blogrow['blog_id']));
-			$message = blog::truncate($text, $config['blog_short_msg'], '...<a href="' . $url . '">' . $user->lang['VIEW_MORE'] . '</a>', '[SNIP]', false, true);
+			$message = blog::truncate($text, $config['blog_short_msg'], '...<a href="' . $url . '">' . $user->lang('VIEW_MORE') . '</a>', '[SNIP]', false, true);
 			
 			$template->assign_block_vars('blogrow', array(
 				'S_ROW_COUNT'	=> count($blogrow['blog_id']),
@@ -698,7 +679,7 @@ switch($action)
 				'BLOG_DESC'		=> $blogrow['blog_title'],
 				'U_BLOG'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blogrow['blog_id'])),
 				'CMNT_COUNT'	=> $blogrow['cmnt_count'],
-				'CMNT_VIEW'		=> ($brow['cmnt_count']) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
+				'CMNT_VIEW'		=> ($blogrow['cmnt_count']) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
 				'BLOG_TEXT'		=> $message,
 				'VIEW_MORE'		=> '...<a href="' . $url . '">' . $user->lang['VIEW_MORE'] . '</a>',
 				'BLOG_POSTER'	=> generate_username_string('full', $blogrow['blog_poster_id'], $blogrow['username'], $blogrow['user_colour']),
