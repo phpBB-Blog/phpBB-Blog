@@ -88,7 +88,7 @@ switch($action)
 		$sql_limit = ($sql_limit > MAX_BLOG_CNT_DISPLAY) ? MAX_BLOG_CNT_DISPLAY : $sql_limit;
 		$pagination_url = append_sid("{$phpbb_root_path}blog.$phpEx");
 		$sql_ary = array(
-			'SELECT'	=> 'b.*, COUNT(bb.blog_id) as blog_count, COUNT(c.cmnt_id) as cmnts_approved, COUNT(cc.cmnt_id) as cmnts_unapproved, ct.cat_title, ct.cat_id
+			'SELECT'	=> 'b.*, COUNT(bb.blog_id) as blog_count, COUNT(c.cmnt_id) as cmnts_approved, COUNT(cc.cmnt_id) as cmnts_unapproved, ct.cat_title, ct.cat_id,
 					u.username, u.user_colour, u.user_id',
 			'FROM'		=> array(
 				BLOGS_TABLE			=> 'b',
