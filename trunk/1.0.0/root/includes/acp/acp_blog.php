@@ -24,8 +24,7 @@ class acp_blog
 	var $new_config = array();
   	function main($id, $mode)
 	{
-      global $db, $user, $auth, $template;
-      global $config, $phpbb_root_path, $phpbb_admin_path, $phpEx;
+      global $db, $user, $template, $config;
       switch ($mode)
       {
 		 default:
@@ -36,7 +35,6 @@ class acp_blog
 			if(!$modversion)
 			{
 				$vermsg = $user->lang['SERVER_DOWN'];
-				$version = '';
 				$up2date = 0;
 			}
 			else
@@ -168,7 +166,6 @@ class acp_blog
 			$action = request_var('action', '');
 			$submit = (isset($_POST['submit'])) ? true : false;
 			$create = (isset($_POST['create'])) ? true : false;
-			$cat_id = request_var('id', 0);
 			$template->assign_var('S_CATS_OFF',($config['blog_cat_on'] == 0) ? true : false);
 			$form_name = 'acp_blogcat';
 			$form_key = add_form_key('acp_blogcat');
