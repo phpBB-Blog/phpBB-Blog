@@ -173,7 +173,7 @@ switch($action)
 					USERS_TABLE        => 'u',
 				),
 				'WHERE'		=> 'b.blog_cat_id = ' . (int) $cat_id . '
-						AND ct.cat_id = b.blog_cat_id,
+						AND ct.cat_id = b.blog_cat_id
 						AND bb.blog_id = b.blog_id
 						AND c.cmnt_blog_id = b.blog_id
 						AND cc.cmnt_blog_id = b.blog_id
