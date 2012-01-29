@@ -12,3 +12,4 @@
 define('BLOGS_TABLE',		$table_prefix . 'blog');
 define('BLOG_CMNTS_TABLE',	$table_prefix . 'blog_comments');
 define('BLOG_CATS_TABLE',	$table_prefix . 'blog_categories');
+define('MAX_BLOG_CNT_DISPLAY', 100);
