@@ -43,8 +43,7 @@ function phpbb_blog_register_hooks(&$phpbb_hook)
  */
 function initialise_phpbb_blog(&$phpbb_hook)
 {
-	global $phpbb_root_path, $phpEx;
-	require "{$phpbb_root_path}includes/mods/constants_blog.$phpEx";
+
 }
 
 /**
