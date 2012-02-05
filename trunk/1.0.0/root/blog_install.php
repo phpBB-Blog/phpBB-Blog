@@ -81,12 +81,12 @@ $versions = array(
 		'table_add' => array(
 			array(BLOGS_TABLE, array(
 					'COLUMNS'		=> array(
-						'blog_id'			=> array('UINT', NULL, 'auto_increment'),
+						'blog_id'		=> array('UINT', NULL, 'auto_increment'),
 						'blog_title'		=> array('VCHAR_UNI', ''),
-						'blog_desc'			=> array('VCHAR_UNI', ''),
+						'blog_desc'		=> array('VCHAR_UNI', ''),
 						'blog_poster_id'	=> array('UINT', 0),
 						'blog_cat_id'		=> array('UINT', 0),
-						'blog_text'			=> array('TEXT_UNI', ''),
+						'blog_text'		=> array('TEXT_UNI', ''),
 						'blog_posted_time'	=> array('TIMESTAMP', 0),
 						'blog_last_edited'	=> array('TIMESTAMP', 0),
 						'bbcode_bitfield'	=> array('VCHAR:255', ''),
@@ -94,7 +94,7 @@ $versions = array(
 						'enable_bbcode'		=> array('TINT:1', 1),
 						'enable_smilies'	=> array('TINT:1', 1),
 						'enable_magic_url'	=> array('TINT:1', 1),
-						'blog_tags'			=> array('VCHAR:255', ''),
+						'blog_tags'		=> array('VCHAR:255', ''),
 						'blog_allow_cmnt'	=> array('TINT:1', 1),
 					),
 					'PRIMARY_KEY'	=> 'blog_id',
@@ -102,11 +102,11 @@ $versions = array(
 			),
 			array(BLOG_CMNTS_TABLE, array(
 					'COLUMNS'	=> array(
-						'cmnt_id'			=> array('UINT', NULL, 'auto_increment'),
+						'cmnt_id'		=> array('UINT', NULL, 'auto_increment'),
 						'cmnt_blog_id'		=> array('UINT', 0),
 						'cmnt_poster_id'	=> array('UINT', 0),
 						'cmnt_approved'		=> array('UINT', 0),
-						'cmnt_text'			=> array('TEXT_UNI', ''),
+						'cmnt_text'		=> array('TEXT_UNI', ''),
 						'cmnt_posted_time'	=> array('TIMESTAMP', 0),
 						'cmnt_last_edited'	=> array('TIMESTAMP', 0),
 						'bbcode_bitfield'	=> array('VCHAR:255', ''),
@@ -120,11 +120,11 @@ $versions = array(
 			),
 			array(BLOG_CATS_TABLE, array(
 					'COLUMNS'	=> array(
-						'cat_id'			=>	array('UINT', NULL, 'auto_increment'),
-						'cat_title'			=>	array('VCHAR_UNI', ''),
-						'cat_desc'			=>	array('VCHAR_UNI', ''),
-						'forum_post_id'		=> 	array('UINT', 0),
-						'forum_post_bool'	=> 	array('TINT:1', 0),
+						'cat_id'		=> array('UINT', NULL, 'auto_increment'),
+						'cat_title'		=> array('VCHAR_UNI', ''),
+						'cat_desc'		=> array('VCHAR_UNI', ''),
+						'forum_post_id'		=> array('UINT', 0),
+						'forum_post_bool'	=> array('TINT:1', 0),
 					),
 					'PRIMARY_KEY'	=> 'cat_id',
 				),
@@ -145,7 +145,7 @@ $versions = array(
 			array('acp', 'ACP_CAT_BLOG', 'ACP_BLOG'),
 			array('acp', 'ACP_BLOG', array(
 					'module_basename'		=> 'blog',
-					'modes'					=> array('index','settings','cats'),
+					'modes'				=> array('index','settings','cats'),
 				),
 			),
 		),
@@ -158,10 +158,10 @@ $versions = array(
 			array('u_blog_approved',		true),
 			array('u_blog_bbcode',			true),
 			array('u_blog_emote',			true),
-			array('u_blog_comment_manage',	true),
+			array('u_blog_comment_manage',		true),
 			array('u_blog_view',			true),
 			array('u_blog_view_full',		true),
-			array('u_blog_view_comments',	true),
+			array('u_blog_view_comments',		true),
 		),
 		'permission_set' => array(
 			array('ROLE_ADMIN_FULL', 'a_blog_manage'),
