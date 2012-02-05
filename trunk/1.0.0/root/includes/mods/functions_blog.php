@@ -546,7 +546,7 @@ class blog
 				$full_tag = trim($tag);
 				$template->assign_block_vars($tagrow, array(
 					'TAG' => utf8_normalize_nfc($tag),
-					'NUM' => $user->lang['BLOGS'] . ': ' . $count,
+					'NUM' => $count,
 					'TAGSIZE' => floor($size) . 'pt',
 					'U_TAG' => append_sid('blog.php?' . $config['blog_act_name'] . '=tag&amp;t=' . $full_tag),
 				));
