@@ -174,33 +174,29 @@ class blog
 	 */
 	static function get_blog_data($blog_id)
 	{
-		global $db;
-		if(!$blog_id)
-		{
-			return false;
-		}
-		$sql_ary = array(
-			'SELECT'    => 'b.*,c.*,u.*',
-		
-			'FROM'      => array(
-				BLOGS_TABLE				=> 'b',
-				BLOG_CATS_TABLE			=> 'c',
-				USERS_TABLE				=> 'u',
-			),
-		
-			'WHERE'     => 'b.blog_id = ' . $db->sql_escape($blog_id) . '
-				AND c.cat_id = b.blog_cat_id
-				AND u.user_id = b.blog_poster_id',
-		);
-		$sql = $db->sql_build_query('SELECT', $sql_ary);
-		$result = $db->sql_query($sql);
-		if(!$result)
-		{
-			return false;
-		}
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
-		return $row;
+			global $db;
+			if(!$blog_id)
+			{
+				return false;
+			}
+			$sql_ary = array(
+				'SELECT'    => 'b.*,c.*,u.*',
+			
+				'FROM'      => array(
+					BLOGS_TABLE				=> 'b',
+					BLOG_CATS_TABLE			=> 'c',
+					USERS_TABLE				=> 'u',
+				),
+			
+				'WHERE'     => 'b.blog_id = ' . (int) $blog_id . '
+					AND c.cat_id = b.blog_cat_id
+					AND u.user_id = b.blog_poster_id',
+			);
+			$sql = $db->sql_build_query('SELECT', $sql_ary);
+			$result = $db->sql_query($sql);
+			$row = $db->sql_fetchrow($result);
+			$db->sql_freeresult($result);
+			return $row;
 	}
 
 	/**
