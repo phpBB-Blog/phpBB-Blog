@@ -303,7 +303,7 @@ switch($action)
 					USERS_TABLE			=> 'u',
 				),
 				'WHERE'		=> 'c.cmnt_blog_id = ' . (int) $blog_data['blog_id'] . '
-							AND u.user_id = ct.cmnt_poster_id',
+							AND u.user_id = c.cmnt_poster_id',
 			);
 			$sql_ary['WHERE'] .= (!$perm) ? ' AND c.cmnt_approved = 1' : '';
 			$sql = $db->sql_build_query('SELECT', $sql_ary);
