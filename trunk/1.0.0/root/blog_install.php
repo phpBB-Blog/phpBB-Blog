@@ -131,7 +131,7 @@ $versions = array(
 			),
 		),
 		'table_insert'	=> array(
-			array(BLOG_CMNTS_TABLE, array(
+			array(BLOG_CATS_TABLE, array(
 				array(
 					'cat_id'		=> 1,
 					'cat_title'		=> 'News',
