@@ -96,6 +96,8 @@ $versions = array(
 						'enable_magic_url'	=> array('TINT:1', 1),
 						'blog_tags'		=> array('VCHAR:255', ''),
 						'blog_allow_cmnt'	=> array('TINT:1', 1),
+						'cmnts_approved'	=> array('UINT', 0),
+						'cmnts_unapproved'	=> array('UINT', 0),
 					),
 					'PRIMARY_KEY'	=> 'blog_id',
 				),

@@ -84,29 +84,22 @@ if($config['blog_tag_on'])
 switch($action)
 {
 	default:
-	case 'index':		
+	case 'index':
 		$sql_limit = ($sql_limit > MAX_BLOG_CNT_DISPLAY) ? MAX_BLOG_CNT_DISPLAY : $sql_limit;
 		$pagination_url = append_sid("{$phpbb_root_path}blog.$phpEx");
 		$sql_ary = array(
-			'SELECT'	=> 'b.*, COUNT(bb.blog_id) as blog_count, COUNT(c.cmnt_id) as cmnts_approved, COUNT(cc.cmnt_id) as cmnts_unapproved, ct.cat_title, ct.cat_id,
-					u.username, u.user_colour, u.user_id',
+			'SELECT'	=> 'b.*,
+			ct.cat_title,ct.cat_id,
+			u.username,u.user_colour,u.user_id',
 			'FROM'		=> array(
-				BLOGS_TABLE        => 'b',
-				BLOGS_TABLE . ' '    => 'bb',
-				BLOG_CMNTS_TABLE    => 'c',
-				BLOG_CMNTS_TABLE . ' '  => 'cc',
-				BLOG_CATS_TABLE      => 'ct',
-				USERS_TABLE        => 'u',
+				BLOGS_TABLE			=> 'b',
+				BLOG_CATS_TABLE		=> 'ct',
+				USERS_TABLE			=> 'u',
+
 			),
-			'WHERE'		=> 'ct.cat_id = b.blog_cat_id
-					AND bb.blog_id = b.blog_id
-					AND c.cmnt_blog_id = b.blog_id
-					AND cc.cmnt_blog_id = b.blog_id
-					AND c.cmnt_approved = 1
-					AND b.blog_poster_id = u.user_id',
+			'WHERE'		=> 'ct.cat_id = b.blog_cat_id AND u.user_id = b.blog_poster_id',
 			'ORDER_BY'	=> 'b.blog_id DESC',
 		);
-		$sql_ary['WHERE'] .= !$auth->acl_get('a_blog_manage') ? 'AND cmnt_approved = 1' : '';
 		$sql = $db->sql_build_query('SELECT', $sql_ary);
 		$result = $db->sql_query_limit($sql, $sql_limit, $sql_start);
 		while($blogrow = $db->sql_fetchrow($result))
@@ -136,6 +129,13 @@ switch($action)
 			));
 		}
 		$db->sql_freeresult($result);
+
+		// We need another query for the blog count
+		$sql = 'SELECT COUNT(*) as blog_count FROM ' . BLOGS_TABLE;
+		$result = $db->sql_query($sql);
+		$blogrow['blog_count'] = $db->sql_fetchfield('blog_count');
+		$db->sql_freeresult($result);
+
 		//Start pagination
 		$template->assign_vars(array(
 			'PAGINATION'        => generate_pagination($pagination_url, $blogrow['blog_count'], $sql_limit, $sql_start),
@@ -163,25 +163,18 @@ switch($action)
 		{
 			$pagination_url = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'cat', 'cid' => $cat_id));
 			$sql_ary = array(
-				'SELECT'	=> 'b.*, COUNT(bb.blog_id) as blog_count, COUNT(c.cmnt_id) as cmnts_approved, COUNT(cc.cmnt_id) as cmnts_unapproved, ct.cat_id, ct.cat_title, ct.cat_desc, u.username, u.user_colour, u.user_id',
+				'SELECT'	=> 'b.*,
+				ct.cat_title,ct.cat_id,
+				u.username,u.user_colour,u.user_id',
 				'FROM'		=> array(
-					BLOGS_TABLE        => 'b',
-					BLOGS_TABLE  . ' '    => 'bb',
-					BLOG_CMNTS_TABLE    => 'c',
-					BLOG_CMNTS_TABLE . ' '  => 'cc',
-					BLOG_CATS_TABLE      => 'ct',
-					USERS_TABLE        => 'u',
+					BLOGS_TABLE			=> 'b',
+					BLOG_CATS_TABLE		=> 'ct',
+					USERS_TABLE			=> 'u',
+
 				),
-				'WHERE'		=> 'b.blog_cat_id = ' . (int) $cat_id . '
-						AND ct.cat_id = b.blog_cat_id
-						AND bb.blog_id = b.blog_id
-						AND c.cmnt_blog_id = b.blog_id
-						AND cc.cmnt_blog_id = b.blog_id
-						AND c.cmnt_approved = 1
-						AND b.blog_poster_id = u.user_id',
+				'WHERE'		=> 'ct.cat_id = ' . (int) $cat_id . ' AND u.user_id = b.blog_poster_id',
 				'ORDER_BY'	=> 'b.blog_id DESC',
 			);
-			$sql_ary['WHERE'] .= !$auth->acl_get('a_blog_manage') ? ' AND cmnt_approved = 1' : '';
 			$sql_limit = ($sql_limit > MAX_BLOG_CNT_DISPLAY) ? MAX_BLOG_CNT_DISPLAY : $sql_limit;
 			$sql = $db->sql_build_query('SELECT', $sql_ary);
 			$result = $db->sql_query_limit($sql, $sql_limit, $sql_start);
@@ -202,7 +195,7 @@ switch($action)
 						'BLOG_DESC'		=> $blog_data['blog_desc'],
 						'TIME'			=> $user->format_date($blog_data['blog_posted_time']),
 						'CMNT_COUNT'	=> $blog_data['cmnts_approved'],
-						'CMNT_VIEW'		=> ($blog_data['cmts_approved'] == 1) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
+						'CMNT_VIEW'		=> ($blog_data['cmnts_approved'] == 1) ? $user->lang['CMNT'] : $user->lang['CMNTS'],
 						'BLOG_POSTER'	=> get_username_string('full', $blog_data['user_id'], $blog_data['username'], $blog_data['user_colour']),
 						'UNAPPROVED_CMNT_COUNT' => $blog_data['cmnts_unapproved'],
 						'UNAPPROVED_CMNT_VIEW'	=> ($blog_data['cmnts_unapproved'] == 1) ? $user->lang['UCMNT'] : $user->lang['UCMNTS'],
@@ -211,6 +204,12 @@ switch($action)
 					));
 				}
 			}
+			$db->sql_freeresult($result);
+
+			// We need another query for the blog count
+			$sql = 'SELECT COUNT(*) as blog_count FROM ' . BLOGS_TABLE;
+			$result = $db->sql_query($sql);
+			$blog_data['blog_count'] = $db->sql_fetchfield('blog_count');
 			$db->sql_freeresult($result);
 			//Start pagination
 			$template->assign_vars(array(

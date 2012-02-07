@@ -342,6 +342,12 @@ class blog
 			default:
 			case 'new':
 				$sql = 'INSERT INTO ' . BLOG_CMNTS_TABLE . ' ' . $db->sql_build_array('INSERT', $data);
+				$sql_ary = array('cmnts_unapproved' => 'cmnts_unapproved + 1');
+				if($data['cmnt_approved'])
+				{
+					$sql_ary['cmnts_approved'] = 'cmnts_approved + 1';
+				}
+				$sql2 = 'UPDATE ' . BLOGS_TABLE . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary) . ' WHERE blog_id = ' . (int) $blog_id;
 			break;
 			
 			case 'update':
@@ -431,10 +437,19 @@ class blog
 		{
 			return false;
 		}
+		$sql = 'SELECT cmnt_blog_id FROM ' . BLOG_CMNTS_TABLE . "
+			WHERE cmnt_id = $comment_id";
+		$result = $db->sql_query($sql);
+		$blog_id = $db->sql_fetchfield('cmnt_blog_id');
+		$db->sql_freeresult($result);
 
 		$sql = 'DELETE FROM ' . BLOG_CMNTS_TABLE . "
 			WHERE cmnt_id = $comment_id";
 		$db->sql_query($sql);
+
+		$sql = 'UPDATE ' . BLOGS_TABLE . ' SET cmnts_approved = cmnts_approved - 1, cmnts_unapproved = cmnts_unapproved - 1 WHERE blog_id = ' . $blog_id;
+		$db->sql_query($sql);
+
 
 		return true;
 	}
