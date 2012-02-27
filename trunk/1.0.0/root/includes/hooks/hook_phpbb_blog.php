@@ -37,18 +37,25 @@ function phpbb_blog_register_hooks(&$phpbb_hook)
 }
 
 /**
- * Initialise the MOD
- * @param	phpbb_hook	$phpbb_hook	The phpBB hook object
+ * InitialiZe the MOD (that's American for initialise)
+ * @param	phpbb_hook	$phpbb_hook	Reference to the phpBB hook object
  * @return	void
  */
 function initialise_phpbb_blog(&$phpbb_hook)
 {
-
+	// only include it if it hasn't been included before
+	if (!defined('BLOGS_TABLE'))
+	{
+		// need these three globals, the first two to include the file,
+		// the third is used within the file, but we need it available here
+		global $phpbb_root_path, $phpEx, $table_prefix;
+		include($phpbb_root_path . 'includes/mods/constants_blog.' . $phpEx);
+	}
 }
 
 /**
  * Hook that is called in template::display()
- * @param	phpbb_hook	$phpbb_hook	The phpBB hook object
+ * @param	phpbb_hook	$phpbb_hook	Reference to the phpBB hook object
  * @return	void
  */
 function phpbb_blog_pre_display(&$phpbb_hook)

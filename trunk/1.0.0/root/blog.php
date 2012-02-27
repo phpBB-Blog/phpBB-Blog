@@ -19,7 +19,6 @@ include($phpbb_root_path . 'common.' . $phpEx);
 include($phpbb_root_path . 'includes/functions_display.' . $phpEx);
 include($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
 include($phpbb_root_path . 'includes/mods/functions_blog.' . $phpEx);
-include($phpbb_root_path . 'includes/mods/constants_blog.' . $phpEx);
 include($phpbb_root_path . 'includes/bbcode.' . $phpEx);
 
 // Assigning custom bbcodes
