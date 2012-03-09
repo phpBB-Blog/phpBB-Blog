@@ -351,6 +351,10 @@ switch($action)
 	break;
 	
 	case 'apprvcmnt':
+		if (!$auth->acl_get('a_blog_manage'))
+		{
+			trigger_error('NO_PERMISSION_APPROVE');
+		}
 		$comment_id = request_var('cmntid', 0);
 		//This is used to approve comments that are not yet approved.
 		if(!$comment_id)

@@ -70,6 +70,7 @@ $lang = array_merge($lang, array(
 	'CMNTSUCCESSUNAPPROVED'	=> 'Your comment has been submitted successfully and is awaiting approval. It will be visible once it has been approved.',
 	'CMNTSUCCESS'			=> 'Your comment has been submitted successfully.',
 	'RETURN_CMNT'			=> 'View your comment',
+	'NO_PERMISSION_APPROVE'	=> 'You do not have permission to approve unapproved comments.',
 	
 	'GENERIC_ERROR'			=> 'The action you were attempting to perform failed.',
 	'GENERIC_SUCCESS'		=> 'The operation completed successfully.',
