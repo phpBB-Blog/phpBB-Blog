@@ -2,12 +2,12 @@ Authors & Contributors:
 - Michael Cullum [Developer]
 http://michaelcullum.com
 m[at]michaelcullum[dot]com
-
-Thanks to:
-- David King [Ex-Developer & Contributor]
+- David King [Co-Developer]
 http://www.thedavidking.net
 imkingdavid[at]gmail[dot]com
-- Erik Frèrejean [Contributions]
+- Erik Frèrejean [Co-Developer]
+
+Thanks to:
 - Marcus Vinny [Contributions]
 
 License:
@@ -20,4 +20,4 @@ Support Forum:
 http://www.phpbb.com/customise/db/mod/phpbb_blog/support/
 
 Version:
-1.0.1
+1.0.2

@@ -32,7 +32,7 @@ $lang = array_merge($lang, array(
 	'BLOG_CAT'				=> 'Categories',
 	'INVALID_BLOG_ID'		=> 'Invalid Blog ID.',
 	'INVALID_CAT_ID'		=> 'Invalid Category ID.',
-	'BLOG_VERSION'			=> '1.0.1',
+	'BLOG_VERSION'			=> '1.0.2',
 
 	'BLOGS'					=> 'Blog Posts',
 	'CMNTS'					=> 'Comments',

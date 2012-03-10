@@ -8,7 +8,7 @@
 	
 	<description lang="en">This MOD adds a blog to your forum, to which users with the appropriate permissions can post and comment on posts. This is not to be confused with EXreaction's User Blog MOD.</description>
 
-	<author-notes lang="en">Support is avaliable from here: http://www.phpbb.com/customise/db/mod/phpbb_blog/support/</author-notes>
+	<author-notes lang="en">Support is available from here: http://www.phpbb.com/customise/db/mod/phpbb_blog/support/</author-notes>
 
 	<author-group>
 		<author>
@@ -31,7 +31,7 @@
 		</author>
 	</author-group>
 
-	<mod-version>1.0.1</mod-version>
+	<mod-version>1.0.2</mod-version>
 
 	<installation>
 		<level>easy</level>
@@ -98,28 +98,27 @@
 				<change>Updated to phpBB 3.0.10</change>
 				<change>Remove Post Reply Button</change>
 				<change>Add line breaks in success and fail messages</change>
-				<change>Add sucess messages for deletion of articles and comments</change>
+				<change>Add success messages for deletion of articles and comments</change>
 				<change>Fixed comment submission message</change>
 				<change>Fixed comment edited</change>
 				<change>Support for Custom BBcodes</change>
 				<change>Made W3C XHTML Valid</change>
 				<change>Making ACP Language work with multiple actions</change>
 				<change>Fixing numerous debug and other issues</change>
-				<change>Code cleanup</change>
+				<change>Code clean-up</change>
 				<change>New version check server location (somewhere more reliable).</change>
 				<change>Credit Link updated</change>
 				<change>blog.css added</change>
-				<change>ACP Improvments</change>
-				<change>Package ready for 1.0.0 and valdiation</change>
+				<change>ACP Improvements</change>
+				<change>Package ready for 1.0.0 and validation</change>
 			</changelog>
 		</entry>
 		<entry>
 			<date>2011-01-07</date>
-			<rev-version>1.0.1</rev-version>
+			<rev-version>1.0.2</rev-version>
 			<changelog lang="en">
-				<change>Find line endings</change>
-				<change>Fix Parse Error</change>
-				<change>More code cleanup</change>
+				<change>Fix numerous bugs</change>
+				<change>Code clean-up</change>
 			</changelog>
 		</entry>
 	</history>
@@ -141,7 +140,5 @@
 		</edit>
 	</open>
 	<php-installer>blog_install.php</php-installer>
-	<diy-instructions lang="en"><![CDATA[Once the install script runs, you are done. You may now remove that file and go to ACP.]]>
-	</diy-instructions>
 </action-group>
 </mod>
