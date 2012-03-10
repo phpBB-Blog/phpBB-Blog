@@ -3,7 +3,7 @@
 * Main file
 *
 * @package Blog
-* @version 1.0.1
+* @version 1.0.2
 * @copyright (c) 2010, 2011, 2012 Michael Cullum (Unknown Bliss of http://michaelcullum.com), David King (imkingdavid)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
 *
@@ -326,45 +326,44 @@ class blog
 	 *
 	 * @return mixed
 	*/
-	static function submit_comment($mode, $blog_id, $data = array(), $comment_id = 0)
+	static function submit_comment($mode, $blog_id, $data, $comment_id = 0)
 	{
 		global $db;
-		foreach($data as $key => $value)
-		{
-			$data[$key] = $db->sql_escape($value);
-			if(is_string($value))
-			{
-				$data[$key] = utf8_normalize_nfc($value);
-			}
-		}
 		switch($mode)
 		{
 			default:
 			case 'new':
 				$sql = 'INSERT INTO ' . BLOG_CMNTS_TABLE . ' ' . $db->sql_build_array('INSERT', $data);
+				$db->sql_query($sql);
+
 				$sql_ary = array('cmnts_unapproved' => 'cmnts_unapproved + 1');
-				if($data['cmnt_approved'])
+				if ($data['cmnt_approved'])
 				{
 					$sql_ary['cmnts_approved'] = 'cmnts_approved + 1';
 				}
-				$sql2 = 'UPDATE ' . BLOGS_TABLE . ' SET ' . $db->sql_build_array('UPDATE', $sql_ary) . ' WHERE blog_id = ' . (int) $blog_id;
+				$sql = 'UPDATE ' . BLOGS_TABLE . '
+					SET cmnts_unapproved = cmnts_unapproved + 1' .
+					($data['cmnt_approved'] ? ', cmnts_approved = cmnts_approved + 1' : '') .
+					' WHERE blog_id = ' . (int) $blog_id;
+				$db->sql_query($sql);
 			break;
 			
 			case 'update':
-				if($comment_id == 0)
+				if (!$comment_id)
 				{
 					return false;
 				}
 				$sql = 'UPDATE ' . BLOG_CMNTS_TABLE . '
 					SET ' . $db->sql_build_array('UPDATE', $data) . "
-					WHERE comment_id = $comment_id";
+					WHERE cmnt_id = $comment_id";
+				$db->sql_query($sql);
 			break;
 		}
-		$db->sql_query($sql);
-		$return_id = ($mode == 'new') ? $db->sql_nextid() : $comment_id;
-		// Oh, how I wish we were using PHP 5.3 miniimum
-		// Because then I could do this:
-		// return ($return_id) ?: false;
+		
+		// if this were PHP 5.3 I could simply do:
+		// return (($comment_id) ?: $db->sql_nextid()) ?: false;
+		// much more compact
+		$return_id = $comment_id ? $comment_id : $db->sql_nextid();
 		return $return_id ? $return_id : false;
 	}
 	
