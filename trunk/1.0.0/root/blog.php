@@ -3,7 +3,7 @@
 * Main file
 *
 * @package Blog
-* @version 1.0.1
+* @version 1.0.2
 * @copyright (c) 2010, 2011 Michael Cullum (Unknown Bliss of http://michaelcullum.com)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
 *
