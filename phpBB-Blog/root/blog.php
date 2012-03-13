@@ -528,14 +528,15 @@ switch($action)
 	break;
 	
 	case 'delete_blog':
-		if(!$blog_id)
+		if (!$blog_id)
 		{
 			trigger_error($user->lang['INVALID_BLOG_ID']);
 		}
-		if(confirm_box(true))
+		if (confirm_box(true))
 		{
 			blog::delete_blog($blog_id);
-			trigger_error($user->lang['GENERIC_SUCCESS']);
+			$u_return = append_sid($phpbb_root_path . 'blog.' . $phpEx);
+			trigger_error($user->lang['GENERIC_SUCCESS'] . '<br /><a href="' . $u_action . '">' . $user->lang('RETURN') . '</a>');
 		}
 		else
 		{
@@ -545,7 +546,6 @@ switch($action)
 				)
 			);
 			confirm_box(false, 'CONF_DEL_POST', $s_hidden_fields);
-			trigger_error($user->lang['GENERIC_ERROR']);
 		}
 	break;
 	
@@ -619,7 +619,8 @@ switch($action)
 		if (confirm_box(true))
 		{
 			blog::delete_cmnt($cid, $blog_id);
-			trigger_error($user->lang['GENERIC_SUCCESS']);
+			$u_return = append_sid($phpbb_root_path . 'blog.' . $phpEx, array($act_name => 'view', 'id' => $blog_id));
+			trigger_error($user->lang['GENERIC_SUCCESS'] . '<br /><a href="' . $u_action . '">' . $user->lang('RETURN') . '</a>');
 		}
 		else
 		{
