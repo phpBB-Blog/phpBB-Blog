@@ -7,10 +7,11 @@
                     <h2 class="blogtitle"><a href="{blogrow.U_BLOG}" style="text-decoration:none;" title="{blogrow.BLOG_TITLE}">{blogrow.BLOG_TITLE}</a></h2>
                     {L_POSTED_BY} {blogrow.BLOG_POSTER} {L_IN} <a href="{blogrow.U_CAT}">{blogrow.CAT_TITLE}</a> {L_ON} {blogrow.TIME}<br /><br />
                     <div class="content">{blogrow.BLOG_TEXT}
+                    <br />
                     <!-- IF S_SHOW_FULL --><a href="{blogrow.U_BLOG}">{L_MORE}</a><!-- ENDIF --></div>
             </div><br />
             <span style="vertical-align:bottom; float:left;">(<a href="{blogrow.U_BLOG}#comments">{blogrow.CMNT_COUNT} {blogrow.CMNT_VIEW} &raquo;</a> <!-- IF U_BLOG_MANAGE --> | <a href="{blogrow.U_BLOG}#comments">{blogrow.UNAPPROVED_CMNT_COUNT} {blogrow.UNAPPROVED_CMNT_VIEW} &raquo;</a><!-- ENDIF -->)</span>
-            <span class="corners-bottom"><span></span></span>
+            <span class="corners-bottom"><span></span></span><br />
         </div>
     </div>
     <hr />
