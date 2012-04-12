@@ -535,7 +535,9 @@ switch($action)
 		if(confirm_box(true))
 		{
 			blog::delete_blog($blog_id);
-			trigger_error($user->lang['GENERIC_SUCCESS']);
+			$u_action = append_sid("{$phpbb_root_path}blog.$phpEx");
+			meta_refresh('3', $u_action);
+			trigger_error($user->lang['GENERIC_SUCCESS'] . '<BR /><BR /><a href="' . $u_action . '">' . $user->lang['RETURN'] . '</a>');
 		}
 		else
 		{
@@ -619,7 +621,9 @@ switch($action)
 		if (confirm_box(true))
 		{
 			blog::delete_cmnt($cid, $blog_id);
-			trigger_error($user->lang['GENERIC_SUCCESS']);
+			$u_action = append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'view', 'id' => $blog_id));
+			meta_refresh('3', $u_action);
+			trigger_error($user->lang['GENERIC_SUCCESS'] . '<BR /><BR /><a href="' . $u_action . '">' . $user->lang['RETURN'] . '</a>');
 		}
 		else
 		{
