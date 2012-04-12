@@ -3,7 +3,7 @@
 * Main file
 *
 * @package Blog
-* @version 1.0.1
+* @version 1.0.2
 * @copyright (c) 2010, 2011, 2012 Michael Cullum (Unknown Bliss of http://michaelcullum.com), David King (imkingdavid)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU Public License v2
 *
@@ -174,33 +174,29 @@ class blog
 	 */
 	static function get_blog_data($blog_id)
 	{
-		global $db;
-		if(!$blog_id)
-		{
-			return false;
-		}
-		$sql_ary = array(
-			'SELECT'    => 'b.*,c.*,u.*',
-		
-			'FROM'      => array(
-				BLOGS_TABLE				=> 'b',
-				BLOG_CATS_TABLE			=> 'c',
-				USERS_TABLE				=> 'u',
-			),
-		
-			'WHERE'     => 'b.blog_id = ' . $db->sql_escape($blog_id) . '
-				AND c.cat_id = b.blog_cat_id
-				AND u.user_id = b.blog_poster_id',
-		);
-		$sql = $db->sql_build_query('SELECT', $sql_ary);
-		$result = $db->sql_query($sql);
-		if(!$result)
-		{
-			return false;
-		}
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
-		return $row;
+			global $db;
+			if(!$blog_id)
+			{
+				return false;
+			}
+			$sql_ary = array(
+				'SELECT'    => 'b.*,c.*,u.*',
+			
+				'FROM'      => array(
+					BLOGS_TABLE				=> 'b',
+					BLOG_CATS_TABLE			=> 'c',
+					USERS_TABLE				=> 'u',
+				),
+			
+				'WHERE'     => 'b.blog_id = ' . (int) $blog_id . '
+					AND c.cat_id = b.blog_cat_id
+					AND u.user_id = b.blog_poster_id',
+			);
+			$sql = $db->sql_build_query('SELECT', $sql_ary);
+			$result = $db->sql_query($sql);
+			$row = $db->sql_fetchrow($result);
+			$db->sql_freeresult($result);
+			return $row;
 	}
 
 	/**
@@ -330,39 +326,44 @@ class blog
 	 *
 	 * @return mixed
 	*/
-	static function submit_comment($mode, $blog_id, $data = array(), $comment_id = 0)
+	static function submit_comment($mode, $blog_id, $data, $comment_id = 0)
 	{
 		global $db;
-		foreach($data as $key => $value)
-		{
-			$data[$key] = $db->sql_escape($value);
-			if(is_string($value))
-			{
-				$data[$key] = utf8_normalize_nfc($value);
-			}
-		}
 		switch($mode)
 		{
 			default:
 			case 'new':
 				$sql = 'INSERT INTO ' . BLOG_CMNTS_TABLE . ' ' . $db->sql_build_array('INSERT', $data);
+				$db->sql_query($sql);
+
+				$sql_ary = array('cmnts_unapproved' => 'cmnts_unapproved + 1');
+				if ($data['cmnt_approved'])
+				{
+					$sql_ary['cmnts_approved'] = 'cmnts_approved + 1';
+				}
+				$sql = 'UPDATE ' . BLOGS_TABLE . '
+					SET cmnts_unapproved = cmnts_unapproved + 1' .
+					($data['cmnt_approved'] ? ', cmnts_approved = cmnts_approved + 1' : '') .
+					' WHERE blog_id = ' . (int) $blog_id;
+				$db->sql_query($sql);
 			break;
 			
 			case 'update':
-				if($comment_id == 0)
+				if (!$comment_id)
 				{
 					return false;
 				}
 				$sql = 'UPDATE ' . BLOG_CMNTS_TABLE . '
 					SET ' . $db->sql_build_array('UPDATE', $data) . "
-					WHERE comment_id = $comment_id";
+					WHERE cmnt_id = $comment_id";
+				$db->sql_query($sql);
 			break;
 		}
-		$db->sql_query($sql);
-		$return_id = ($mode == 'new') ? $db->sql_nextid() : $comment_id;
-		// Oh, how I wish we were using PHP 5.3 miniimum
-		// Because then I could do this:
-		// return ($return_id) ?: false;
+		
+		// if this were PHP 5.3 I could simply do:
+		// return (($comment_id) ?: $db->sql_nextid()) ?: false;
+		// much more compact
+		$return_id = $comment_id ? $comment_id : $db->sql_nextid();
 		return $return_id ? $return_id : false;
 	}
 	
@@ -435,10 +436,19 @@ class blog
 		{
 			return false;
 		}
+		$sql = 'SELECT cmnt_blog_id FROM ' . BLOG_CMNTS_TABLE . "
+			WHERE cmnt_id = $comment_id";
+		$result = $db->sql_query($sql);
+		$blog_id = $db->sql_fetchfield('cmnt_blog_id');
+		$db->sql_freeresult($result);
 
 		$sql = 'DELETE FROM ' . BLOG_CMNTS_TABLE . "
 			WHERE cmnt_id = $comment_id";
 		$db->sql_query($sql);
+
+		$sql = 'UPDATE ' . BLOGS_TABLE . ' SET cmnts_approved = cmnts_approved - 1, cmnts_unapproved = cmnts_unapproved - 1 WHERE blog_id = ' . $blog_id;
+		$db->sql_query($sql);
+
 
 		return true;
 	}
@@ -546,7 +556,7 @@ class blog
 				$full_tag = trim($tag);
 				$template->assign_block_vars($tagrow, array(
 					'TAG' => utf8_normalize_nfc($tag),
-					'NUM' => $user->lang['BLOGS'] . ': ' . $count,
+					'NUM' => $count,
 					'TAGSIZE' => floor($size) . 'pt',
 					'U_TAG' => append_sid('blog.php?' . $config['blog_act_name'] . '=tag&amp;t=' . $full_tag),
 				));
