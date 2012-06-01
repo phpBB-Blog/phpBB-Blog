@@ -71,7 +71,7 @@ class acp_blog
 						'blog_cmntlimit'		=> array('lang' => 'BLOG_CMNTLIMIT',		'validate' => 'int',	'type' => 'text:2:3',		'explain' => false),
 						'blog_short_msg'		=> array('lang' => 'BLOG_SHORT_MSG',		'validate' => 'int',	'type' => 'text:3:4',		'explain' => true),
 						'legend3'				=> 'ACP_BLOG_PLUGINS',
-						'blog_cat_on'			=> array('lang' => 'BLOG_CAT_ON',			'validate' => 'int',	'type' => 'radio:yes_no',	'explain' => false),												
+						//'blog_cat_on'			=> array('lang' => 'BLOG_CAT_ON',			'validate' => 'int',	'type' => 'radio:yes_no',	'explain' => false),												
 						'blog_rss_feed_on'		=> array('lang' => 'BLOG_RSS_FEED_ON',		'validate' => 'int',	'type' => 'radio:yes_no',	'explain' => false),
 						'blog_tag_on'			=> array('lang' => 'BLOG_TAGCLOUD_ON',		'validate' => 'int',	'type' => 'radio:yes_no',	'explain' => false),
 						'legend4'				=> 'ACP_BLOG_FPO',
@@ -298,7 +298,7 @@ class acp_blog
 						'CAT_TITLE'			=> $row['cat_title'],
 						'CAT_DESC'				=> $row['cat_desc'],
 						'U_EDIT'			=> $this->u_action . '&amp;action=edit&amp;id=' . $row['cat_id'],
-						'U_DELETE'			=> $this->u_action . '&amp;action=delete&amp;id=' . $row['cat_id'],
+						'U_DELETE'			=> ($topics_count !== 1) ? $this->u_action . '&amp;action=delete&amp;id=' . $row['cat_id'] : '',
 					));
 				}
 			}
