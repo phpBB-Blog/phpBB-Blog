@@ -329,6 +329,19 @@ switch($action)
 			));
 		}
 		$db->sql_freeresult($result);
+
+		if (!empty($blog_data['blog_tags']))
+		{
+			$tags = explode(',', $blog_data['blog_tags']);
+			foreach ($tags as $tag)
+			{
+				$template->assign_block_vars('tag', array(
+					'TAG'	=> $tag,
+					'U_TAG'		=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'tag', 't' => $tag)),
+				));
+			}
+		}
+
 		//Start pagination
 		$template->assign_vars(array(
 			'PAGINATION'        => generate_pagination($pagination_url, $total_cmnts, $sql_limit, $sql_start),
@@ -651,9 +664,10 @@ switch($action)
 				BLOG_CATS_TABLE		=> 'ct',
 				USERS_TABLE			=> 'u',
 			),
-			'WHERE'		=> 'ct.cat_id = b.blog_cat_id
+			'WHERE'		=> "ct.cat_id = b.blog_cat_id
 						AND c.cmnt_blog_id = b.blog_id
-						AND u.user_id = b.blog_poster_id',
+						AND u.user_id = b.blog_poster_id
+						AND b.blog_tags LIKE '%$tag%'",
 			'ORDER_BY'	=> 'b.blog_id DESC',
 		);
 
