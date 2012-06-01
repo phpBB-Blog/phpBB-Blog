@@ -78,7 +78,7 @@
 					<strong>{catrow.CAT_TITLE}</strong><BR /><i>{catrow.CAT_DESC}</i>
 				</td>
 				<td style="width: 80px; text-align: center; white-space: nowrap;">
-					<a href="{catrow.U_EDIT}">{ICON_EDIT}</a> <a href="{catrow.U_DELETE}">{ICON_DELETE}</a>
+					<a href="{catrow.U_EDIT}">{ICON_EDIT}</a><!-- IF catrow.U_DELETE --> <a href="{catrow.U_DELETE}">{ICON_DELETE}</a><!-- ENDIF -->
 				</td>
 			</tr>
 		<!-- END catrow -->
