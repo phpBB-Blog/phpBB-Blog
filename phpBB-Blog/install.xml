@@ -31,7 +31,7 @@
 		</author>
 	</author-group>
 
-	<mod-version>1.0.2</mod-version>
+	<mod-version>1.0.3</mod-version>
 
 	<installation>
 		<level>easy</level>
@@ -119,6 +119,13 @@
 			<changelog lang="en">
 				<change>Fix numerous bugs</change>
 				<change>Code clean-up</change>
+			</changelog>
+		</entry>
+		<entry>
+			<date>2012-06-01</date>
+			<rev-version>1.0.3</rev-version>
+			<changelog lang="en">
+				<change>Fix numerous bugs</change>
 			</changelog>
 		</entry>
 	</history>

@@ -20,4 +20,4 @@ Support Forum:
 http://www.phpbb.com/customise/db/mod/phpbb_blog/support/
 
 Version:
-1.0.2
+1.0.3
