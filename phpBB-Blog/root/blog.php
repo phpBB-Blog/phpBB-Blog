@@ -425,8 +425,10 @@ switch($action)
 			trigger_error($user->lang['BLOG_POST_SUCCESS'] . '<BR /><BR /><a href="' . $u_action . '">' . $user->lang['RETURN_POST'] . '</a>');
 		}
 		
-		$bbcode = ($config['blog_bbcode_on'] && $auth->acl_get('u_blog_bbcode'));
-		$emote = ($config['blog_emote_on'] && $auth->acl_get('u_blog_emote'));
+		$bbcode		= $config['blog_bbcode_on'] && $auth->acl_get('u_blog_bbcode');
+		$emote		= $bbcode && $config['blog_emote_on'] && $auth->acl_get('u_blog_emote');
+		$img_status	= $bbcode;
+		$url_status	= $config['allow_post_links'];
 		generate_smilies('inline', 3);
 		$sql = 'SELECT *
 				FROM '  . BLOG_CATS_TABLE . '
@@ -442,8 +444,11 @@ switch($action)
 		$template->assign_vars(array(
 			'ALLOW_CMNT'			=> 'checked="checked"',
 			'S_POSTER_ID_HIDDEN'	=> $user->data['user_id'],
-			'S_BBCODE_ALLOWED'		=>	$bbcode,
+			'S_BBCODE_ALLOWED'		=> $bbcode,
 			'S_SMILIES_ALLOWED'		=> $emote,
+			'S_BBCODE_IMG'			=> $img_status,
+			'S_BBCODE_URL'			=> $url_status,
+			'S_LINKS_ALLOWED'		=> $url_status,
 			'U_ACTION'				=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'post_blog')),
 		));
 		page_header($user->lang['BLOG']);
@@ -506,8 +511,10 @@ switch($action)
 			trigger_error($user->lang['GEN_ERROR']);
 		}
 
-		$bbcode = ($auth->acl_get('u_blog_bbcode') && $config['blog_bbcode_on']);
-		$emote = ($auth->acl_get('u_blog_emote') && $config['blog_emote_on']);
+		$bbcode		= $config['blog_bbcode_on'] && $auth->acl_get('u_blog_bbcode');
+		$emote		= $bbcode && $config['blog_emote_on'] && $auth->acl_get('u_blog_emote');
+		$img_status	= $bbcode;
+		$url_status	= $config['allow_post_links'];
 
 		generate_smilies('inline', 3);
 
@@ -532,6 +539,9 @@ switch($action)
 			'S_POSTER_ID_HIDDEN'	=> $user->data['user_id'],
 			'S_BBCODE_ALLOWED'		=> $bbcode,
 			'S_SMILIES_ALLOWED'		=> $emote,
+			'S_BBCODE_IMG'			=> $img_status,
+			'S_BBCODE_URL'			=> $url_status,
+			'S_LINKS_ALLOWED'		=> $url_status,
 			'U_ACTION'				=> append_sid("{$phpbb_root_path}blog.$phpEx", array($act_name => 'edit_blog', 'id' => $blog_data['blog_id'])),
 		));
 		page_header($user->lang('BLOG'));
