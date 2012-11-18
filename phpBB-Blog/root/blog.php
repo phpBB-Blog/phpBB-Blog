@@ -425,10 +425,10 @@ switch($action)
 			trigger_error($user->lang['BLOG_POST_SUCCESS'] . '<BR /><BR /><a href="' . $u_action . '">' . $user->lang['RETURN_POST'] . '</a>');
 		}
 		
-		$bbcode		= ($config['blog_bbcode_on'] && $auth->acl_get('u_blog_bbcode'));
-		$emote		= ($bbcode && $config['blog_emote_on'] && $auth->acl_get('u_blog_emote'));
-		$img_status	= ($bbcode) ? true : false;
-		$url_status	= ($config['allow_post_links']) ? true : false;
+		$bbcode		= $config['blog_bbcode_on'] && $auth->acl_get('u_blog_bbcode');
+		$emote		= $bbcode && $config['blog_emote_on'] && $auth->acl_get('u_blog_emote');
+		$img_status	= $bbcode;
+		$url_status	= $config['allow_post_links'];
 		generate_smilies('inline', 3);
 		$sql = 'SELECT *
 				FROM '  . BLOG_CATS_TABLE . '
@@ -511,10 +511,10 @@ switch($action)
 			trigger_error($user->lang['GEN_ERROR']);
 		}
 
-		$bbcode		= ($config['blog_bbcode_on'] && $auth->acl_get('u_blog_bbcode'));
-		$emote		= ($bbcode && $config['blog_emote_on'] && $auth->acl_get('u_blog_emote'));
-		$img_status	= ($bbcode) ? true : false;
-		$url_status	= ($config['allow_post_links']) ? true : false;
+		$bbcode		= $config['blog_bbcode_on'] && $auth->acl_get('u_blog_bbcode');
+		$emote		= $bbcode && $config['blog_emote_on'] && $auth->acl_get('u_blog_emote');
+		$img_status	= $bbcode;
+		$url_status	= $config['allow_post_links'];
 
 		generate_smilies('inline', 3);
 
